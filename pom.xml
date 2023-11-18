@@ -9,7 +9,7 @@
         <version>2.7.17</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.equipo15</groupId>
+    <groupId>com.equipo16</groupId>
     <artifactId>servicio</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>servicio</name>
