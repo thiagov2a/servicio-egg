@@ -78,10 +78,16 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Descomentar la versión con la que este trabajando -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
+
+        <!-- <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency> -->
 
     </dependencies>
 
