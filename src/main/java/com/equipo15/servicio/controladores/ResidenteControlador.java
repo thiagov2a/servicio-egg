@@ -31,10 +31,10 @@ public class ResidenteControlador {
     }
     
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre, ModelMap modelo){
+    public String registro(@RequestParam String dni, @RequestParam String nombre, @RequestParam String direccion, ModelMap modelo){
         
         try {
-            residenteServicio.crearResidente(nombre);
+            residenteServicio.crearResidente(dni, nombre, direccion);
             modelo.put("exito", "El Residente fué cargado correctamente!");
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -52,16 +52,16 @@ public class ResidenteControlador {
         return "residente_list.html";
     }
     
-    @GetMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, ModelMap modelo){
-        modelo.put("residente", residenteServicio.getOne(id));
+    @GetMapping("/modificar/{dni}")
+    public String modificar(@PathVariable String dni, ModelMap modelo){
+        modelo.put("residente", residenteServicio.getOne(dni));
         return "residente_modificar.html";
     }
     
     @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, String nombre, ModelMap modelo){
+    public String modificar(@PathVariable String dni, String nombre, String direccion, ModelMap modelo){
         try {
-            residenteServicio.modificarResidente(nombre, id);
+            residenteServicio.modificarResidente(dni, nombre, direccion);
             
             return "redirect:../lista";
         } catch (MiException ex) {
