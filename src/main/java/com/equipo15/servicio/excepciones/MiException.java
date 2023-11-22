@@ -1,9 +1,14 @@
+
 package com.equipo15.servicio.excepciones;
 
-public class MiException extends Exception {
+/**
+ *
+ * @author alviz
+ */
 
-    public MiException(String mensaje) {
-        super(mensaje);
-    }
+public class MiException extends Exception{
 
+    public MiException(String msg) {
+        super(msg);
+    }   
 }
