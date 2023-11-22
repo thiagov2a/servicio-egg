@@ -2,9 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
 <head th:replace="/fragments/head :: head "> </head>
-
 
 <body>
 	<nav th:replace="fragments/navbar :: nav"> </nav>
@@ -20,9 +18,11 @@
 			Barrio Barrio
 			Imagen foto
 		-->
+
 		<div class="campo">
 			<input type="text" name="nombre" placeholder="nombre del usuario" th:value="${nombre}">
 		</div>
+
 		<div class="campo">
 			<input type="email" name="email" placeholder="E-Mail" th:value="${email}">
 		</div>
@@ -37,23 +37,18 @@
 		<div class="campo">
 			<input type="password" name="password2" placeholder="repetir contraseña" th:value="${password2}">
 		</div>
+
+		<div class="campo">
+			<select name="barrio">
+				<option value="">Seleccionar Barrio</option>
+				<option th:each="barrio : ${barrios}" th:value="${barrio.id}" th:text="${barrio.nombre}" />
+			</select>
+		</div>
+
 		<div class="campo">
 			<button type="submit" class="boton">Registrarme</button>
 		</div>
 	</form>
-
-	<div th:if="${error != null}">
-		<div>
-			<h5>Error!</h5>
-			<p th:text="${error}"></p>
-		</div>
-	</div>
-	<div th:if="${exito != null}">
-		<div>
-			<h5>Exito!</h5>
-			<p th:text="${exito}"></p>
-		</div>
-	</div>
 
 </body>
 
