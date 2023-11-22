@@ -31,10 +31,11 @@ public class ProveedorControlador {
     }
     
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre, ModelMap modelo){
+    public String registro(@RequestParam String cuil, @RequestParam String contacto, @RequestParam String calificacion, @RequestParam String descripcion,
+            @RequestParam String idUsuario, @RequestParam String idServicio, @RequestParam(required=false) Integer precioh, ModelMap modelo){
         
         try {
-            proveedorServicio.crearProveedor(nombre);
+            proveedorServicio.crearProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio,  precioh);
             modelo.put("exito", "El Proveedor fué cargado correctamente!");
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -52,16 +53,16 @@ public class ProveedorControlador {
         return "proveedor_list.html";
     }
     
-    @GetMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, ModelMap modelo){
-        modelo.put("proveedor", proveedorServicio.getOne(id));
+    @GetMapping("/modificar/{cuil}")
+    public String modificar(@PathVariable String cuil, ModelMap modelo){
+        modelo.put("proveedor", proveedorServicio.getOne(cuil));
         return "proveedor_modificar.html";
     }
     
-    @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, String nombre, ModelMap modelo){
+    @PostMapping("/modificar/{cuil}")
+    public String modificar(@PathVariable String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh, ModelMap modelo){
         try {
-            proveedorServicio.modificarProveedor(nombre, id);
+            proveedorServicio.modificarProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
             
             return "redirect:../lista";
         } catch (MiException ex) {

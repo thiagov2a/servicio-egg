@@ -2,8 +2,10 @@
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Residente;
+import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ResidenteRepositorio;
+import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +23,20 @@ public class ResidenteServicio {
     @Autowired
     private ResidenteRepositorio residenteRepositorio;
     
+    @Autowired
+    private UsuarioRepositorio usuarioRepositorio;
+    
     @Transactional
-    public void crearResidente(String nombre) throws MiException{
+    public void crearResidente(String dni_cuil, String domicilio, String idUsuario) throws MiException{
         
-        validar(nombre);
+        validar(dni_cuil, domicilio, idUsuario);
+        Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
         
         Residente residente = new Residente();
         
-        residente.setNombre(nombre);
+        residente.setDni_cuil(dni_cuil);
+        residente.setDomicilio(domicilio);
+        residente.setUsuario(usuario);
         
         residenteRepositorio.save(residente);
         
@@ -43,17 +51,27 @@ public class ResidenteServicio {
         return residentes;
     }
      
-    public void modificarResidente(String nombre, String id) throws MiException{
+    public void modificarResidente(String dni_cuil, String domicilio, String idUsuario) throws MiException{
         
-        validar(nombre);
+        validar(dni_cuil, domicilio, idUsuario);
      
-         Optional<Residente> respuesta = residenteRepositorio.findById(id);
+         Optional<Residente> respuestaResidente = residenteRepositorio.findById(dni_cuil);
+         Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
          
-         if(respuesta.isPresent()){
+         Usuario usuario = new Usuario();
+         
+          if(respuestaUsuario.isPresent()){
+            
+            usuario = respuestaUsuario.get();
+        }
+         
+         if(respuestaResidente.isPresent()){
              
-             Residente residente = respuesta.get();
+             Residente residente = respuestaResidente.get();
              
-             residente.setNombre(nombre);
+             residente.setDni_cuil(dni_cuil);
+             residente.setDomicilio(domicilio);
+             residente.setUsuario(usuario);
              
              residenteRepositorio.save(residente);
          }
@@ -63,10 +81,17 @@ public class ResidenteServicio {
          return residenteRepositorio.getOne(id);
      }
     
-     private void validar(String nombre) throws MiException {
+     private void validar(String dni_cuil, String domicilio, String idUsuario) throws MiException {
          
-            if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("el nombre no puede ser nulo o estar vacio");
+            if (dni_cuil.isEmpty() || dni_cuil == null) {
+            throw new MiException("el Cuil no puede ser nulo o estar vacio");
         }
+            if (domicilio.isEmpty() || domicilio == null) {
+            throw new MiException("el Domicilio no puede ser nulo o estar vacio");
+        }
+            if (idUsuario.isEmpty() || idUsuario == null) {
+            throw new MiException("el Id Usuario no puede ser nulo o estar vacio");
+        }
+            
      }    
 }

@@ -41,7 +41,7 @@ public class TransaccionServicio {
         Residente residente = residenteRepositorio.findById(idResidente).get();
         Transaccion transaccion = new Transaccion();
         
-        transaccion.setPuntaje(titulo);
+        transaccion.
         transaccion.setComentario(ejemplares);
         transaccion.setInicio(new Date());
         transaccion.setTermino(new Date());

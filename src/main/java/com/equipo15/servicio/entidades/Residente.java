@@ -1,8 +1,14 @@
 
 package com.equipo15.servicio.entidades;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import lombok.Data;
+import org.springframework.security.core.userdetails.User;
+
 
 
 /**
@@ -10,50 +16,19 @@ import javax.persistence.Id;
  * @author alviz
  */
 @Entity
+@Data
 public class Residente {
     
     @Id
-    private String dni;
-    private String nombre;
-    private String direccion;
-    private Boolean altaBaja;
-
-
-    public Residente() {
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public Boolean getAltaBaja() {
-        return altaBaja;
-    }
-
-    public void setAltaBaja(Boolean altaBaja) {
-        this.altaBaja = altaBaja;
-    }
+    private String dni_cuil;
+    private String domicilio;
     
+    @OneToOne
+    private Usuario usuario;
     
+    @OneToMany(mappedBy = "residente")
+    private List<Transaccion> transacciones;
     
+
 }
+    

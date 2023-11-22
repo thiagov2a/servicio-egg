@@ -46,7 +46,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password) );
-        usuario.setRol(Rol.USUARIO);
+        usuario.setRol(Rol.USER);
         
         Imagen imagen = imagenServicio.guardar(archivo);
         
@@ -104,12 +104,12 @@ public class UsuarioServicio implements UserDetailsService {
     		
     		Usuario usuario = respuesta.get();
     		
-    		if(usuario.getRol().equals(Rol.USUARIO)) {
+    		if(usuario.getRol().equals(Rol.USER)) {
     			
     		usuario.setRol(Rol.ADMIN);
     		
     		}else if(usuario.getRol().equals(Rol.ADMIN)) {
-    			usuario.setRol(Rol.USUARIO);
+    			usuario.setRol(Rol.USER);
     		}
     	}    
     }
