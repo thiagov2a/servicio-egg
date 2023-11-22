@@ -58,7 +58,7 @@ public class ResidenteControlador {
         return "residente_modificar.html";
     }
     
-    @PostMapping("/modificar/{id}")
+    @PostMapping("/modificar/{dni}")
     public String modificar(@PathVariable String dni, String nombre, String direccion, ModelMap modelo){
         try {
             residenteServicio.modificarResidente(dni, nombre, direccion);
