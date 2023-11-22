@@ -24,8 +24,8 @@ public class Transaccion {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private String puntaje;
-    private Integer comentario;
+    private Integer puntaje;
+    private String comentario;
     private String presupuesto;
     
     @Temporal(TemporalType.DATE)
