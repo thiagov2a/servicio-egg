@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author alviz
  */
 @Controller
-@RequestMapping("/libro")
+@RequestMapping("/transaccion")
 public class TransaccionControlador {
     
     @Autowired
@@ -46,12 +46,12 @@ public class TransaccionControlador {
     }   
     
     @PostMapping("/registro")
-    public String registro(@RequestParam(required=false) String id, @RequestParam String titulo,
-            @RequestParam(required=false) Integer ejemplares, @RequestParam String idAutor,
-            @RequestParam String idEditorial, ModelMap modelo) {
+    public String registro(@RequestParam(required=false) Integer puntaje, @RequestParam String comentario,
+            @RequestParam String presupuesto, @RequestParam String idProveedor,
+            @RequestParam String idResidente, ModelMap modelo) {
         
         try {
-            transaccionServicio.crearTransaccion(id, titulo, ejemplares, idAutor, idEditorial);
+            transaccionServicio.crearTransaccion(puntaje, comentario, presupuesto, idProveedor, idResidente);
             
             modelo.put("exito", "La Transacción fué cargada correctamente!");
             
@@ -78,7 +78,7 @@ public class TransaccionControlador {
     
     }
     
-    @GetMapping("/modificar/{isbn}")
+    @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
         modelo.put("transaccion", transaccionServicio.getOne(id));
         
@@ -91,8 +91,8 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
     
-    @PostMapping("/modificar/{isbn}")
-    public String modificar(@PathVariable String id, String titulo, Integer ejemplares, String idAutor, String idEditorial, ModelMap modelo){
+    @PostMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, Integer puntaje, String comentario, String presupuesto, String idProveedor, String idResidente, ModelMap modelo){
         try {
             
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
@@ -101,7 +101,7 @@ public class TransaccionControlador {
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);;
             
-            transaccionServicio.modificarTransaccion(id, titulo, idAutor, idEditorial, ejemplares);
+            transaccionServicio.modificarTransaccion(id, puntaje, comentario, presupuesto, idProveedor, idResidente);
             
             return "redirect:../lista";
         } catch (MiException ex) {

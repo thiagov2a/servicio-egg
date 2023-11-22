@@ -33,9 +33,9 @@ public class TransaccionServicio {
     private ResidenteRepositorio residenteRepositorio;
     
     @Transactional
-    public void crearTransaccion(Integer puntaje, String comentario, String idProveedor, String idResidente) throws MiException{
+    public void crearTransaccion(Integer puntaje, String comentario, String presupuesto, String idProveedor, String idResidente) throws MiException{
         
-        validar(puntaje, comentario, idProveedor, idResidente);
+        validar(puntaje, comentario, presupuesto, idProveedor, idResidente);
         
         Proveedor proveedor = proveedorRepositorio.findById(idProveedor).get();
         Residente residente = residenteRepositorio.findById(idResidente).get();
@@ -43,6 +43,7 @@ public class TransaccionServicio {
         
         transaccion.setPuntaje(puntaje);
         transaccion.setComentario(comentario);
+        transaccion.setPresupuesto(presupuesto);
         transaccion.setInicio(new Date());
         transaccion.setTermino(new Date());
         
@@ -65,7 +66,7 @@ public class TransaccionServicio {
         return transaccionRepositorio.getOne(id);
     }
     
-    public void modificarTransaccion(String id, Integer puntaje, String comentario, String idProveedor, String idResidente)throws MiException{
+    public void modificarTransaccion(String id, Integer puntaje, String comentario, String presupuesto, String idProveedor, String idResidente)throws MiException{
         
         validar( puntaje, comentario, idProveedor, idResidente);
     
@@ -92,23 +93,28 @@ public class TransaccionServicio {
             
             transaccion.setPuntaje(puntaje);
             transaccion.setComentario(comentario);
+            transaccion.setPresupuesto(presupuesto);
             transaccion.setInicio(new Date());
             transaccion.setTermino(new Date());
-            
+            transaccion.setProveedor(proveedor);
+            transaccion.setResidente(residente);
             transaccionRepositorio.save(transaccion);
        
         }
     
     }
     
-    private void validar( Integer puntaje, String comentario, String idProveedor, String idResidente) throws MiException {
+    private void validar( Integer puntaje, String comentario, String presupuesto, String idProveedor, String idResidente) throws MiException {
     
          
-        if (puntaje>10 || puntaje == 0 ||  puntaje == null) {
-            throw new MiException("El puntaje no puede ser mayor a 10 o ser nulo o igual a cero");
+        if (puntaje>10 || puntaje <=1 ||  puntaje == null) {
+            throw new MiException("El puntaje no puede ser mayor a 10 o ser nulo o igual o menor a cero");
         }
          
         if (comentario.isEmpty() || comentario == null) {
+            throw new MiException("El comentario no puede estar vacio o ser nulo");
+        }
+        if (presupuesto.isEmpty() || presupuesto == null) {
             throw new MiException("El comentario no puede estar vacio o ser nulo");
         }
         if(idProveedor.isEmpty() || idProveedor == null) {
