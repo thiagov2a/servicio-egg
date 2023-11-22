@@ -22,13 +22,15 @@ public class ProveedorServicio {
     private ProveedorRepositorio proveedorRepositorio;
     
     @Transactional
-    public void crearProveedor(String nombre)throws MiException{
+    public void crearProveedor(String cuil, String nombre, String tipoServicio)throws MiException{
         
-        validar(nombre);
+        validar(cuil, nombre, tipoServicio);
         
         Proveedor proveedor = new Proveedor();
-        
+        proveedor.setCuil(cuil);
         proveedor.setNombre(nombre);
+        proveedor.setTipoServicio(tipoServicio);
+        proveedor.setAltaBaja(true);
         
         proveedorRepositorio.save(proveedor);
         
@@ -43,31 +45,37 @@ public class ProveedorServicio {
         return proveedores;
     }
     
-     public void modificarProveedor(String nombre, String id) throws MiException{
+     public void modificarProveedor(String cuil, String nombre, String tipoServicio) throws MiException{
          
-         validar(nombre);
+         validar(cuil, nombre, tipoServicio);
      
-         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+         Optional<Proveedor> respuesta = proveedorRepositorio.findById(cuil);
          
          if(respuesta.isPresent()){
              
              Proveedor proveedor = respuesta.get();
-             
+             proveedor.setCuil(cuil);
              proveedor.setNombre(nombre);
+             proveedor.setTipoServicio(tipoServicio);
+             proveedor.setAltaBaja(true);
              
              proveedorRepositorio.save(proveedor);
          }
      }
      
-     public Proveedor getOne(String id){
-         return proveedorRepositorio.getOne(id);
+     public Proveedor getOne(String cuil){
+         return proveedorRepositorio.getOne(cuil);
      }
      
-    private void validar(String nombre) throws MiException {
-        
+    private void validar(String cuil, String nombre, String tipoServicio) throws MiException {
+        if (cuil.isEmpty() || cuil == null) {
+                throw new MiException("el CUIL no puede ser nulo o estar vacio");
+        }
             if (nombre.isEmpty() || nombre == null) {
                 throw new MiException("el nombre no puede ser nulo o estar vacio");
         }
-    
+    if (tipoServicio.isEmpty() || tipoServicio == null) {
+                throw new MiException("el tipo de servicio no puede ser nulo o estar vacio");
+        }
     }
 }
