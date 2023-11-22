@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
@@ -10,10 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author alviz
- */
 @Service
 public class ImagenServicio {
     @Autowired

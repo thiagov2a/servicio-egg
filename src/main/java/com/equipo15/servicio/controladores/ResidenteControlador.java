@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.controladores;
 
 import com.equipo15.servicio.entidades.Residente;
@@ -14,10 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- *
- * @author alviz
- */
 @Controller
 @RequestMapping("/residente")
 public class ResidenteControlador {

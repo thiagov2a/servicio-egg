@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.entidades;
 
 import javax.persistence.Basic;
@@ -9,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- *
- * @author alviz
- */
+import lombok.Data;
+
+
 @Entity
+@Data
 public class Imagen {
     
     @Id

@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.entidades;
 
 import javax.persistence.Entity;
@@ -11,15 +10,10 @@ import java.util.Date;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-
-/**
- *
- * @author alviz
- */
 @Entity
 @Data
 public class Transaccion {
-    
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -27,21 +21,17 @@ public class Transaccion {
     private String puntaje;
     private Integer comentario;
     private String presupuesto;
-    
+
     @Temporal(TemporalType.DATE)
     private Date inicio;
-    
+
     @Temporal(TemporalType.DATE)
     private Date termino;
-    
+
     @OneToOne
     private Proveedor proveedor;
-    
+
     @OneToOne
     private Residente residente;
 
-    public Transaccion() {
-    }
-    
-    
 }

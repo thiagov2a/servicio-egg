@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
@@ -24,10 +23,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author alviz
- */
 @Service
 public class UsuarioServicio implements UserDetailsService {
     
