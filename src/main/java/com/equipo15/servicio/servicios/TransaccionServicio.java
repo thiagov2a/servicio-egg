@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Proveedor;
@@ -16,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author alviz
- */
 @Service
 public class TransaccionServicio {
     

@@ -3,6 +3,9 @@ package com.equipo15.servicio.entidades;
 
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
+
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,10 +15,6 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- *
- * @author alviz
- */
 @Entity
 @Data
 public class Usuario {
@@ -37,6 +36,11 @@ public class Usuario {
     private Barrio barrio;
     
     @OneToOne
+<<<<<<< HEAD
     private Imagen imagen;
 
+=======
+    private Imagen imagen; 
+    
+>>>>>>> 4f54ebfc3e565656f8de5016fdd819d469ccc630
 }
