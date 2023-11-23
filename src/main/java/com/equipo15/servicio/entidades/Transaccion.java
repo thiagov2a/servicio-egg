@@ -21,15 +21,14 @@ public class Transaccion {
     private Integer calificacion;
     private String comentario;
     private Long presupuesto;
-    
+
     @Enumerated(EnumType.STRING)
     private Estado estado;
-    
+
     @ManyToOne
     private Proveedor proveedor;
-    
+
     @ManyToOne
     private Residente residente;
-  
-    
+
 }

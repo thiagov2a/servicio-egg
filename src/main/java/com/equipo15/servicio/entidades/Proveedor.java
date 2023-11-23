@@ -17,13 +17,13 @@ public class Proveedor {
     private Integer calificacion;
     private String descripcion;
     private Integer precioh;
-    
+
     @ManyToOne
     private Servicio servicio;
-    
+
     private Usuario usuario;
-    
+
     @OneToMany(mappedBy = "proveedor")
     private List<Transaccion> transacciones;
-        
+
 }
