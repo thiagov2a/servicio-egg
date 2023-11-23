@@ -1,1 +1,76 @@
+nav {
+	display: flex;
+	text-align: right;
+  justify-content: space-around;
+	list-style: none;
+background-color:rgb(116,185,255) ;
+}
+.nav_sidebar {
+	display: flex;
+   flex-direction:row;
+   gap: 10px;
+}
+.titulo{
+	text-decoration: none;
+	text-align: left;
+	color: darkslateblue;
+	font-family: 'Alumni Sans Collegiate One', sans-serif;
+	font-size: 3rem;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+html {
+    font-size: 62, 5%;;
+}
+
+.nav {
+    background-color: white !important;
+}
+
+main{
+    width: 50%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    background-image: url(img/Fondo);
+    background-size: cover;
+    height: 550px;
+    display: flex;
+    justify-content: end;
+}
+
+
+.logo {
+    width: 40%;
+    margin: auto
+}
+
+.footer {
+
+    display: flex;
+    justify-content: space-arround;
+    align-items: center;
+}
+
+.boton {
+    background-color: #ffcb00;
+    box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+    -webkit-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+    -moz-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+}
+
+.boton:hover {
+    background-color: #ffe479;
+
+}
+
+.boton:active {
+    box-shadow: none;
+}
