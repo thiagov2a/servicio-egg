@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificación con Estrellas</title>
+    <style>
+
+		*{
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+		}
+        .estrellas {
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .estrella {
+            display: inline-block;
+            margin: 0 5px;
+            color: #ccc;
+        }
+
+        .estrella:hover,
+        .estrella:hover ~ .estrella {
+            color: #ffdd00;
+        }
+
+        .calificacion {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calificacion">
+        Calificación:
+        <span class="estrellas">
+            <span class="estrella" onclick="calificar(5)">★</span>
+            <span class="estrella" onclick="calificar(4)">★</span>
+            <span class="estrella" onclick="calificar(3)">★</span>
+            <span class="estrella" onclick="calificar(2)">★</span>
+            <span class="estrella" onclick="calificar(1)">★</span>
+        </span>
+    </div>
+
+    <script>
+        var calificacion = 0;
+
+        function calificar(valor) {
+            calificacion = valor;
+            actualizarCalificacion();
+        }
+
+        function actualizarCalificacion() {
+            var mensaje = "Calificación: " + calificacion + " estrella(s)";
+            document.querySelector('.calificacion').innerText = mensaje;
+        }
+    </script>
+
+</body>
+</html>
