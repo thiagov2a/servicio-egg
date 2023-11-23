@@ -72,8 +72,8 @@ public class ResidenteServicio {
          }
      }
     
-    public Residente getOne(String id){
-         return residenteRepositorio.getOne(id);
+    public Residente getOne(String dni_cuil){
+         return residenteRepositorio.getOne(dni_cuil);
      }
     
      private void validar(String dni_cuil, String domicilio, String idUsuario) throws MiException {
