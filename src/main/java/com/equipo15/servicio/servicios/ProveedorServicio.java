@@ -29,7 +29,7 @@ public class ProveedorServicio {
     @Transactional
     public void crearProveedor(String cuil, String contacto, Integer calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh)throws MiException{
         
-        validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
+        validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio,  precioh);
         
         Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
         Servicio servicio = servicioRepositorio.findById(idServicio).get();

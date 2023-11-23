@@ -7,8 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
 
-import lombok.Data;
-
 @Entity
 @Data
 public class Proveedor {
