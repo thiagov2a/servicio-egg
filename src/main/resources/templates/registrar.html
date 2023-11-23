@@ -72,13 +72,13 @@
 
 	<h1 class="campo">REGISTRAR USUARIO</h1>
 
-	<div class="campo">
-		<button onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-		<button onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
-	</div>
-
 	<form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
 
+		<div class="campo">
+			<button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
+			<button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+		</div>
+		
 		<div class="campo">
 			<input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}">
 		</div>
