@@ -27,7 +27,7 @@ public class ProveedorServicio {
     private ServicioRepositorio servicioRepositorio;
     
     @Transactional
-    public void crearProveedor(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh)throws MiException{
+    public void crearProveedor(String cuil, String contacto, Integer calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh)throws MiException{
         
         validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
         
@@ -56,7 +56,7 @@ public class ProveedorServicio {
         return proveedores;
     }
     
-    public void modificarProveedor(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
+    public void modificarProveedor(String cuil, String contacto, Integer calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
 
         validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
 
@@ -93,11 +93,11 @@ public class ProveedorServicio {
         }
     }
      
-     public Proveedor getOne(String id){
-         return proveedorRepositorio.getOne(id);
+     public Proveedor getOne(String cuil){
+         return proveedorRepositorio.getOne(cuil);
      }
      
-    private void validar(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
+    private void validar(String cuil, String contacto, Integer calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
         
             if (cuil.isEmpty() || cuil == null) {
                 throw new MiException("el Cuil no puede ser nulo o estar vacio");
@@ -107,8 +107,8 @@ public class ProveedorServicio {
             throw new MiException("el Contacto no puede ser nulo o estar vacio");
         }
         
-        if (calificacion.isEmpty() || calificacion == null) {
-            throw new MiException("la Calificacion no puede ser nulo o estar vacia");
+        if (calificacion>5 || calificacion <0 || calificacion == null) {
+            throw new MiException("la Calificacion no puede ser nulo o menor a 0, o ser mayor a 5");
         }
         
         if(descripcion.isEmpty() || descripcion == null) {
