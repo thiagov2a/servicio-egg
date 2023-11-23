@@ -36,11 +36,6 @@ public class Usuario {
     private Barrio barrio;
     
     @OneToOne
-<<<<<<< HEAD
-    private Imagen imagen;
-
-=======
     private Imagen imagen; 
     
->>>>>>> 4f54ebfc3e565656f8de5016fdd819d469ccc630
 }
