@@ -27,9 +27,9 @@ public class ProveedorServicio {
     private ServicioRepositorio servicioRepositorio;
     
     @Transactional
-    public void crearProveedor(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh)throws MiException{
+    public void crearProveedor(String cuil, String contacto, String descripcion, String idUsuario, String idServicio, Integer calificacion, Integer precioh)throws MiException{
         
-        validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
+        validar(cuil, contacto, descripcion, idUsuario, idServicio,  calificacion, precioh);
         
         Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
         Servicio servicio = servicioRepositorio.findById(idServicio).get();
@@ -56,9 +56,9 @@ public class ProveedorServicio {
         return proveedores;
     }
     
-    public void modificarProveedor(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
+    public void modificarProveedor(String cuil, String contacto, String descripcion, String idUsuario, String idServicio, Integer calificacion, Integer precioh) throws MiException {
 
-        validar(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
+        validar(cuil, contacto, descripcion, idUsuario, idServicio, calificacion, precioh);
 
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(cuil);
         Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
@@ -97,7 +97,7 @@ public class ProveedorServicio {
          return proveedorRepositorio.getOne(id);
      }
      
-    private void validar(String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh) throws MiException {
+    private void validar(String cuil, String contacto, String descripcion, String idUsuario, String idServicio, Integer calificacion, Integer precioh) throws MiException {
         
             if (cuil.isEmpty() || cuil == null) {
                 throw new MiException("el Cuil no puede ser nulo o estar vacio");
@@ -107,7 +107,7 @@ public class ProveedorServicio {
             throw new MiException("el Contacto no puede ser nulo o estar vacio");
         }
         
-        if (calificacion.isEmpty() || calificacion == null) {
+        if (calificacion < 0 || calificacion == null) {
             throw new MiException("la Calificacion no puede ser nulo o estar vacia");
         }
         
