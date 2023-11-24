@@ -120,6 +120,15 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    @Transactional
+    public void darDeBaja(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+            usuario.setAlta(false);
+        }
+    }
+
     public void validar(String dni, String nombre, String email, String password, String password2)
             throws MiException {
 
