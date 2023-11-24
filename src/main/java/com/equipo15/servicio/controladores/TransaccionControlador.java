@@ -41,12 +41,12 @@ public class TransaccionControlador {
     }   
     
     @PostMapping("/registro")
-    public String registro(@RequestParam(required=false) String id, @RequestParam String titulo,
-            @RequestParam(required=false) Integer ejemplares, @RequestParam String idAutor,
-            @RequestParam String idEditorial, ModelMap modelo) {
+    public String registro(@RequestParam(required=false) String id, @RequestParam String comentario, @RequestParam String idProveedor, 
+            @RequestParam String idResidente, @RequestParam(required=false) Integer calificacion,
+            @RequestParam(required=false) Long presupuesto, ModelMap modelo) {
         
         try {
-            transaccionServicio.crearTransaccion(id, titulo, ejemplares, idAutor, idEditorial);
+            transaccionServicio.crearTransaccion(id, comentario, idProveedor, idResidente, calificacion, presupuesto);
             
             modelo.put("exito", "La Transacción fué cargada correctamente!");
             
@@ -87,7 +87,7 @@ public class TransaccionControlador {
     }
     
     @PostMapping("/modificar/{isbn}")
-    public String modificar(@PathVariable String id, String titulo, Integer ejemplares, String idAutor, String idEditorial, ModelMap modelo){
+    public String modificar(@PathVariable String id, String comentario, String idProveedor, String idResidente, Integer calificacion, Long presupuesto, ModelMap modelo){
         try {
             
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
@@ -96,7 +96,7 @@ public class TransaccionControlador {
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);;
             
-            transaccionServicio.modificarTransaccion(id, titulo, idAutor, idEditorial, ejemplares);
+            transaccionServicio.modificarTransaccion(id, comentario, idProveedor, idResidente, calificacion, presupuesto);
             
             return "redirect:../lista";
         } catch (MiException ex) {

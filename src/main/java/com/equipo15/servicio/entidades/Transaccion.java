@@ -1,12 +1,12 @@
 package com.equipo15.servicio.entidades;
 
 import com.equipo15.servicio.enumeraciones.Estado;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,15 +21,14 @@ public class Transaccion {
     private Integer calificacion;
     private String comentario;
     private Long presupuesto;
-    
+
     @Enumerated(EnumType.STRING)
     private Estado estado;
-    
+
     @ManyToOne
     private Proveedor proveedor;
-    
+
     @ManyToOne
     private Residente residente;
-  
-    
+
 }

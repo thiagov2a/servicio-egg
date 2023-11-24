@@ -1,12 +1,10 @@
 package com.equipo15.servicio.entidades;
 
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import lombok.Data;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -19,13 +17,11 @@ public class Proveedor {
     private Integer calificacion;
     private String descripcion;
     private Integer precioh;
-    
+
     @ManyToOne
     private Servicio servicio;
-    
-    private Usuario usuario;
-    
+
     @OneToMany(mappedBy = "proveedor")
     private List<Transaccion> transacciones;
-        
+
 }

@@ -16,54 +16,58 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/proveedor")
 public class ProveedorControlador {
-    
+
     @Autowired
     private ProveedorServicio proveedorServicio;
-    
+
     @GetMapping("/registrar")
-    public String registrar(){
+    public String registrar() {
         return "proveedor_form.html";
     }
-    
+
     @PostMapping("/registro")
-    public String registro(@RequestParam String cuil, @RequestParam String contacto, @RequestParam String calificacion, @RequestParam String descripcion,
-            @RequestParam String idUsuario, @RequestParam String idServicio, @RequestParam(required=false) Integer precioh, ModelMap modelo){
-        
+    public String registro(@RequestParam String cuil, @RequestParam String contacto, @RequestParam String descripcion,
+            @RequestParam String idUsuario, @RequestParam String idServicio,
+            @RequestParam(required = false) Integer calificacion, @RequestParam(required = false) Integer precioh,
+            ModelMap modelo) {
+
         try {
-            proveedorServicio.crearProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio,  precioh);
+            proveedorServicio.crearProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
             modelo.put("exito", "El Proveedor fué cargado correctamente!");
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "autor_form.html";
         }
-        
+
         return "inicio.html";
     }
-    
+
     @GetMapping("/lista")
     public String listar(ModelMap modelo) {
         List<Proveedor> proveedores = proveedorServicio.listarProveedores();
         modelo.addAttribute("proveedores", proveedores);
-        
+
         return "proveedor_list.html";
     }
-    
+
     @GetMapping("/modificar/{cuil}")
-    public String modificar(@PathVariable String cuil, ModelMap modelo){
+    public String modificar(@PathVariable String cuil, ModelMap modelo) {
         modelo.put("proveedor", proveedorServicio.getOne(cuil));
         return "proveedor_modificar.html";
     }
-    
+
     @PostMapping("/modificar/{cuil}")
-    public String modificar(@PathVariable String cuil, String contacto, String calificacion, String descripcion, String idUsuario, String idServicio, Integer precioh, ModelMap modelo){
+    public String modificar(@PathVariable String cuil, String contacto, String descripcion, String idUsuario,
+            String idServicio, Integer calificacion, Integer precioh, ModelMap modelo) {
         try {
-            proveedorServicio.modificarProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
-            
+            proveedorServicio.modificarProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio,
+                    precioh);
+
             return "redirect:../lista";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "proveedor_modificar.html";
         }
     }
-    
+
 }
