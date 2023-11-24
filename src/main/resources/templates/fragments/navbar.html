@@ -1,20 +1,37 @@
 <nav>
-	<a href="/"><h1 class="titulo">App Service</h1></a>
-
-
-	<div class="search">
-	<form action="" method="POST">
-	<input type="text">
+	<div>
+		<!-- Título de la aplicación -->
+	   <h1 class="nav_titulo"><a th:href="@{/}">App Service</a></h1>
+	</div>
+   <!-- Buscador -->
+   <div class="nav_search">
+	<form th:action="@{/search}" method="POST">
+	<input  type="text" name="search" placeholder="Buscador">
 	<button type="submit">Search</button>
 	</form>
-
+	
 	</div>
 
-<div class="nav_sidebar">
-  <li><a href="">  Login</a></li>
-	<li><a href=""> register</a></li>
+	<div>
+	 
+	 
+	   <!-- Opciones de Login y Registro -->
+		<div th:if="${usuariosession.usuario != null}" class="nav_guest">
+			<a th:href="@{/login}">Login</a>
+			<a th:href="@{/registro}">Registro</a>
+		</div>
 
+		<!-- Lista desplegable cuando el usuario está logeado -->
+		<div th:if="${usuariosession.usuario != null}" class="nav_dropdown">
+				   <!-- Botón para desplegar el menú -->
+	   <button th:text="${'hola ' + ${usuariosession.nombre} " + &#9776;  }" class="nav_btn">&#9776;</button>
 
-</div>
+			<span th:text="${usuariosession.usuario.nombre}"></span>
+			<div class="nav_dropdown-content"> 
 
-	</nav>
+				<a th:href="@{/perfil}">Perfil</a>
+				<a th:href="@{/logout}">Cerrar sesión</a>
+			</div>
+		</div>
+	</div>
+</nav>
