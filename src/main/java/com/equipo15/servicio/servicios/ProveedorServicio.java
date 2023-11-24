@@ -4,11 +4,13 @@ import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Usuario;
+import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,7 @@ public class ProveedorServicio {
     private ServicioRepositorio servicioRepositorio;
 
     @Transactional
-    public void registrar(String dni, String nombre, String email, String password, String password2,
+    public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
             MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
 
@@ -50,6 +52,8 @@ public class ProveedorServicio {
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setRol(Rol.PROVEEDOR); // Establecer el rol como PROVEEDOR directamente
+        usuario.setBarrio(barrio);
+        usuario.setAlta(true);
 
         Imagen imagen = imagenServicio.guardar(archivo);
         usuario.setImagen(imagen);
@@ -64,14 +68,25 @@ public class ProveedorServicio {
         proveedor.setPrecioPorHora(precioPorHora);
         proveedor.setCalificacion(calificacion); // Inicializar la calificación a 0
 
+        Servicio servicio = servicioRepositorio.findById(idServicio).get();
+        proveedor.setServicio(servicio);
+
         proveedorRepositorio.save(proveedor);
     }
 
     public List<Proveedor> listarProveedores() {
-
-        List<Proveedor> proveedores = new ArrayList();
+        List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.findAll();
         return proveedores;
+    }
+
+    public Proveedor buscarProveedorPorId(String id) {
+        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
+        }
     }
 
     @Transactional
@@ -105,10 +120,6 @@ public class ProveedorServicio {
 
             proveedorRepositorio.save(proveedor);
         }
-    }
-
-    public Proveedor getOne(String dni) {
-        return proveedorRepositorio.getOne(dni);
     }
 
     public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,

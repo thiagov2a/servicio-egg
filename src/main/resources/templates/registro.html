@@ -1,169 +1,178 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="/fragments/head :: head "></head>
 
-<head th:replace="/fragments/head :: head "> </head>
+  <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
 
-<!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
+  <style>
+    * {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
 
-<style>
-	*{
-		font-family: Verdana, Geneva, Tahoma, sans-serif;
-	}
+    #campo-proveedor {
+      display: none;
+    }
 
-	#campo-proveedor {
-		display: none;
+    #campo-residente {
+      display: block;
+    }
 
-	}
+    .soy-proveedor {
+      background-color: white;
+      font-weight: 500;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
+    }
 
-	#campo-residente {
-		display: block;
+    .soy-residente {
+      background-color: rgb(200, 200, 200);
+      font-weight: 500;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
+    }
 
-	}
+    .boton {
+      background-color: rgb(0, 140, 255);
+      font-weight: 600;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
+    }
 
-	.soy-proveedor {
-		background-color: white;
-		font-weight: 500;
-		padding: 6px;
-		font-size: 12pt;
-		border-radius: 5px;
-		border: none;
-	}
+    .campo {
+      margin: 10px;
+      text-align: center;
+    }
 
-	.soy-residente {
-		background-color: rgb(200, 200, 200);
-		font-weight: 500;
-		padding: 6px;
-		font-size: 12pt;
-		border-radius: 5px;
-		border: none;
-	}
+    select {
+      font-size: 12pt;
+      padding: 5px;
+      border-radius: 5px;
+    }
 
-	.boton{
-		background-color: rgb(0, 140, 255);
-		font-weight: 600;
-		padding: 6px;
-		font-size: 12pt;
-		border-radius: 5px;
-		border: none;
-	}
+    input {
+      padding: 5px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: 1px solid black;
+      width: 350px;
+    }
+  </style>
 
-	.campo {
-		margin: 10px;
-		text-align: center;
-	}
+  <body>
+    <nav th:replace="fragments/navbar :: nav"></nav>
 
-	select {
-		font-size: 12pt;
-		padding: 5px;
-		border-radius: 5px;
-	}
+    <h1 class="campo">REGISTRAR USUARIO</h1>
 
-	input {
-		padding: 5px;
-		font-size: 12pt;
-		border-radius: 5px;
-		border: 1px solid black;
-		width: 350px;
-	}
-</style>
+    <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+      <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
+      <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
-<body>
-	<nav th:replace="fragments/navbar :: nav"> </nav>
+      <div class="campo">
+        <button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
+        <button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+      </div>
 
-	<h1 class="campo">REGISTRAR USUARIO</h1>
+      <div class="campo">
+        <input type="text" name="dni" placeholder="DNI" th:value="${dni}" />
+      </div>
 
-	<form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+      <div class="campo">
+        <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" />
+      </div>
 
-		<div class="campo">
-			<button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-			<button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
-		</div>
+      <div class="campo">
+        <input type="email" name="email" placeholder="E-Mail" th:value="${email}" />
+      </div>
 
-		<div class="campo">
-			<input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}">
-		</div>
+      <div class="campo">
+        <input type="password" name="password" placeholder="contraseña" />
+      </div>
+      <div class="campo">
+        <input type="password" name="password2" placeholder="repetir contraseña" />
+      </div>
 
-		<div class="campo">
-			<input type="email" name="email" placeholder="E-Mail" th:value="${email}">
-		</div>
+      <div class="campo">
+        <input type="file" name="archivo" />
+      </div>
 
-		<div class="campo">
-			<input type="file" name="archivo">
-		</div>
+      <div class="campo">
+        <select name="barrio">
+          <option value="">Seleccionar Barrio</option>
+          <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
+        </select>
+      </div>
 
-		<div class="campo">
-			<input type="password" name="password" placeholder="contraseña" th:value="${password}">
-		</div>
-		<div class="campo">
-			<input type="password" name="password2" placeholder="repetir contraseña" th:value="${password2}">
-		</div>
+      <div id="campo-proveedor">
+        <div class="campo">
+          <select name="idServicio">
+            <option value="">Seleccionar Servicio</option>
+            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+          </select>
+        </div>
+        <div class="campo">
+          <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
+        </div>
+        <div class="campo">
+          <input type="text" name="contacto" placeholder="Contacto" th:value="${contacto}" />
+        </div>
+        <div class="campo">
+          <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
+        </div>
 
-		<div class="campo">
-			<input type="text" name="cuit" placeholder="CUIL / CUIT" th:value="${cuit}">
-		</div>
+        <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
+        <input type="hidden" name="calificacion" th:value="0" />
+      </div>
 
-		<div class="campo">
-			<select name="barrio">
-				<option value="">Seleccionar Barrio</option>
-				<option th:each="barrio : ${barrios}" th:value="${barrio.id}" th:text="${barrio.nombre}" />
-			</select>
-		</div>
+      <div id="campo-residente"></div>
 
-		<div id="campo-proveedor">
+      <div class="campo">
+        <button type="submit" class="boton">Registrarme!</button>
+      </div>
+    </form>
 
-			<div class="campo">
-				<select name="servicio">
-					<option value="">Seleccionar Servicio</option>
-					<option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
-				</select>
-			</div>
-			<div class="campo">
-				<input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}">
-			</div>
-			<div class="campo">
-				<input type="text" name="contacto" placeholder="Contacto" th:value="${contacto}">
-			</div>
-			<div class="campo">
-				<input type="number" name="precio" placeholder="Precio por hora" th:value="${precio}">
-			</div>
-		</div>
+    <script>
+      function mostrarProveedor() {
+        var divProveedor = document.getElementById('campo-proveedor');
+        var divResidente = document.getElementById('campo-residente');
 
-		<div id="campo-residente">
+        divProveedor.style.display = 'block';
+        divResidente.style.display = 'none';
 
+        var botonProveedor = document.querySelector('.soy-proveedor');
+        botonProveedor.style.backgroundColor = 'rgb(200, 200, 200)';
 
-		</div>
+        var botonResidente = document.querySelector('.soy-residente');
+        botonResidente.style.backgroundColor = 'white';
 
-		<div class="campo">
-			<button type="submit" class="boton">Registrarme!</button>
-		</div>
-	</form>
+        // Actualiza el valor del campo oculto
+        document.getElementById('esProveedor').value = 'true';
+      }
 
-	<script>
-		function mostrarProveedor() {
-			var div = document.getElementById('campo-proveedor');
-			div.style.display = 'block';
-			var div = document.getElementById('campo-residente');
-			div.style.display = 'none';
-			var boton = document.querySelector('.soy-proveedor');
-			boton.style.backgroundColor = 'rgb(200, 200, 200)';
-			var boton = document.querySelector('.soy-residente');
-			boton.style.backgroundColor = 'white';
-		}
-		function mostrarResidente() {
-			var div = document.getElementById('campo-residente');
-			div.style.display = 'block';
-			var div = document.getElementById('campo-proveedor');
-			div.style.display = 'none';
-			var boton = document.querySelector('.soy-proveedor');
-			boton.style.backgroundColor = 'white';
-			var boton = document.querySelector('.soy-residente');
-			boton.style.backgroundColor = 'rgb(200, 200, 200)';
-		}
-	</script>
+      function mostrarResidente() {
+        var divProveedor = document.getElementById('campo-proveedor');
+        var divResidente = document.getElementById('campo-residente');
 
-</body>
+        divResidente.style.display = 'block';
+        divProveedor.style.display = 'none';
 
-<footer th:replace="/fragments/footer :: footer "></footer>
+        var botonProveedor = document.querySelector('.soy-proveedor');
+        botonProveedor.style.backgroundColor = 'white';
 
+        var botonResidente = document.querySelector('.soy-residente');
+        botonResidente.style.backgroundColor = 'rgb(200, 200, 200)';
+
+        // Actualiza el valor del campo oculto
+        document.getElementById('esProveedor').value = 'false';
+      }
+    </script>
+  </body>
+
+  <footer th:replace="/fragments/footer :: footer "></footer>
 </html>

@@ -2,6 +2,7 @@ package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Usuario;
+import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
@@ -33,7 +34,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2,
-            MultipartFile archivo)
+            Barrio barrio, MultipartFile archivo)
             throws MiException {
 
         validar(dni, nombre, email, password, password2);
@@ -46,6 +47,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setRol(Rol.USER);
+        usuario.setBarrio(barrio);
+        usuario.setAlta(true);
 
         Imagen imagen = imagenServicio.guardar(archivo);
         usuario.setImagen(imagen);
@@ -54,13 +57,18 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public List<Usuario> listarUsuarios() {
-        List<Usuario> usuarios = new ArrayList();
+        List<Usuario> usuarios = new ArrayList<>();
         usuarios = usuarioRepositorio.findAll();
         return usuarios;
     }
 
-    public Usuario getOne(String id) {
-        return usuarioRepositorio.getOne(id);
+    public Usuario buscarUsuarioPorId(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
+        }
     }
 
     @Transactional
@@ -87,7 +95,7 @@ public class UsuarioServicio implements UserDetailsService {
             }
 
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-            
+
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -145,22 +153,26 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+
         if (usuario != null) {
-            List<GrantedAuthority> permisos = new ArrayList();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
+
+            List<GrantedAuthority> permisos = new ArrayList<>();
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
+                    usuario.getRol().toString());
+
             permisos.add(p);
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
             HttpSession session = attr.getRequest().getSession(true);
+
             session.setAttribute("usuariosession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
         } else {
             return null;
         }
-
     }
 
 }

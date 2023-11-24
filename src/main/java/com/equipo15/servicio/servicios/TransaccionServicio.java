@@ -48,36 +48,40 @@ public class TransaccionServicio {
     }
 
     public List<Transaccion> listarTransacciones() {
-
-        List<Transaccion> transacciones = new ArrayList();
+        List<Transaccion> transacciones = new ArrayList<>();
         transacciones = transaccionRepositorio.findAll();
         return transacciones;
     }
 
-    public Transaccion getOne(String id) {
-        return transaccionRepositorio.getOne(id);
+    public Transaccion buscarTransaccionPorId(String id) {
+        Optional<Transaccion> respuesta = transaccionRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
+        }
     }
 
-    public void modificar(String id, String comentario, String idProveedor, String idResidente,
-            Integer calificacion, Long presupuesto) throws MiException {
+    public void modificar(String id, String comentario, Integer calificacion, Long presupuesto, String idProveedor,
+            String idUsuario) throws MiException {
 
-        validar(comentario, calificacion, presupuesto, idProveedor, idResidente);
+        validar(comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
         Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(id);
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(idProveedor);
-        Optional<Usuario> respuestaResidente = usuarioRepositorio.findById(idResidente);
+        Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
 
         Proveedor proveedor = new Proveedor();
-        Usuario residente = new Usuario();
+        Usuario usuario = new Usuario();
 
         if (respuestaProveedor.isPresent()) {
 
             proveedor = respuestaProveedor.get();
         }
 
-        if (respuestaResidente.isPresent()) {
+        if (respuestaUsuario.isPresent()) {
 
-            residente = respuestaResidente.get();
+            usuario = respuestaUsuario.get();
         }
 
         if (respuestaTransaccion.isPresent()) {
@@ -89,7 +93,7 @@ public class TransaccionServicio {
             transaccion.setPresupuesto(presupuesto);
             transaccion.setEstado(Estado.ACEPTADO);
             transaccion.setProveedor(proveedor);
-            transaccion.setUsuario(residente);
+            transaccion.setUsuario(usuario);
 
             transaccionRepositorio.save(transaccion);
         }

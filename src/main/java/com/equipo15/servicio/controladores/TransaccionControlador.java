@@ -48,20 +48,20 @@ public class TransaccionControlador {
             @RequestParam(required = false) Long presupuesto, ModelMap modelo) {
 
         try {
-            transaccionServicio.crearTransaccion(id, comentario, idProveedor, idResidente, calificacion, presupuesto);
-
+            transaccionServicio.registrar(comentario, calificacion, presupuesto, idProveedor, idResidente);
             modelo.put("exito", "La Transacción fué cargada correctamente!");
-
+            return "index.html";
         } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
             List<Usuario> residentes = usuarioServicio.listarUsuarios();
 
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
-            modelo.put("error", ex.getMessage());
+
             return "transaccion_form.html";
         }
-        return "inicio.html";
     }
 
     @GetMapping("/lista")
@@ -77,7 +77,8 @@ public class TransaccionControlador {
 
     @GetMapping("/modificar/{isbn}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
-        modelo.put("transaccion", transaccionServicio.getOne(id));
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
+        modelo.put("transaccion", transaccion);
 
         List<Proveedor> proveedores = proveedorServicio.listarProveedores();
         List<Usuario> residentes = usuarioServicio.listarUsuarios();
@@ -89,7 +90,7 @@ public class TransaccionControlador {
     }
 
     @PostMapping("/modificar/{isbn}")
-    public String modificar(@PathVariable String id, String comentario, String idProveedor, String idResidente,
+    public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
         try {
 
@@ -100,14 +101,13 @@ public class TransaccionControlador {
             modelo.addAttribute("residentes", residentes);
             ;
 
-            transaccionServicio.modificarTransaccion(id, comentario, idProveedor, idResidente, calificacion,
-                    presupuesto);
+            transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
             return "redirect:../lista";
         } catch (MiException ex) {
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
             List<Usuario> residentes = usuarioServicio.listarUsuarios();
-            
+
             modelo.put("error", ex.getMessage());
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);

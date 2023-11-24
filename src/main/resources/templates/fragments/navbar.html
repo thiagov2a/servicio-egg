@@ -1,37 +1,34 @@
 <nav>
-	<div>
-		<!-- Título de la aplicación -->
-	   <h1 class="nav_titulo"><a th:href="@{/}">App Service</a></h1>
-	</div>
-   <!-- Buscador -->
-   <div class="nav_search">
-	<form th:action="@{/search}" method="POST">
-	<input  type="text" name="search" placeholder="Buscador">
-	<button type="submit">Search</button>
-	</form>
-	
-	</div>
+  <div>
+    <!-- Título de la aplicación -->
+    <h1 class="nav_titulo"><a th:href="@{/}">App Service</a></h1>
+  </div>
 
-	<div>
-	 
-	 
-	   <!-- Opciones de Login y Registro -->
-		<div th:if="${usuariosession.usuario != null}" class="nav_guest">
-			<a th:href="@{/login}">Login</a>
-			<a th:href="@{/registro}">Registro</a>
-		</div>
+  <!-- Buscador -->
+  <div class="nav_search">
+    <form th:action="@{/search}" method="POST">
+      <input type="text" name="search" placeholder="Buscador" />
+      <button type="submit">Search</button>
+    </form>
+  </div>
 
-		<!-- Lista desplegable cuando el usuario está logeado -->
-		<div th:if="${usuariosession.usuario != null}" class="nav_dropdown">
-				   <!-- Botón para desplegar el menú -->
-	   <button th:text="${'hola ' + ${usuariosession.nombre} " + &#9776;  }" class="nav_btn">&#9776;</button>
+  <div>
+    <!-- Opciones de Login y Registro -->
+    <div th:unless="${session.usuariosession != null}" class="nav_guest">
+      <a th:href="@{/login}">Login</a>
+      <a th:href="@{/registrar}">Registrarse</a>
+    </div>
 
-			<span th:text="${usuariosession.usuario.nombre}"></span>
-			<div class="nav_dropdown-content"> 
+    <!-- Lista desplegable cuando el usuario está logeado -->
+    <div th:if="${session.usuariosession != null}" class="nav_dropdown">
+      <!-- Botón para desplegar el menú -->
+      <button th:text="${'Hola ' + session.usuariosession.nombre + ' \u2630'}" class="nav_btn">&#9776;</button>
 
-				<a th:href="@{/perfil}">Perfil</a>
-				<a th:href="@{/logout}">Cerrar sesión</a>
-			</div>
-		</div>
-	</div>
+      <span th:text="${session.usuariosession.usuario.nombre}"></span>
+      <div class="nav_dropdown-content">
+        <a th:href="@{/perfil}">Perfil</a>
+        <a th:href="@{/logout}">Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
 </nav>

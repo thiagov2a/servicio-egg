@@ -24,7 +24,4 @@ public class Servicio {
     private String nombre;
     private String descripcion;
 
-    @OneToMany(mappedBy = "servicio")
-    private List<Proveedor> proveedores;
-
 }

@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-  lang="en"
->
-  <head th:replace="/fragments/head :: head"> </head> <!--en este fragment esta el css-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servicios</title>
+    <link rel="stylesheet" th:href="@{/CSS/styles.css}" />
+    <!-- Usar th:href para resolver la URL del CSS -->
+    <script th:src="@{/JS/Scripts.js}"></script>
+    <!-- Usar th:src para resolver la URL del script JS -->
+  </head>
 
   <body>
-    <header><h1>Pagina de Servicios - Chacras de Coria en Mendoza</h1></header>
+    <header>
+      <h1>Pagina de Servicios - Chacras de Coria en Mendoza</h1>
+    </header>
+
     <nav th:replace="/fragments/navbar :: nav"></nav>
 
-    <img
-      src="../static/images/portada-chacrasdecoria.jpg"
-      alt="portada de index"
-    />
+    <img src="../static/images/portada-chacrasdecoria.jpg" alt="Portada de index" />
 
     <footer th:replace="/fragments/footer :: footer"></footer>
   </body>

@@ -1,7 +1,8 @@
 package com.equipo15.servicio.controladores;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Usuario;
+import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
+import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,15 +31,35 @@ public class PortalControlador {
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ProveedorServicio proveedorServicio;
+    @Autowired
+    private ServicioServicio servicioServicio;
 
     @GetMapping("/")
-    public String index() {
+    public String index(HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null && usuario.getRol().toString().equals("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
         return "index.html";
     }
 
+    @GetMapping("/registrar")
+    public String registrar(ModelMap modelo) {
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("servicios", servicios);
+        modelo.addAttribute("barrios", Barrio.values());
+
+        return "registro.html";
+    }
+
     @PostMapping("/registro")
-    public String registrar(@RequestParam String dni, @RequestParam String nombre, @RequestParam String email,
-            @RequestParam String password, String password2, MultipartFile archivo,
+    public String registrar(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String email, @RequestParam(required = false) String password,
+            String password2, @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
@@ -45,10 +69,10 @@ public class PortalControlador {
             ModelMap modelo) {
         try {
             if (esProveedor) {
-                proveedorServicio.registrar(dni, nombre, email, password, password2, archivo, contacto,
+                proveedorServicio.registrar(dni, nombre, email, password, password2, barrio, archivo, contacto,
                         descripcion, precioPorHora, calificacion, idServicio);
             } else {
-                usuarioServicio.registrar(dni, nombre, email, password, password2, archivo);
+                usuarioServicio.registrar(dni, nombre, email, password, password2, barrio, archivo);
             }
 
             modelo.put("exito", "Te has registrado correctamente");
@@ -62,6 +86,11 @@ public class PortalControlador {
             modelo.put("email", email);
 
             modelo.put("esProveedor", esProveedor);
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("barrios", Barrio.values());
 
             modelo.put("contacto", contacto);
             modelo.put("descripcion", descripcion);
@@ -100,7 +129,7 @@ public class PortalControlador {
             ModelMap modelo) {
         try {
             // Obtener el usuario actualizado
-            Usuario usuarioActualizado = usuarioServicio.getOne(id);
+            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
 
             // Verificar si el usuario es también un proveedor
             if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
@@ -113,7 +142,7 @@ public class PortalControlador {
 
             modelo.put("exito", "Usuario actualizado correctamente!");
 
-            return "inicio.html";
+            return "index.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);

@@ -21,7 +21,7 @@ public class ImagenControlador {
     
     @GetMapping("/perfil/{id}")
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id){
-        Usuario usuario = usuarioServicio.getOne(id);
+        Usuario usuario = usuarioServicio.buscarUsuarioPorId(id);
         byte[] imagen = usuario.getImagen().getContenido();
         
         HttpHeaders headers = new HttpHeaders();
