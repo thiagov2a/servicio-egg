@@ -1,11 +1,11 @@
 package com.equipo15.servicio.entidades;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
@@ -23,8 +23,8 @@ public class Imagen {
 
     private String nombre;
 
-    @Column(columnDefinition = "LONGBLOB")
     @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] contenido;
 
 }
