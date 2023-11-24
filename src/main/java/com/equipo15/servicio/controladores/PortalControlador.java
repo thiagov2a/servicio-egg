@@ -21,7 +21,7 @@ import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
