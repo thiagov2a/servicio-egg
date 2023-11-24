@@ -20,11 +20,6 @@ public class ProveedorControlador {
     @Autowired
     private ProveedorServicio proveedorServicio;
 
-    @GetMapping("/registrar")
-    public String registrar() {
-        return "proveedor_form.html";
-    }
-
     @PostMapping("/registro")
     public String registro(@RequestParam String cuil, @RequestParam String contacto, @RequestParam String descripcion,
             @RequestParam String idUsuario, @RequestParam String idServicio,
@@ -32,14 +27,14 @@ public class ProveedorControlador {
             ModelMap modelo) {
 
         try {
-            proveedorServicio.crearProveedor(cuil, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
+            proveedorServicio.crearProveedor(dni, contacto, calificacion, descripcion, idUsuario, idServicio, precioh);
             modelo.put("exito", "El Proveedor fué cargado correctamente!");
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "autor_form.html";
         }
 
-        return "inicio.html";
+        return "index.html";
     }
 
     @GetMapping("/lista")

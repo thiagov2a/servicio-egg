@@ -28,36 +28,34 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-
     @Autowired
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(MultipartFile archivo, String nombre, String email, String password, String password2)
+    public void registrar(String dni, String nombre, String email, String password, String password2,
+            MultipartFile archivo)
             throws MiException {
 
-        validar(nombre, email, password, password2);
+        validar(dni, nombre, email, password, password2);
+        validarExistencia(email);
+
         Usuario usuario = new Usuario();
 
+        usuario.setDni(dni);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setRol(Rol.USER);
 
         Imagen imagen = imagenServicio.guardar(archivo);
-
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
     }
 
-    @Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
-
         List<Usuario> usuarios = new ArrayList();
-
         usuarios = usuarioRepositorio.findAll();
-
         return usuarios;
     }
 
@@ -66,18 +64,22 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo, String idUsuario, String nombre, String email, String rol,
-            String password, String password2) throws MiException {
+    public void modificar(String id, String dni, String nombre, String email,
+            String password, String password2, MultipartFile archivo) throws MiException {
 
-        validar(nombre, email, password, password2);
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+        validar(dni, nombre, email, password, password2);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
         if (respuesta.isPresent()) {
 
             Usuario usuario = respuesta.get();
+
+            usuario.setDni(dni);
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            // usuario.setRol(respuesta.get().getRol());
+            usuario.setRol(Rol.USER);
 
             String idImagen = null;
             if (usuario.getImagen() != null) {
@@ -85,7 +87,7 @@ public class UsuarioServicio implements UserDetailsService {
             }
 
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-
+            
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -110,24 +112,35 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    private void validar(String nombre, String email, String password, String password2) throws MiException {
+    public void validar(String dni, String nombre, String email, String password, String password2)
+            throws MiException {
 
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("el nombre no puede ser nulo o estar vacio");
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new MiException("El dni no puede ser nulo o estar vacío");
         }
 
-        if (email.isEmpty() || email == null) {
-            throw new MiException("el Email no puede ser nulo o estar vacio");
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new MiException("El nombre no puede ser nulo o estar vacío");
         }
 
-        if (password.isEmpty() || password == null || password.length() <= 5) {
-            throw new MiException("la Contraseña no puede ser nula o estar vacia, y debe tener más de 5 caracteres");
+        if (email == null || email.trim().isEmpty()) {
+            throw new MiException("El email no puede ser nulo o estar vacío");
         }
 
-        if (!password.equals(password2)) {
-            throw new MiException("las Contraseñas deben ser iguales");
+        if (password == null || password.trim().isEmpty() || password.trim().length() < 8) {
+            throw new MiException("La contraseña no puede estar vacía o tener menos de 8 caracteres");
         }
 
+        if (!password2.equals(password)) {
+            throw new MiException("Las contraseñas deben coincidir");
+        }
+    }
+
+    public void validarExistencia(String email) throws MiException {
+        Usuario respuestaUsuario = usuarioRepositorio.buscarPorEmail(email.trim());
+        if (respuestaUsuario != null) {
+            throw new MiException("Ya existe un usuario con ese email");
+        }
     }
 
     @Override

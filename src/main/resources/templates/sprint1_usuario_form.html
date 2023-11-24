@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+  </head>
+  <body>
+    <h2>Registro</h2>
+
+    <form method="post" action="/registro" enctype="multipart/form-data" id="registroForm">
+      <label for="dni">DNI:</label>
+      <input type="text" id="dni" name="dni" required />
+      <br />
+
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
+      <br />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+
+      <label for="password2">Confirmar Contraseña:</label>
+      <input type="password" id="password2" name="password2" required />
+      <br />
+
+      <!-- Campo oculto para indicar que es proveedor -->
+      <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
+
+      <!-- Contenedor de campos específicos del proveedor -->
+      <div id="datosProveedor" style="display: none">
+        <label for="contacto">Contacto:</label>
+        <input type="text" id="contacto" name="contacto" />
+        <br />
+
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" />
+        <br />
+
+        <label for="precioPorHora">Precio por Hora:</label>
+        <input type="number" id="precioPorHora" name="precioPorHora" />
+        <br />
+
+        <!-- Campo oculto para la calificación predeterminada -->
+        <input type="hidden" name="calificacion" value="0" />
+
+        <!-- Select para elegir el servicio -->
+        <label for="idServicio">Seleccionar Servicio:</label>
+        <select id="idServicio" name="idServicio">
+          <!-- Aquí debes generar dinámicamente las opciones del select con los servicios disponibles -->
+          <option value="1">Servicio 1</option>
+          <option value="2">Servicio 2</option>
+          <!-- Agrega más opciones según sea necesario -->
+        </select>
+        <br />
+      </div>
+
+      <label for="archivo">Archivo:</label>
+      <input type="file" id="archivo" name="archivo" accept="image/*" required />
+      <br />
+
+      <!-- Checkbox para indicar si es proveedor -->
+      <label for="esProveedorCheckbox">¿Eres proveedor?</label>
+      <input type="checkbox" id="esProveedorCheckbox" name="esProveedorCheckbox" />
+
+      <button type="submit">Registrar</button>
+    </form>
+
+    <script>
+      // Mostrar u ocultar campos del proveedor según la selección del checkbox
+      document.getElementById('esProveedorCheckbox').addEventListener('change', function () {
+        var datosProveedor = document.getElementById('datosProveedor');
+        datosProveedor.style.display = this.checked ? 'block' : 'none';
+        // Actualizar el valor del campo oculto 'esProveedor'
+        document.getElementById('esProveedor').value = this.checked ? 'true' : 'false';
+      });
+    </script>
+  </body>
+</html>
