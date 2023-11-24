@@ -28,11 +28,11 @@ public class ProveedorServicio {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
+    private ServicioRepositorio servicioRepositorio;
+    @Autowired
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ImagenServicio imagenServicio;
-    @Autowired
-    private ServicioRepositorio servicioRepositorio;
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,

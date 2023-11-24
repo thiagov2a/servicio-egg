@@ -10,8 +10,10 @@ import lombok.Data;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -37,10 +39,11 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Barrio barrio;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JoinColumn(name = "imagen_id")
     private Imagen imagen;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Proveedor proveedor;
 
 }

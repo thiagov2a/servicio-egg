@@ -29,7 +29,7 @@ public class Imagen {
     @Basic(fetch = FetchType.LAZY)
     private byte[] contenido;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
 }
