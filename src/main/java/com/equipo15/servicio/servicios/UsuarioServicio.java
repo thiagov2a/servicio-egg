@@ -32,6 +32,7 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
+    // Create
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2,
             Barrio barrio, MultipartFile archivo)
@@ -56,21 +57,14 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
+    // Read
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         usuarios = usuarioRepositorio.findAll();
         return usuarios;
     }
 
-    public Usuario buscarUsuarioPorId(String id) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            return respuesta.get();
-        } else {
-            return null;
-        }
-    }
-
+    // Update
     @Transactional
     public void modificar(String id, String dni, String nombre, String email,
             String password, String password2, MultipartFile archivo) throws MiException {
@@ -102,30 +96,36 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public void cambiarRol(String id) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-
-        if (respuesta.isPresent()) {
-
-            Usuario usuario = respuesta.get();
-
-            if (usuario.getRol().equals(Rol.USER)) {
-
-                usuario.setRol(Rol.ADMIN);
-
-            } else if (usuario.getRol().equals(Rol.ADMIN)) {
-                usuario.setRol(Rol.USER);
-            }
-        }
-    }
-
+    // Delete
     @Transactional
     public void darDeBaja(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
             usuario.setAlta(false);
+        }
+    }
+
+    // Query personalizada
+    public Usuario buscarUsuarioPorId(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
+    public void cambiarRol(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+            if (usuario.getRol().equals(Rol.USER)) {
+                usuario.setRol(Rol.ADMIN);
+            } else if (usuario.getRol().equals(Rol.ADMIN)) {
+                usuario.setRol(Rol.USER);
+            }
         }
     }
 
