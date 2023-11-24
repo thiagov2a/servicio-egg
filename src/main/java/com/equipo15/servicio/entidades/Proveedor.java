@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -20,6 +21,9 @@ public class Proveedor {
 
     @ManyToOne
     private Servicio servicio;
+
+    @OneToOne
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "proveedor")
     private List<Transaccion> transacciones;
