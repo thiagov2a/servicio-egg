@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  lang="en"
+>
+  <head th:replace="/fragments/head :: head"> </head> <!--en este fragment esta el css-->
+
   <body>
-    <h1>Hola mundo</h1>
+    <header><h1>Pagina de Servicios - Chacras de Coria en Mendoza</h1></header>
+    <nav th:replace="/fragments/navbar :: nav"></nav>
+
+    <img
+      src="../static/images/portada-chacrasdecoria.jpg"
+      alt="portada de index"
+    />
+
+    <footer th:replace="/fragments/footer :: footer"></footer>
   </body>
 </html>

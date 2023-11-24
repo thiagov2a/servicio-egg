@@ -5,6 +5,7 @@
 <head th:replace="/fragments/head :: head "> </head>
 
 <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
+
 <style>
 	*{
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -72,12 +73,12 @@
 
 	<h1 class="campo">REGISTRAR USUARIO</h1>
 
-	<div class="campo">
-		<button onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-		<button onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
-	</div>
-
 	<form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+
+		<div class="campo">
+			<button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
+			<button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+		</div>
 
 		<div class="campo">
 			<input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}">
@@ -99,6 +100,10 @@
 		</div>
 
 		<div class="campo">
+			<input type="text" name="cuit" placeholder="CUIL / CUIT" th:value="${cuit}">
+		</div>
+
+		<div class="campo">
 			<select name="barrio">
 				<option value="">Seleccionar Barrio</option>
 				<option th:each="barrio : ${barrios}" th:value="${barrio.id}" th:text="${barrio.nombre}" />
@@ -106,8 +111,12 @@
 		</div>
 
 		<div id="campo-proveedor">
+
 			<div class="campo">
-				<input type="text" name="cuil" placeholder="CUIL" th:value="${cuil}">
+				<select name="servicio">
+					<option value="">Seleccionar Servicio</option>
+					<option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+				</select>
 			</div>
 			<div class="campo">
 				<input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}">
@@ -121,12 +130,7 @@
 		</div>
 
 		<div id="campo-residente">
-			<div class="campo">
-				<input type="text" name="dni" placeholder="DNI" th:value="${dni}">
-			</div>
-			<div class="campo">
-				<input type="text" name="domicilio" placeholder="Domicilio" th:value="${domicilio}">
-			</div>
+
 
 		</div>
 
