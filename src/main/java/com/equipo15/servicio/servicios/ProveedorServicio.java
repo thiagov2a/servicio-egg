@@ -39,7 +39,7 @@ public class ProveedorServicio {
             MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, password, password2);
+        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
 
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -91,10 +91,11 @@ public class ProveedorServicio {
 
     @Transactional
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
-            String contacto, String descripcion, Integer precioPorHora, Integer calificacion, String idServicio)
+            Barrio barrio, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+            String idServicio)
             throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, password, password2);
+        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
 
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(id);

@@ -121,7 +121,7 @@ public class PortalControlador {
     @PostMapping("/perfil/{id}")
     public String modificar(@PathVariable String id, @RequestParam String dni, @RequestParam String nombre,
             @RequestParam String email, @RequestParam String password, @RequestParam String password2,
-            MultipartFile archivo,
+            @RequestParam Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
@@ -133,11 +133,10 @@ public class PortalControlador {
 
             // Verificar si el usuario es también un proveedor
             if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
-                // Modificar datos específicos del proveedor
-                proveedorServicio.modificar(id, dni, nombre, email, password, password2, contacto, descripcion,
+                proveedorServicio.modificar(id, dni, nombre, email, password, password2, barrio, contacto, descripcion,
                         precioPorHora, calificacion, id);
             } else {
-                usuarioServicio.modificar(id, dni, nombre, email, password, password2, archivo);
+                usuarioServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo);
             }
 
             modelo.put("exito", "Usuario actualizado correctamente!");

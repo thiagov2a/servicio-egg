@@ -38,7 +38,7 @@ public class UsuarioServicio implements UserDetailsService {
             Barrio barrio, MultipartFile archivo)
             throws MiException {
 
-        validar(dni, nombre, email, password, password2);
+        validar(dni, nombre, email, password, password2, barrio);
         validarExistencia(email);
 
         Usuario usuario = new Usuario();
@@ -67,9 +67,9 @@ public class UsuarioServicio implements UserDetailsService {
     // Update
     @Transactional
     public void modificar(String id, String dni, String nombre, String email,
-            String password, String password2, MultipartFile archivo) throws MiException {
+            String password, String password2, Barrio barrio, MultipartFile archivo) throws MiException {
 
-        validar(dni, nombre, email, password, password2);
+        validar(dni, nombre, email, password, password2, barrio);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -81,6 +81,7 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            usuario.setBarrio(barrio);
             usuario.setRol(Rol.USER);
 
             String idImagen = null;
@@ -106,7 +107,6 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    // Query personalizada
     public Usuario buscarUsuarioPorId(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -129,7 +129,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    public void validar(String dni, String nombre, String email, String password, String password2)
+    public void validar(String dni, String nombre, String email, String password, String password2, Barrio barrio)
             throws MiException {
 
         if (dni == null || dni.trim().isEmpty()) {
@@ -151,8 +151,14 @@ public class UsuarioServicio implements UserDetailsService {
         if (!password2.equals(password)) {
             throw new MiException("Las contraseñas deben coincidir");
         }
+
+        if (barrio == null) {
+            throw new MiException("El barrio no puede ser nulo");
+        }
+
     }
 
+    // Query personalizada
     public void validarExistencia(String email) throws MiException {
         Usuario respuestaUsuario = usuarioRepositorio.buscarPorEmail(email.trim());
         if (respuestaUsuario != null) {
