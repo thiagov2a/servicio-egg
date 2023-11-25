@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Login</title>
-  </head>
-  <body>
-    <h2>Login</h2>
-    <form th:action="@{/logincheck}" method="post">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <!-- Usar th:href para resolver la URL del CSS -->
+  <script th:src="@{/js/Scripts.js}"></script>
+  <!-- Usar th:src para resolver la URL del script JS -->
+</head>
+
+<body>
+
+  <nav th:replace="fragments/navbar :: nav"></nav>
+
+  <h2 class="campo">Login</h2>
+  <form th:action="@{/logincheck}" method="post">
+    <div class="campo">
       <label for="email">Email:</label>
       <input type="email" name="email" th:value="${email}" required autofocus />
-      <br />
+    </div>
 
+    <div class="campo">
       <label for="password">Password:</label>
-      <input type="password" name="password" required />
-      <br />
+      <input style="width: 200px;" type="password" name="password" required />
+    </div>
+    <div class="campo">
+      <button class="boton" type="submit">Login</button>
+    </div>
+  </form>
+</body>
 
-      <button type="submit">Login</button>
-    </form>
-  </body>
 </html>

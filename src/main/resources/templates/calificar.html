@@ -1,35 +1,45 @@
 <!DOCTYPE html>
-<html lang="es">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calificación con Estrellas</title>
+    <title>Calificar servicio</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Usar th:href para resolver la URL del CSS -->
+    <script th:src="@{/js/Scripts.js}"></script>
+    <!-- Usar th:src para resolver la URL del script JS -->
+
     <style>
-      * {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-      }
-      .estrellas {
-        font-size: 30px;
-        cursor: pointer;
-      }
 
-      .estrella {
-        display: inline-block;
-        margin: 0 5px;
-        color: #ccc;
-      }
+*{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.estrellas {
+  font-size: 30px;
+  cursor: pointer;
+}
 
-      .estrella:hover,
-      .estrella:hover ~ .estrella {
-        color: #ffdd00;
-      }
+.estrella {
+  display: inline-block;
+  margin: 0 5px;
+  color: #ccc;
+}
 
-      .calificacion {
-        font-size: 18px;
-        margin-top: 10px;
-      }
+.estrella:hover,
+.estrella:hover ~ .estrella {
+  color: #ffdd00;
+}
+
+.calificacion {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
     </style>
   </head>
+
   <body>
     <div class="calificacion">
       Calificación:
@@ -41,7 +51,9 @@
         <span class="estrella" onclick="calificar(1)">★</span>
       </span>
     </div>
-
+    <div class="campo">
+      <textarea name="comentario" placeholder="Ingrese su comentario" th:value="${comentario}" style="width: 300px; height: 150px; font-size: 14pt;"></textarea>
+    </div>
     <script>
       var calificacion = 0;
 

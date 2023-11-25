@@ -137,3 +137,81 @@ nav {
   border-radius: 2px;
   font-size: 20px;
 }
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#campo-proveedor {
+  display: none;
+}
+
+#campo-residente {
+  display: block;
+}
+
+.soy-proveedor {
+  background-color: white;
+  font-weight: 500;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+
+.soy-residente {
+  background-color: rgb(200, 200, 200);
+  font-weight: 500;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+
+.boton {
+  background-color: rgb(0, 140, 255);
+  font-weight: 600;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+
+.campo {
+  margin: 10px;
+  text-align: center;
+}
+
+select {
+  font-size: 12pt;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+input {
+  padding: 5px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 350px;
+}
+
+.estrellas {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.estrella {
+  display: inline-block;
+  margin: 0 5px;
+  color: #ccc;
+}
+
+.estrella:hover,
+.estrella:hover ~ .estrella {
+  color: #ffdd00;
+}
+
+.calificacion {
+  font-size: 18px;
+  margin-top: 10px;
+}
