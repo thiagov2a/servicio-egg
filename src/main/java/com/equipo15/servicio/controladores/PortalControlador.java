@@ -119,9 +119,10 @@ public class PortalControlador {
     }
 
     @PostMapping("/perfil/{id}")
-    public String modificar(@PathVariable String id, @RequestParam String dni, @RequestParam String nombre,
-            @RequestParam String email, @RequestParam String password, @RequestParam String password2,
-            @RequestParam Barrio barrio, MultipartFile archivo,
+    public String modificar(@PathVariable(required = false) String id, @RequestParam(required = false) String dni,
+            @RequestParam(required = false) String nombre, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String password, String password2,
+            @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
