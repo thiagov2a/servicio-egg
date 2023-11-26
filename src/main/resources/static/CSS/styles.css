@@ -2,6 +2,9 @@ html {
   font-size: 62, 5%;
 }
 
+h1{
+  text-align: center;
+}
 main {
   width: 50%;
   display: flex;
@@ -214,4 +217,21 @@ input {
 .calificacion {
   font-size: 18px;
   margin-top: 10px;
+}
+
+.contenedor{
+  display: flex;
+  flex-direction: rox;
+  height: 100vh;
+
+
+}
+.principal{
+  flex: 5;
+  max-height: 1500px;
+  overflow: hidden;
+
+}
+.costado{
+  flex: 1;
 }
