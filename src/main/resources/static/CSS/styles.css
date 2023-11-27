@@ -5,6 +5,9 @@ html {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+h1{
+  text-align: center;
+}
 main {
   width: 50%;
   display: flex;
@@ -246,3 +249,30 @@ input {
   font-size: 18px;
   margin-top: 10px;
 }
+
+.contenedor{
+  display: flex;
+  flex-direction: rox;
+  height: 100vh;
+  margin-bottom: 20px;
+
+
+}
+.principal{
+  flex: 5;
+  max-height: 1500px;
+  overflow: hidden;
+
+}
+.costado{
+  flex: 1;
+}
+
+footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10pt;
+
+}
+
