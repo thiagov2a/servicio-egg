@@ -223,6 +223,7 @@ input {
   display: flex;
   flex-direction: rox;
   height: 100vh;
+  margin-bottom: 20px;
 
 
 }
@@ -235,3 +236,12 @@ input {
 .costado{
   flex: 1;
 }
+
+footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10pt;
+
+}
+
