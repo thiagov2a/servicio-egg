@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="/fragments/head :: head"> </head>
+    <body>
+
+        <nav th:replace="/fragments/navbar :: nav"> </nav>
+            
+        <div>
+
+            <form th:action="@{/perfil/__${proveedor.usuario.usuario.id}__}" method="POST" enctype="multipart/form-data">
+                
+                <input hidden th:value="${id}" name="id">
+
+                <div>
+                    <h3>Editar Proveedor</h3>
+                </div>
+                <div>
+                    <label>Cuil del Proveedor</label>
+                    <input type="text" name="dni"  th:value="${proveedor.dni}">
+                </div>
+                <div>
+                    <label>Nombre del Proveedor</label>
+                    <input type="text" name="nombre"  th:value="${proveedor.nombre}">
+                </div>
+                <div>
+                    <label>Email del Proveedor</label>
+                    <input type="email" name="email"  th:value="${proveedor.email}">
+                </div>
+                <div>
+                    <label>Rol actual del Proveedor</label>
+                    <input type="rol" name="rol"  th:value="${proveedor.rol}">
+                </div>
+                <div>
+                    <label>Barrio actual del Proveedor</label>
+                    <input type="barrio" name="barrio"  th:value="${proveedor.barrio}">
+                </div>
+                <div>
+                    <label>Seleccionar Imagen del Proveedor</label>
+                    <input type="file" name="archivo" >
+                </div>
+                <div>
+                    <label>EsProveedor del Proveedor</label>
+                    <input type="boolean" name="esProveedor" th:value="${proveedor.esProveedor}">
+                </div>
+                <div>
+                    <label>Contacto del Proveedor</label>
+                    <input type="text" name="contacto" th:value="${proveedor.contacto}">
+                </div>
+                <div>
+                    <label>Descripción del Proveedor</label>
+                    <input type="file" name="archivo" th:value="${usuario.barrio}">
+                </div>
+                <div>
+                    <label>Precio Por Hora del Proveedor</label>
+                    <input type="number" name="precioPorHora" th:value="${proveedor.precioPorHora}">
+                </div>
+                <div>
+                    <label>Calificación del Proveedor</label>
+                    <input type="number" name="calificacion" th:value="${proveedor.calificacion}">
+                </div>
+                <div>
+                    <label>Seleccionar Servicio del Proveedor</label>
+                    <input type="servicio" name="servicio" th:value="${proveedor.servicio}">
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="PASSWORD">
+                </div>
+                <div>
+                    <input type="password" name="password2" placeholder="REPETIR PASSWORD" >
+                </div>
+
+
+                <button type="submit">Modificar</button>
+            </form>
+
+
+            <section>
+                <div>
+                    <div>
+                        <a th:href="@{/}">Volver</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer th:replace="/fragments/footer :: footer "></footer>
+    </body>
+
+
+    
+</html>
+
+
+
+            @RequestParam(required = false) boolean esProveedor,
+            @RequestParam(required = false) String contacto,
+            @RequestParam(required = false) String descripcion,
+            @RequestParam(required = false) Integer precioPorHora,
+            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) String idServicio

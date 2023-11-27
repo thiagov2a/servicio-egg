@@ -1,11 +1,11 @@
 <nav>
   <div>
     <!-- Título de la aplicación -->
-    <h1 class="nav_titulo"><a th:href="@{/}">App Service</a></h1>
+    <h1><a th:href="@{/}">App Service</a></h1>
   </div>
 
   <!-- Buscador -->
-  <div class="nav_search">
+  <div>
     <form th:action="@{/search}" method="POST">
       <input type="text" name="search" placeholder="Buscador" />
       <button type="submit">Search</button>
@@ -14,18 +14,18 @@
 
   <div>
     <!-- Opciones de Login y Registro -->
-    <div th:unless="${session.usuariosession != null}" class="nav_guest">
+    <div th:unless="${session.usuariosession != null}">
       <a th:href="@{/login}">Login</a>
       <a th:href="@{/registrar}">Registrarse</a>
     </div>
 
     <!-- Lista desplegable cuando el usuario está logeado -->
-    <div th:if="${session.usuariosession != null}" class="nav_dropdown">
+    <div th:if="${session.usuariosession != null}">
       <!-- Botón para desplegar el menú -->
-      <button th:text="${'Hola ' + session.usuariosession.nombre + ' \u2630'}" class="nav_btn">&#9776;</button>
+      <button th:text="${'Hola ' + session.usuariosession.nombre + ' \u2630'}">&#9776;</button>
 
-      <span th:text="${session.usuariosession.usuario.nombre}"></span>
-      <div class="nav_dropdown-content">
+      <span th:text="${session.usuariosession.nombre}"></span>
+      <div>
         <a th:href="@{/perfil}">Perfil</a>
         <a th:href="@{/logout}">Cerrar sesión</a>
       </div>

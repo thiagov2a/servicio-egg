@@ -35,11 +35,11 @@ public class ProveedorServicio {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
+    public void registrar(String dni, String nombre, String email, String rol, String password, String password2, Barrio barrio,
             MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
+        usuarioServicio.validar(dni, nombre, email, rol, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
 
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -64,12 +64,13 @@ public class ProveedorServicio {
         Proveedor proveedor = new Proveedor();
         proveedor.setUsuario(usuario);
         proveedor.setContacto(contacto);
-        proveedor.setDescripcion(descripcion);
+        
         proveedor.setPrecioPorHora(precioPorHora);
         proveedor.setCalificacion(calificacion); // Inicializar la calificación a 0
 
         Servicio servicio = servicioRepositorio.findById(idServicio).get();
         proveedor.setServicio(servicio);
+        proveedor.setDescripcion(servicio.getDescripcion());
 
         proveedorRepositorio.save(proveedor);
     }
@@ -90,17 +91,18 @@ public class ProveedorServicio {
     }
 
     @Transactional
-    public void modificar(String id, String dni, String nombre, String email, String password, String password2,
+    public void modificar(MultipartFile archivo,String id, String dni, String nombre, String email,String rol, String password, String password2,
             Barrio barrio, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio)
             throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
+        usuarioServicio.validar(dni, nombre, email, rol, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
 
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(id);
         Optional<Servicio> respuestaServicio = servicioRepositorio.findById(idServicio);
-
+        
+        
         if (respuestaProveedor.isPresent() && respuestaServicio.isPresent()) {
             Proveedor proveedor = respuestaProveedor.get();
             Usuario usuario = proveedor.getUsuario();
@@ -110,18 +112,32 @@ public class ProveedorServicio {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            
+            String idImagen = null;
+            if (usuario.getImagen() != null){
+                idImagen = usuario.getImagen().getId();
+            }
+        
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+       
+            usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
 
             proveedor.setContacto(contacto);
             proveedor.setCalificacion(calificacion);
-            proveedor.setDescripcion(descripcion);
+
             proveedor.setPrecioPorHora(precioPorHora);
             proveedor.setServicio(servicio);
+            proveedor.setDescripcion(servicio.getDescripcion());
 
             proveedorRepositorio.save(proveedor);
         }
     }
+    
+    public Proveedor getOne(String dni_cuil){
+         return proveedorRepositorio.getOne(dni_cuil);
+     }
 
     public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
@@ -130,8 +146,8 @@ public class ProveedorServicio {
             throw new MiException("El contacto no puede ser nulo o estar vacío");
         }
 
-        if (descripcion == null || descripcion.trim().isEmpty()) {
-            throw new MiException("la Descripción no puede ser nula o estar vacía");
+        if (descripcion.trim().isEmpty() || descripcion == null) {
+            throw new MiException("la Descripción no puede ser nula");
         }
 
         if (precioPorHora == null || precioPorHora < 0) {

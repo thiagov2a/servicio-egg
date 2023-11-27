@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="fragments/head :: head"></head>
+
+  <style>
+    * {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .body {
+      text-align: center;  
+
+    
+        
+    }
+
+        
+    .campo {
+      margin: 15px;
+      margin-left: 750px;
+      text-align: center;
+    }
+
+    .tabla{
+      margin-left: 700px;
+      border-spacing: 20px;
+     
+        
+    }
+    
+    th {
+      padding: 20px;
+      border-bottom: 2px solid black;
+    }
+
+    td {
+      text-align: center;
+      height: 50px;
+      padding: 20;
+    }
+    
+    .size {
+        width: 300px;
+    }
+    
+  </style>
+
+  <body class="body">
+    <nav th:replace="fragments/navbar :: nav"></nav>
+
+    <main>
+      <div>
+        <h1 class="campo">LISTA DE PROVEEDORES REGISTRADOS</h1>
+
+        <table class="tabla">
+          <thead>
+            <tr> 
+              <th scope="col">Imagen    </th>  
+              <th scope="col">Id del Proveedor</th>
+              <th scope="col">Nombre Proveedor</th>
+              <th scope="col">Email Proveedor</th>
+              <th scope="col">Tipo de Servicio</th>
+              <th scope="col"><div class="size">Descripción</div></th>
+              <th scope="col">Contacto</th>
+              <th scope="col">Precio por Hora</th>
+              <th scope="col">Calificación</th>
+            </tr>
+          </thead>
+          <tbody th:each="proveedor : ${proveedores}">
+            <tr>
+              <td>
+                <a th:if="${proveedor.usuario.imagen != null}" th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
+                  <img
+                    th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}"
+                    width="150px"
+                    style="text-align: center"
+                    alt="Imagen de perfil" />
+                </a>
+                <a th:if="${proveedor.usuario.imagen == null}" href="#">
+                  <img src="/img/sin-foto.png" width="80px" style="text-align: center" alt="Imagen de perfil" />
+                </a>
+              </td>
+              <td th:scope="row" th:text="${proveedor.usuario.id}"></td>
+              <td th:text="${proveedor.usuario.nombre}"></td>
+              <td th:text="${proveedor.usuario.email}"></td>
+              <td th:text="${proveedor.servicio.nombre}"></td>
+              <td th:text="${proveedor.descripcion}" style="text-align: left;"></td>
+              <td th:text="${proveedor.contacto}"></td>
+              <td th:text="${proveedor.precioPorHora}"></td>
+              <td th:text="${proveedor.calificacion}"></td>
+            </tr>
+          </tbody>
+        </table>
+        <section>
+            <div>
+                <div>
+                    <a th:href="@{/}">Volver</a>
+                </div>
+            </div>
+        </section>
+      </div>
+    </main>
+  </body>
+  <footer th:replace="/fragments/footer :: footer "></footer>
+</html>
+

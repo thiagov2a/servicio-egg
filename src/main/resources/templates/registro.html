@@ -1,178 +1,193 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="/fragments/head :: head "></head>
+    <head th:replace="/fragments/head :: head "></head>
 
-  <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
+    <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
 
-  <style>
-    * {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
+    <style>
+        * {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
 
-    #campo-proveedor {
-      display: none;
-    }
+        #campo-proveedor {
+            display: none;
+        }
 
-    #campo-residente {
-      display: block;
-    }
+        #campo-residente {
+            display: block;
+        }
 
-    .soy-proveedor {
-      background-color: white;
-      font-weight: 500;
-      padding: 6px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: none;
-    }
+        .soy-proveedor {
+            background-color: white;
+            font-weight: 500;
+            padding: 6px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: none;
+        }
 
-    .soy-residente {
-      background-color: rgb(200, 200, 200);
-      font-weight: 500;
-      padding: 6px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: none;
-    }
+        .soy-residente {
+            background-color: rgb(200, 200, 200);
+            font-weight: 500;
+            padding: 6px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: none;
+        }
 
-    .boton {
-      background-color: rgb(0, 140, 255);
-      font-weight: 600;
-      padding: 6px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: none;
-    }
+        .boton {
+            background-color: rgb(0, 140, 255);
+            font-weight: 600;
+            padding: 6px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: none;
+        }
 
-    .campo {
-      margin: 10px;
-      text-align: center;
-    }
+        .campo {
+            margin: 10px;
+            text-align: center;
+        }
 
-    select {
-      font-size: 12pt;
-      padding: 5px;
-      border-radius: 5px;
-    }
+        select {
+            font-size: 12pt;
+            padding: 5px;
+            border-radius: 5px;
+        }
 
-    input {
-      padding: 5px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: 1px solid black;
-      width: 350px;
-    }
-  </style>
+        input {
+            padding: 5px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: 1px solid black;
+            width: 350px;
+        }
+    </style>
 
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
+    <body>
+        <nav th:replace="fragments/navbar :: nav"></nav>
 
-    <h1 class="campo">REGISTRAR USUARIO</h1>
+        <h1 class="campo">REGISTRAR USUARIO</h1>
 
-    <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
-      <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
-      <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
+        <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
 
-      <div class="campo">
-        <button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-        <button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
-      </div>
+            <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
+                <div class="card-body">
+                    <h5 class="card-title">Error!</h5>
+                    <p class="card-text" th:text="${error}"></p>
+                </div>
+            </div>
 
-      <div class="campo">
-        <input type="text" name="dni" placeholder="DNI" th:value="${dni}" />
-      </div>
+            <div th:if="${exito != null}" class="card text-white bg-danger mb-3 mensajeError">
+                <div class="card-body">
+                    <h5 class="card-title">Exito!</h5>
+                    <p class="card-text" th:text="${exito}"></p>
+                </div>
+            </div>
 
-      <div class="campo">
-        <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" />
-      </div>
+            <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
+            <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
-      <div class="campo">
-        <input type="email" name="email" placeholder="E-Mail" th:value="${email}" />
-      </div>
+            <div class="campo">
+                <button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
+                <button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+            </div>
 
-      <div class="campo">
-        <input type="password" name="password" placeholder="Contraseña" />
-      </div>
-      <div class="campo">
-        <input type="password" name="password2" placeholder="Repetir contraseña" />
-      </div>
+            <div class="campo">
+                <input type="text" name="dni" placeholder="DNI" th:value="${dni}" >
+            </div>
 
-      <div class="campo">
-        <input type="file" name="archivo" />
-      </div>
+            <div class="campo">
+                <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" >
+            </div>
 
-      <div class="campo">
-        <select name="barrio">
-          <option value="">Seleccionar Barrio</option>
-          <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
-        </select>
-      </div>
+            <div class="campo">
+                <input type="email" name="email" placeholder="E-Mail" th:value="${email}" >
+            </div>
 
-      <div id="campo-proveedor">
-        <div class="campo">
-          <select name="idServicio">
-            <option value="">Seleccionar Servicio</option>
-            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
-          </select>
-        </div>
-        <div class="campo">
-          <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
-        </div>
-        <div class="campo">
-          <input type="tel" name="contacto" placeholder="Contacto" th:value="${contacto}" />
-        </div>
-        <div class="campo">
-          <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
-        </div>
+            <div class="campo">
+                <input type="password" name="password" placeholder="Contraseña" >
+            </div>
+            <div class="campo">
+                <input type="password" name="password2" placeholder="Repetir contraseña" >
+            </div>
 
-        <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
-        <input type="hidden" name="calificacion" th:value="0" />
-      </div>
+            <div class="campo">
+                <input type="file" name="archivo" >
+            </div>
 
-      <div id="campo-residente"></div>
+            <div class="campo">
+                <select name="barrio">
+                    <option value="">Seleccionar Barrio</option>
+                    <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
+                </select>
+            </div>
 
-      <div class="campo">
-        <button type="submit" class="boton">Registrarme!</button>
-      </div>
-    </form>
+            <div id="campo-proveedor">
+                <div class="campo">
+                    <select name="idServicio">
+                        <option value="">Seleccionar Servicio</option>
+                        <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+                    </select>
+                </div>
+                <div class="campo">
+                    <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
+                </div>
+                <div class="campo">
+                    <input type="tel" name="contacto" placeholder="Contacto" th:value="${contacto}" />
+                </div>
+                <div class="campo">
+                    <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
+                </div>
 
-    <script>
-      function mostrarProveedor() {
-        var divProveedor = document.getElementById('campo-proveedor');
-        var divResidente = document.getElementById('campo-residente');
+                <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
+                <input type="hidden" name="calificacion" th:value="0" />
+            </div>
 
-        divProveedor.style.display = 'block';
-        divResidente.style.display = 'none';
+            <div id="campo-residente"></div>
 
-        var botonProveedor = document.querySelector('.soy-proveedor');
-        botonProveedor.style.backgroundColor = 'rgb(200, 200, 200)';
+            <div class="campo">
+                <button type="submit" class="boton">Registrarme!</button>
+            </div>
+        </form>
 
-        var botonResidente = document.querySelector('.soy-residente');
-        botonResidente.style.backgroundColor = 'white';
+        <script>
+            function mostrarProveedor() {
+                var divProveedor = document.getElementById('campo-proveedor');
+                var divResidente = document.getElementById('campo-residente');
 
-        // Actualiza el valor del campo oculto
-        document.getElementById('esProveedor').value = 'true';
-      }
+                divProveedor.style.display = 'block';
+                divResidente.style.display = 'none';
 
-      function mostrarResidente() {
-        var divProveedor = document.getElementById('campo-proveedor');
-        var divResidente = document.getElementById('campo-residente');
+                var botonProveedor = document.querySelector('.soy-proveedor');
+                botonProveedor.style.backgroundColor = 'rgb(200, 200, 200)';
 
-        divResidente.style.display = 'block';
-        divProveedor.style.display = 'none';
+                var botonResidente = document.querySelector('.soy-residente');
+                botonResidente.style.backgroundColor = 'white';
 
-        var botonProveedor = document.querySelector('.soy-proveedor');
-        botonProveedor.style.backgroundColor = 'white';
+                // Actualiza el valor del campo oculto
+                document.getElementById('esProveedor').value = 'true';
+            }
 
-        var botonResidente = document.querySelector('.soy-residente');
-        botonResidente.style.backgroundColor = 'rgb(200, 200, 200)';
+            function mostrarResidente() {
+                var divProveedor = document.getElementById('campo-proveedor');
+                var divResidente = document.getElementById('campo-residente');
 
-        // Actualiza el valor del campo oculto
-        document.getElementById('esProveedor').value = 'false';
-      }
-    </script>
-  </body>
+                divResidente.style.display = 'block';
+                divProveedor.style.display = 'none';
 
-  <footer th:replace="/fragments/footer :: footer "></footer>
+                var botonProveedor = document.querySelector('.soy-proveedor');
+                botonProveedor.style.backgroundColor = 'white';
+
+                var botonResidente = document.querySelector('.soy-residente');
+                botonResidente.style.backgroundColor = 'rgb(200, 200, 200)';
+
+                // Actualiza el valor del campo oculto
+                document.getElementById('esProveedor').value = 'false';
+            }
+        </script>
+    </body>
+
+    <footer th:replace="/fragments/footer :: footer "></footer>
 </html>
