@@ -99,7 +99,6 @@ public class TransaccionControlador {
 
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
-            ;
 
             transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
