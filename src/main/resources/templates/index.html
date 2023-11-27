@@ -24,62 +24,49 @@
   </style>
   </head>
 
-<body>
-
-  <nav th:replace="/fragments/navbar :: nav"></nav>
-
-  <header>
-    <h1>Pagina de Servicios - Chacras de Coria en Mendoza</h1>
-  </header>
-  <div class="contenedor">
-    <div class="costado"></div>
-    <div class="principal">
-
-      <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner" style="height: 100%;">
-          <div class="carousel-item active" data-bs-interval="3000">
-            <img th:src="@{/img/portada-chacrasdecoria.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-1.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-2.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-3.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-4.jpg}" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-5.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-6.jpg}" class="d-block w-100"  alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-7.jpg}"  class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img th:src="@{/img/chacras-de-coria-8.jpg}" class="d-block w-100" alt="...">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="costado"></div>
-  </div>
   <body>
 
     <nav th:replace="/fragments/navbar :: nav"></nav>
     <br>
-    <header>
-      <h1>Pagina de Servicios - Chacras de Coria en Mendoza</h1>
-    </header>
-
-
-
-    <img src="/img/portada-chacrasdecoria.jpg" alt="Portada de index" />
+ 
+    <div class="contenedor">
+      <div class="costado"></div>
+      <div class="principal">
+  
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner" style="height: 100%;">
+            <div class="carousel-item active" data-bs-interval="3000">
+              <img th:src="@{/img/portada-chacrasdecoria.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-1.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-2.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-3.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-4.jpg}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-5.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-6.jpg}" class="d-block w-100"  alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-7.jpg}"  class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <img th:src="@{/img/chacras-de-coria-8.jpg}" class="d-block w-100" alt="...">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="costado"></div>
+    </div>
 
   <footer th:replace="/fragments/footer :: footer"></footer>
 
