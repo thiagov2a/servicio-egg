@@ -1,6 +1,6 @@
 package com.equipo15.servicio.controladores;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +47,7 @@ public class ErroresControlador implements ErrorController {
     }
 
     private int getErrorCode(HttpServletRequest httpRequest) {
-        return (Integer) httpRequest.getAttribute("jakarta.servlet.error.status_code");
+        return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
     }
 
     public String getErrorPath() {

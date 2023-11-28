@@ -10,7 +10,7 @@ import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -11,7 +11,7 @@ import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 @Service
 public class ServicioServicio {
