@@ -75,7 +75,7 @@ public class TransaccionControlador {
 
     }
 
-    @GetMapping("/modificar/{isbn}")
+    @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
         modelo.put("transaccion", transaccion);
@@ -89,7 +89,7 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
 
-    @PostMapping("/modificar/{isbn}")
+    @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
         try {
