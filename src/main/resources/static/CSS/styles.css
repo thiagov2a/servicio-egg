@@ -201,6 +201,10 @@ font-size: 1,5rem;
   border: none;
 }
 
+.soy-residente:hover {
+  background-color:  rgb(220, 220, 220);
+}
+
 .boton {
   background-color: rgb(0, 140, 255);
   font-weight: 600;
@@ -255,6 +259,7 @@ input {
   flex-direction: rox;
   height: 100vh;
   margin-bottom: 20px;
+  margin-top: 10px;
 
 
 }

@@ -1,4 +1,3 @@
-
 package com.equipo15.servicio.repositorios;
 
 import com.equipo15.servicio.entidades.Usuario;
