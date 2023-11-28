@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile; 
+import org.springframework.web.multipart.MultipartFile;
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
@@ -19,7 +19,7 @@ import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -57,7 +57,7 @@ public class PortalControlador {
     @PostMapping("/registro")
     public String registrar(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String email, @RequestParam(required = false) String password,
-            String password2, @RequestParam(required = false) String rol, Barrio barrio, MultipartFile archivo,
+            String password2, Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
@@ -67,10 +67,10 @@ public class PortalControlador {
             ModelMap modelo) {
         try {
             if (esProveedor) {
-                proveedorServicio.registrar(dni, nombre, email, rol, password, password2,  barrio, archivo, contacto,
+                proveedorServicio.registrar(dni, nombre, email, password, password2, barrio, archivo, contacto,
                         descripcion, precioPorHora, calificacion, idServicio);
             } else {
-                usuarioServicio.registrar(dni, nombre, email, rol, password, password2, barrio, archivo);
+                usuarioServicio.registrar(dni, nombre, email, password, password2, barrio, archivo);
             }
 
             modelo.put("exito", "Te has registrado correctamente");
@@ -116,9 +116,10 @@ public class PortalControlador {
     }
 
     @PostMapping("/perfil/{id}")
-    public String modificar(MultipartFile archivo, @PathVariable String id, @RequestParam String dni, @RequestParam String nombre,
-            @RequestParam String email, @RequestParam String rol, @RequestParam String password, @RequestParam String password2,
-            @RequestParam Barrio barrio,
+    public String modificar(@PathVariable(required = false) String id, @RequestParam(required = false) String dni,
+            @RequestParam(required = false) String nombre, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String password, @RequestParam String password2,
+            @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
@@ -130,20 +131,19 @@ public class PortalControlador {
 
             // Verificar si el usuario es también un proveedor
             if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
-                proveedorServicio.modificar(archivo, id, dni, nombre, email, rol, password, password2, barrio, contacto, descripcion,
-                        precioPorHora, calificacion, id);
+                proveedorServicio.modificar(archivo, id, dni, nombre, email, password, password2, barrio, contacto,
+                        descripcion, precioPorHora, calificacion, id);
             } else {
-                usuarioServicio.modificar(archivo, id, dni, nombre, email, rol, password, password2, barrio);
+                usuarioServicio.modificar(archivo, id, dni, nombre, email, password, password2, barrio);
             }
 
             modelo.put("exito", "Usuario actualizado correctamente!");
             return "index.html";
         } catch (MiException ex) {
-            
+
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
             modelo.put("email", email);
-            modelo.put("rol", rol);
 
             return "usuario_modificar.html";
         }

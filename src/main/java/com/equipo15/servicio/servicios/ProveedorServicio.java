@@ -14,7 +14,7 @@ import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,11 +35,12 @@ public class ProveedorServicio {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(String dni, String nombre, String email, String rol, String password, String password2, Barrio barrio,
+    public void registrar(String dni, String nombre, String email, String password, String password2,
+            Barrio barrio,
             MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, rol, password, password2, barrio);
+        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
 
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -64,7 +65,7 @@ public class ProveedorServicio {
         Proveedor proveedor = new Proveedor();
         proveedor.setUsuario(usuario);
         proveedor.setContacto(contacto);
-        
+
         proveedor.setPrecioPorHora(precioPorHora);
         proveedor.setCalificacion(calificacion); // Inicializar la calificación a 0
 
@@ -91,18 +92,18 @@ public class ProveedorServicio {
     }
 
     @Transactional
-    public void modificar(MultipartFile archivo,String id, String dni, String nombre, String email,String rol, String password, String password2,
+    public void modificar(MultipartFile archivo, String id, String dni, String nombre, String email,
+            String password, String password2,
             Barrio barrio, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio)
             throws MiException {
 
-        usuarioServicio.validar(dni, nombre, email, rol, password, password2, barrio);
+        usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
 
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(id);
         Optional<Servicio> respuestaServicio = servicioRepositorio.findById(idServicio);
-        
-        
+
         if (respuestaProveedor.isPresent() && respuestaServicio.isPresent()) {
             Proveedor proveedor = respuestaProveedor.get();
             Usuario usuario = proveedor.getUsuario();
@@ -112,14 +113,14 @@ public class ProveedorServicio {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            
+
             String idImagen = null;
-            if (usuario.getImagen() != null){
+            if (usuario.getImagen() != null) {
                 idImagen = usuario.getImagen().getId();
             }
-        
+
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-       
+
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -134,10 +135,6 @@ public class ProveedorServicio {
             proveedorRepositorio.save(proveedor);
         }
     }
-    
-    public Proveedor getOne(String dni_cuil){
-         return proveedorRepositorio.getOne(dni_cuil);
-     }
 
     public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {

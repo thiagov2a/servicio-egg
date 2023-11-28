@@ -7,15 +7,15 @@ import com.equipo15.servicio.enumeraciones.Rol;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Data
@@ -39,8 +39,7 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Barrio barrio;
 
-    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
-    @JoinColumn(name = "imagen_id")
+    @OneToOne
     private Imagen imagen;
 
     @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
