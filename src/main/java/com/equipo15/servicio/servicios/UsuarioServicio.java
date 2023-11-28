@@ -1,7 +1,6 @@
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
-import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
@@ -77,24 +76,21 @@ public class UsuarioServicio implements UserDetailsService {
             throws MiException {
 
         validar(dni, nombre, email, rol, password, password2, barrio);
-        
-        Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(id);
+       
         Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
         
         
-        if (respuestaProveedor.isPresent()) {
-            Proveedor proveedor = respuestaProveedor.get();
             
         if (respuestaUsuario.isPresent()) {
             Usuario usuario = respuestaUsuario.get();
 
       
-            proveedor.setDni(dni);
-            proveedor.setNombre(nombre);
-            proveedor.setEmail(email);
-            proveedor.setPassword(new BCryptPasswordEncoder().encode(password));
-            proveedor.setRol(Rol.USER);
-            proveedor.setBarrio(barrio);
+            usuario.setDni(dni);
+            usuario.setNombre(nombre);
+            usuario.setEmail(email);
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            usuario.setRol(Rol.USER);
+            usuario.setBarrio(barrio);
             
             String idImagen = null;
             if (usuario.getImagen() != null){

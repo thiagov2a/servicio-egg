@@ -52,7 +52,7 @@ public class UsuarioControlador {
             Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
 
             // Verificar si el usuario es también un proveedor
-            if (usuarioActualizado.getRol() == Rol.USER || usuarioActualizado.getRol() == Rol.PROVEEDOR) {
+            if (usuarioActualizado.getRol() == Rol.USER) {
                 usuarioServicio.modificar(archivo, id, dni, nombre, email, rol, password, password2, barrio); 
             } 
 

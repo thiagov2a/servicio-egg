@@ -34,38 +34,3 @@ public class ProveedorControlador {
 
 }
 
-Transactional
-    public void modificar(MultipartFile archivo,String id, String dni, String nombre, String email, String rol, String password, String password2,
-            Barrio barrio)
-            throws MiException {
-
-        validar(dni, nombre, email, rol, password, password2, barrio);
-        
-        Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
-
-        
-        
-        if (respuestaUsuario.isPresent()) {
-            Usuario usuario = respuestaUsuario.get();
-
-      
-            usuario.setDni(dni);
-            usuario.setNombre(nombre);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.USER);
-            usuario.setBarrio(barrio);
-            
-            String idImagen = null;
-            if (usuario.getImagen() != null){
-                idImagen = usuario.getImagen().getId();
-            }
-        
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-       
-            usuario.setImagen(imagen);
-
-            usuarioRepositorio.save(usuario);
-
-        }
-    }
