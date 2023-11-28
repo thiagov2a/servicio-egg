@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="/fragments/head :: head"> </head>
+    <body>
+
+        <nav th:replace="/fragments/navbar :: nav"> </nav>
+            
+        <div>
+
+            <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+                
+                <input hidden th:value="${id}" name="id">
+
+                <div>
+                    <h3>Editar Usuario</h3>
+                </div>
+                <div>
+                    <label>Dni del Usuario</label>
+                    <input type="text" name="dni"  th:value="${usuario.dni}">
+                </div>
+                <div>
+                    <label>Nombre del Usuario</label>
+                    <input type="text" name="nombre"  th:value="${usuario.nombre}">
+                </div>
+                <div>
+                    <label>Email del Usuario</label>
+                    <input type="email" name="email"  th:value="${usuario.email}">
+                </div>
+                <div>
+                    <label>Rol actual del Usuario</label>
+                    <input type="rol" name="rol"  th:value="${usuario.rol}">
+                </div>
+                <div>
+                    <label>Barrio actual del Usuario</label>
+                    <input type="barrio" name="barrio"  th:value="${usuario.barrio}">
+                </div>
+                <div>
+                    <label>Seleccionar Imagen del Usuario</label>
+                    <input type="file" name="archivo" >
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="PASSWORD">
+                </div>
+                <div>
+                    <input type="password" name="password2" placeholder="REPETIR PASSWORD" >
+                </div>
+
+
+                <button type="submit">Modificar</button>
+            </form>
+
+
+            <section>
+                <div>
+                    <div>
+                        <a th:href="@{/}">Volver</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer th:replace="/fragments/footer :: footer "></footer>
+    </body>
+
+
+    
+</html>
+

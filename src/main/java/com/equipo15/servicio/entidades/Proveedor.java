@@ -28,9 +28,8 @@ public class Proveedor {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
-
-    private String contacto;
     private String descripcion;
+    private String contacto;
     private Integer precioPorHora;
     private Integer calificacion;
 
