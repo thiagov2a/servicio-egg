@@ -1,7 +1,7 @@
 <nav>
   <div>
     <!-- Título de la aplicación -->
-    <h1 class="nav_titulo"><a th:href="@{/}">App Service</a></h1>
+    <a th:href="@{/}"><img src="/img/logo_sinfondo.png" alt="logo" height="120px"></a>
     
   </div>
 
@@ -26,8 +26,8 @@
  
       <span th:text="${'Hola ' + session.usuariosession.nombre }" ></span>
            <button class="nav_btn"> 
-      <img th:if="${session.usuariosession.imagen != null}" th:src="@{/Imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="32" height="32" class="nav_img_perfil" >
-        <img th:if="${session.usuariosession.imagen == null}"  src="/img/sinImg.png"   alt="mdo" width="32" height="32" class="nav_img_perfil" >
+      <img th:if="${session.usuariosession.imagen != null}" th:src="@{/Imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42" class="nav_img_perfil" >
+        <img th:if="${session.usuariosession.imagen == null}"  src="/img/sinImg.png"   alt="mdo" width="42" height="42" class="nav_img_perfil" >
       </button>
 
     
