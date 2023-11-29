@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Usar th:href para resolver la URL del CSS -->
+    <script th:src="@{/js/Scripts.js}"></script>
+    <!-- Usar th:src para resolver la URL del script JS -->
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+
+    <style>
+
+    </style>
+  </head>
+
+  <body>
+    <section class="fondoimg">
+      <nav th:replace="fragments/navbar :: nav"></nav>
+
+      <h1>MODIFICAR USUARIO</h1>
+
+      <form
+        th:action="@{/registro}"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+
+
+        <div class="campo">
+          <input
+            type="text"
+            name="dni"
+            placeholder="DNI"
+            th:value="${dni}"
+            required
+          />
+        </div>
+
+        <div class="campo">
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre del usuario"
+            th:value="${nombre}"
+            required
+          />
+        </div>
+
+        <div class="campo">
+          <input
+            type="email"
+            name="email"
+            placeholder="E-Mail"
+            th:value="${email}"
+            required
+          />
+        </div>
+
+        <div class="campo">
+          <input type="file" name="archivo" />
+        </div>
+
+         <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
+		 <input
+		 type="hidden"
+		 id="esProveedor"
+		 name="esProveedor"
+		 value="false"
+	   />
+
+	   <div class="campo">
+		 <button
+		   type="button"
+		   onclick="mostrarResidente()"
+		   class="soy-residente"
+		 >
+		   Soy Residente
+		 </button>
+		 <button
+		   type="button"
+		   onclick="mostrarProveedor()"
+		   class="soy-proveedor"
+		 >
+		   Soy Proveedor
+		 </button>
+	   </div>
+
+        <div id="campo-proveedor">
+          <div class="campo">
+            <select name="idServicio">
+              <option value="">Seleccionar Servicio</option>
+              <option
+                th:each="servicio : ${servicios}"
+                th:value="${servicio.id}"
+                th:text="${servicio.nombre}"
+              />
+            </select>
+          </div>
+          <div class="campo">
+            <input
+              type="text"
+              name="descripcion"
+              placeholder="Descripcion"
+              th:value="${descripcion}"
+            />
+          </div>
+          <div class="campo">
+            <input
+              type="text"
+              name="contacto"
+              placeholder="Contacto"
+              th:value="${contacto}"
+            />
+          </div>
+          <div class="campo">
+            <input
+              type="number"
+              name="precioPorHora"
+              placeholder="Precio por hora"
+              th:value="${precioPorHora}"
+            />
+          </div>
+
+          <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
+          <input type="hidden" name="calificacion" th:value="0" />
+        </div>
+
+        <div id="campo-residente"></div>
+
+        <div class="campo">
+          <button type="submit" class="boton">Actualizar usuario</button>
+        </div>
+      </form>
+
+      <footer th:replace="/fragments/footer :: footer "></footer>
+    </section>
+
+
+  </body>
+</html>
