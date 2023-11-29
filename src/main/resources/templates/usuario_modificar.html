@@ -42,6 +42,20 @@
 
     <h1 class="campo">EDITAR USUARIO</h1>
 
+    <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
+      <div class="card-body">
+        <h5 class="card-title">Error!</h5>
+        <p class="card-text" th:text="${error}"></p>
+      </div>
+    </div>
+
+    <div th:if="${exito != null}" class="card text-white bg-danger mb-3 mensajeError">
+      <div class="card-body">
+        <h5 class="card-title">Exito!</h5>
+        <p class="card-text" th:text="${exito}"></p>
+      </div>
+    </div>
+
     <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
       <input hidden th:value="${usuario.id}" name="id" />
 
@@ -81,7 +95,8 @@
         </div>
       </div>
 
-      <div th:if="${usuario.rol.descripcion == 'Proveedor'}" id="campo-proveedor">
+      <div th:if="${usuario.proveedor != null}" id="campo-proveedor">
+        <!-- Contenido del div aquí -->
         <div class="campo">
           <select name="idServicio">
             <option value="">Seleccionar Servicio</option>
@@ -105,7 +120,6 @@
             placeholder="Precio por hora"
             th:value="${usuario.proveedor.precioPorHora}" />
         </div>
-
         <input type="hidden" name="calificacion" th:value="${usuario.proveedor.calificacion}" />
       </div>
 

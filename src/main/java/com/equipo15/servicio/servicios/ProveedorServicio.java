@@ -35,8 +35,7 @@ public class ProveedorServicio {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(String dni, String nombre, String email, String password, String password2,
-            Barrio barrio,
+    public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
             MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
             String idServicio) throws MiException {
 
