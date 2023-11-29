@@ -10,6 +10,10 @@
 
   }
 
+body{
+  min-height: 100vh;
+}
+
 html {
   font-size: 62, 5%;
 }
@@ -32,6 +36,7 @@ main {
   height: 550px;
   display: flex;
   justify-content: end;
+
 }
 
 .logo {
@@ -70,7 +75,6 @@ nav {
   background-color: rgba(213, 186, 8, 0.744);
   border-radius: 3px;
   box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent, inset 0 0 0 transparent;
-
 
 }
 .nav_titulo {
@@ -189,8 +193,8 @@ font-size: 1,5rem;
   padding: 0;
   margin:0
    /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
- 
-  
+
+
 }
 
 
@@ -297,6 +301,10 @@ footer{
   align-items: center;
   justify-content: space-between;
   font-size: 10pt;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
 
 }
 

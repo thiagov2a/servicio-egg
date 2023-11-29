@@ -18,29 +18,31 @@
 
   <nav th:replace="fragments/navbar :: nav"></nav>
 
-  <h2 class="campo">Login</h2>
-  <form th:action="@{/logincheck}" method="post">
-    <div class="campo">
-      <label for="email">Email:</label>
-      <input style="width: 300px;" type="email" name="email" th:value="${email}" required autofocus />
-    </div>
+  <div style="margin-top: 100px;">
+    <h2 style="text-align: center;">Login</h2>
+    <form th:action="@{/logincheck}" method="post">
+      <div class="campo">
+        <label for="email">Email:</label>
+        <input style="width: 300px;" type="email" name="email" th:value="${email}" required autofocus />
+      </div>
 
-    <div class="campo">
-      <label for="password">Password:</label>
-      <input style="width: 300px;" type="password" name="password" required />
-    </div>
+      <div class="campo">
+        <label for="password">Password:</label>
+        <input style="width: 300px;" type="password" name="password" required />
+      </div>
 
-    <div class="campo">
-      <label for="recuerdame">Recuerdame</label>
-      <input type="checkbox" name="recuerdame">
-    </div>
-    <div class="campo">
-      <button class="boton" type="submit">Login</button>
-    </div>
-  </form>
-
-  
+      <div class="campo">
+        <label for="recuerdame">Recuerdame</label>
+        <input style="width: 15px" type="checkbox" name="recuerdame">
+      </div>
+      <div class="campo">
+        <button class="boton" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
 
 </body>
+
+<footer th:replace="/fragments/footer :: footer "></footer>
 
 </html>
