@@ -75,7 +75,7 @@ nav {
   background-color: rgba(213, 186, 8, 0.744);
   border-radius: 3px;
   box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent, inset 0 0 0 transparent;
-
+  margin-bottom: 30px;
 }
 .nav_titulo {
   margin: none;
