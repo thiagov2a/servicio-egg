@@ -7,6 +7,7 @@ import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,39 +30,51 @@ public class TransaccionControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @GetMapping("/registrar")
-    public String registrar(ModelMap modelo) {
+    @GetMapping("/presupuesto/{idProveedor}")
+    public String presupuesto(@PathVariable String idProveedor, HttpSession session, ModelMap modelo) {
 
-        List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-        List<Usuario> residentes = usuarioServicio.listarUsuarios();
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
 
-        modelo.addAttribute("proveedores", proveedores);
-        modelo.addAttribute("residentes", residentes);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        modelo.put("proveedor", proveedor);
+        modelo.put("usuario", usuario);
+        modelo.put("presupuesto", null);
 
         return "transaccion_form.html";
     }
 
-    @PostMapping("/registro")
-    public String registro(@RequestParam(required = false) String id, @RequestParam String comentario,
-            @RequestParam String idProveedor,
-            @RequestParam String idResidente, @RequestParam(required = false) Integer calificacion,
-            @RequestParam(required = false) Long presupuesto, ModelMap modelo) {
+    @GetMapping("/registro/{idProveedor}")
+    public String registro(@PathVariable String idProveedor, HttpSession session, Integer horas, ModelMap modelo) {
+
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        Integer presupuesto = horas * proveedor.getPrecioPorHora();
+
+        modelo.put("proveedor", proveedor);
+        modelo.put("usuario", usuario);
+        modelo.put("presupuesto", presupuesto);
+
+        return "transaccion_form.html";
+
+    }
+
+    @PostMapping("/alta")
+    public String alta(@RequestParam String idProveedor, @RequestParam String idResidente, Long presupuesto, ModelMap modelo) {
+
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        Usuario usuario = usuarioServicio.buscarUsuarioPorId(idResidente);
 
         try {
-            transaccionServicio.registrar(comentario, calificacion, presupuesto, idProveedor, idResidente);
-            modelo.put("exito", "La Transacción fué cargada correctamente!");
+            transaccionServicio.iniciarTransaccion(idProveedor, idResidente, presupuesto);
+            modelo.put("exito", "Se ha iniciado una solicitud se servicio correctamente");
             return "index.html";
+
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
-
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
-
-            return "transaccion_form.html";
+            return "transaccion_form2.html";
         }
+
     }
 
     @GetMapping("/lista")
@@ -75,7 +88,7 @@ public class TransaccionControlador {
 
     }
 
-    @GetMapping("/modificar/{id}")
+    @GetMapping("/modificar/{isbn}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
         modelo.put("transaccion", transaccion);
@@ -89,7 +102,7 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
 
-    @PostMapping("/modificar/{id}")
+    @PostMapping("/modificar/{isbn}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
         try {
@@ -115,4 +128,19 @@ public class TransaccionControlador {
         }
     }
 
+    /*try {
+            transaccionServicio.registrar(comentario, calificacion, presupuesto, idProveedor, idResidente);
+            modelo.put("exito", "La Transacción fué cargada correctamente!");
+            return "index.html";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+
+            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
+            List<Usuario> residentes = usuarioServicio.listarUsuarios();
+
+            modelo.addAttribute("proveedores", proveedores);
+            modelo.addAttribute("residentes", residentes);
+
+            return "transaccion_form.html";
+        }*/
 }

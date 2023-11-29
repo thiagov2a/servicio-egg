@@ -7,15 +7,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.equipo15.servicio.servicios.UsuarioServicio;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SeguridadWeb extends WebSecurityConfigurerAdapter {
+public class SeguridadWeb  {
 
     @Autowired
     public UsuarioServicio usuarioServicio;
@@ -29,7 +31,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
         
     }
 
-    @Override
+    /*@Override
     protected void configure(HttpSecurity http) throws Exception{
         http
                 
@@ -53,24 +55,24 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 
                      
         
-    }
+    }*/
     
     
     
-    /*@Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authz -> {
-                    // authz.requestMatchers("/admin/*")
-                    // .hasRole("ADMIN");
-                    // authz.requestMatchers("/", "/login", "/registrar", "/registro",
-                    // "/servicio/registrar",
-                    // "/servicio/registro")
-                    // .permitAll();
+                     authz.requestMatchers("/admin/*")
+                     .hasRole("ADMIN");
+                     authz.requestMatchers("/", "/login", "/registrar", "/registro",
+                     "/servicio/registrar",
+                     "/servicio/registro")
+                     .permitAll();
                     authz.requestMatchers("/css/**", "/js/**", "/img/**", "/**")
                             .permitAll();
-                    // authz.anyRequest()
-                    // .authenticated();
+                     authz.anyRequest()
+                     .authenticated();
                 })
                 .formLogin(form -> {
                     form.loginPage("/login");
@@ -89,7 +91,9 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                     CSRF.disable();
                 })
                 .build();
-<<<<<<< Updated upstream
+
+        
+        
     }
 }
 
@@ -144,7 +148,5 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
 // .disable();
 // }
 // }
-=======
-    }*/
-}
->>>>>>> Stashed changes
+
+

@@ -65,6 +65,8 @@
               <th scope="col">Contacto</th>
               <th scope="col">Precio por Hora</th>
               <th scope="col">Calificación</th>
+              <th scope="col">Presupuestar</th>
+              
             </tr>
           </thead>
           <tbody th:each="proveedor : ${proveedores}">
@@ -89,6 +91,7 @@
               <td th:text="${proveedor.contacto}"></td>
               <td th:text="${proveedor.precioPorHora}"></td>
               <td th:text="${proveedor.calificacion}"></td>
+              <td > <a th:href="@{/transaccion/presupuesto/__${proveedor.id}__}" > presupuestar </a></td>
             </tr>
           </tbody>
         </table>
