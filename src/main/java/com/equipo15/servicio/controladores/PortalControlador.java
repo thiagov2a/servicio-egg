@@ -109,14 +109,26 @@ public class PortalControlador {
     }
 
     @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
+    public String perfil(HttpSession session, ModelMap modelo) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        modelo.put("usuario", usuario);
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(id);
+            modelo.put("usuario", usuarioEncontrado);
+        }
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("servicios", servicios);
+        modelo.addAttribute("barrios", Barrio.values());
+
         return "usuario_modificar.html";
     }
 
     @PostMapping("/perfil/{id}")
-    public String modificar(@PathVariable(required = false) String id, @RequestParam(required = false) String dni,
+    public String modificar(@PathVariable String id, @RequestParam(required = false) String dni,
             @RequestParam(required = false) String nombre, @RequestParam(required = false) String email,
             @RequestParam(required = false) String password, @RequestParam String password2,
             @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
@@ -124,17 +136,18 @@ public class PortalControlador {
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
             @RequestParam(required = false) Integer calificacion,
-            ModelMap modelo) throws MiException {
+            @RequestParam(required = false) String idServicio,
+            HttpSession session, ModelMap modelo) throws MiException {
         try {
             // Obtener el usuario actualizado
             Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
 
             // Verificar si el usuario es también un proveedor
             if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
-                proveedorServicio.modificar(archivo, id, dni, nombre, email, password, password2, barrio, contacto,
-                        descripcion, precioPorHora, calificacion, id);
+                proveedorServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo, contacto,
+                        descripcion, precioPorHora, calificacion, idServicio);
             } else {
-                usuarioServicio.modificar(archivo, id, dni, nombre, email, password, password2, barrio);
+                usuarioServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo);
             }
 
             modelo.put("exito", "Usuario actualizado correctamente!");
@@ -142,8 +155,19 @@ public class PortalControlador {
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            modelo.put("email", email);
+
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+            if (usuario != null) {
+                String idUsuario = usuario.getId();
+                Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(idUsuario);
+                modelo.put("usuario", usuarioEncontrado);
+            }
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("barrios", Barrio.values());
 
             return "usuario_modificar.html";
         }

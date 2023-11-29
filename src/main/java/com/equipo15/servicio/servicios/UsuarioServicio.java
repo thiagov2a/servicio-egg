@@ -36,8 +36,7 @@ public class UsuarioServicio implements UserDetailsService {
     // Create
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2,
-            Barrio barrio, MultipartFile archivo)
-            throws MiException {
+            Barrio barrio, MultipartFile archivo) throws MiException {
 
         validar(dni, nombre, email, password, password2, barrio);
         validarExistencia(email);
@@ -67,10 +66,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     // Update
     @Transactional
-    public void modificar(MultipartFile archivo, String id, String dni, String nombre, String email,
-            String password, String password2,
-            Barrio barrio)
-            throws MiException {
+    public void modificar(String id, String dni, String nombre, String email, String password, String password2,
+            Barrio barrio, MultipartFile archivo) throws MiException {
 
         validar(dni, nombre, email, password, password2, barrio);
 
@@ -96,7 +93,6 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
-
         }
     }
 
@@ -177,8 +173,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (usuario != null) {
 
             List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
-                    usuario.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
 
             permisos.add(p);
 

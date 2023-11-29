@@ -1,68 +1,119 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="/fragments/head :: head"> </head>
-    <body>
 
-        <nav th:replace="/fragments/navbar :: nav"> </nav>
-            
-        <div>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="/fragments/head :: head "></head>
 
-            <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
-                
-                <input hidden th:value="${id}" name="id">
+  <style>
+    * {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
 
-                <div>
-                    <h3>Editar Usuario</h3>
-                </div>
-                <div>
-                    <label>Dni del Usuario</label>
-                    <input type="text" name="dni"  th:value="${usuario.dni}">
-                </div>
-                <div>
-                    <label>Nombre del Usuario</label>
-                    <input type="text" name="nombre"  th:value="${usuario.nombre}">
-                </div>
-                <div>
-                    <label>Email del Usuario</label>
-                    <input type="email" name="email"  th:value="${usuario.email}">
-                </div>
-                <div>
-                    <label>Rol actual del Usuario</label>
-                    <input type="rol" name="rol"  th:value="${usuario.rol}">
-                </div>
-                <div>
-                    <label>Barrio actual del Usuario</label>
-                    <input type="barrio" name="barrio"  th:value="${usuario.barrio}">
-                </div>
-                <div>
-                    <label>Seleccionar Imagen del Usuario</label>
-                    <input type="file" name="archivo" >
-                </div>
-                <div>
-                    <input type="password" name="password" placeholder="PASSWORD">
-                </div>
-                <div>
-                    <input type="password" name="password2" placeholder="REPETIR PASSWORD" >
-                </div>
+    .boton {
+      background-color: rgb(0, 140, 255);
+      font-weight: 600;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
+    }
 
+    .campo {
+      margin: 10px;
+      text-align: center;
+    }
 
-                <button type="submit">Modificar</button>
-            </form>
+    select {
+      font-size: 12pt;
+      padding: 5px;
+      border-radius: 5px;
+    }
 
+    input {
+      padding: 5px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: 1px solid black;
+      width: 350px;
+    }
+  </style>
 
-            <section>
-                <div>
-                    <div>
-                        <a th:href="@{/}">Volver</a>
-                    </div>
-                </div>
-            </section>
+  <body>
+    <nav th:replace="fragments/navbar :: nav"></nav>
+
+    <h1 class="campo">EDITAR USUARIO</h1>
+
+    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+      <input hidden th:value="${usuario.id}" name="id" />
+
+      <div id="campo-residente">
+        <div class="campo">
+          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" />
         </div>
 
-        <footer th:replace="/fragments/footer :: footer "></footer>
-    </body>
+        <div class="campo">
+          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}" />
+        </div>
 
+        <div class="campo">
+          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}" />
+        </div>
 
-    
+        <div class="campo">
+          <input type="password" name="password" placeholder="Contraseña" />
+        </div>
+        <div class="campo">
+          <input type="password" name="password2" placeholder="Repetir contraseña" />
+        </div>
+
+        <div class="campo">
+          <input type="file" name="archivo" />
+        </div>
+
+        <div class="campo">
+          <select name="barrio">
+            <option value="">Seleccionar Barrio</option>
+            <option
+              th:each="barrio : ${barrios}"
+              th:value="${barrio}"
+              th:text="${barrio.descripcion}"
+              th:selected="${barrio == usuario.barrio}"></option>
+          </select>
+        </div>
+      </div>
+
+      <div th:if="${usuario.rol.descripcion == 'Proveedor'}" id="campo-proveedor">
+        <div class="campo">
+          <select name="idServicio">
+            <option value="">Seleccionar Servicio</option>
+            <option
+              th:each="servicio : ${servicios}"
+              th:value="${servicio.id}"
+              th:text="${servicio.nombre}"
+              th:selected="${servicio.id == usuario.proveedor.servicio.id}"></option>
+          </select>
+        </div>
+        <div class="campo">
+          <input type="text" name="descripcion" placeholder="Descripcion" th:value="${usuario.proveedor.descripcion}" />
+        </div>
+        <div class="campo">
+          <input type="tel" name="contacto" placeholder="Contacto" th:value="${usuario.proveedor.contacto}" />
+        </div>
+        <div class="campo">
+          <input
+            type="number"
+            name="precioPorHora"
+            placeholder="Precio por hora"
+            th:value="${usuario.proveedor.precioPorHora}" />
+        </div>
+
+        <input type="hidden" name="calificacion" th:value="${usuario.proveedor.calificacion}" />
+      </div>
+
+      <div class="campo">
+        <button type="submit" class="boton">Registrarme!</button>
+      </div>
+    </form>
+  </body>
+
+  <footer th:replace="/fragments/footer :: footer "></footer>
 </html>
-
