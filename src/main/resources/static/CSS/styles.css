@@ -120,8 +120,9 @@ border: 1px solid #050505ac;
   box-shadow: 1px 1px 8px rgb(51, 51, 51);
   border-radius: 5px;
   border: 1.4px solid rgb(0, 0, 0);
-  min-height: 35px;
+  min-height: 31px;
   color: rgb(49, 49, 49);
+  padding: 0px 5px;
 }
 .nav_guest {
   display: flex;
@@ -191,7 +192,8 @@ font-size: 1,5rem;
 .fondoimg{
   background-image:url(/img/fondo_05opac.png);
   padding: 0;
-  margin:0
+  margin:0;
+  height: 100vh;
    /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
 
 
