@@ -13,23 +13,16 @@
     <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon">
 
     <style>
-      .fondoimg{
-        background-image:url(/img/Potrerillos.jpg);
-        background-size: cover; /* Ajusta el tamaño de la imagen para cubrir el fondo */
-        background-repeat: no-repeat; /* Evita la repetición de la imagen */
-        background-color: rgba(255, 255, 255, 0.9); /* Color blanco con 50% de opacidad */
-      }
+      
       /* URL de tu imagen */
 
 
     </style>
   </head>
-
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
-
-    <div class="fondoimg">
-
+  
+  <body class="fondoimg">
+    
+<nav th:replace="fragments/navbar :: nav"></nav>
     <h1>REGISTRAR USUARIOS</h1>
 
     <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
@@ -99,7 +92,7 @@
       </div>
     </form>
 
-    </div>
+   
   </body>
 
   <footer th:replace="/fragments/footer :: footer "></footer>

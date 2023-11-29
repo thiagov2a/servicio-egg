@@ -183,6 +183,16 @@ font-size: 1,5rem;
 
 }
 
+.fondoimg{
+  background-image:url(/img/Potrerillos.jpg);
+  opacity: 5;
+  padding: 0;
+  margin:0
+   /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
+ 
+  
+}
+
 
 #campo-proveedor {
   display: none;
