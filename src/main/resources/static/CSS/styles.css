@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
 
-html {
-  font-size: 62, 5%;
-}
+
 * {
   font-family: 'Montserrat', sans-serif;
   /*font-family: 'Urbanist', sans-serif;*/
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
   }
-
-
 
 html {
   font-size: 62, 5%;
@@ -19,6 +18,7 @@ html {
 h1{
   text-align: center;
 }
+
 main {
   width: 50%;
   display: flex;
@@ -70,8 +70,8 @@ nav {
   background-color: rgba(213, 186, 8, 0.744);
   border-radius: 3px;
   box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent, inset 0 0 0 transparent;
-  
-  
+
+
 }
 .nav_titulo {
   margin: none;
