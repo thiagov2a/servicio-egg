@@ -11,7 +11,12 @@
   }
 
 body{
-width: 100%;
+
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 60px;
+  
+/*width: 100%;*/
 }
 
 html {
@@ -193,9 +198,9 @@ font-size: 1,5rem;
   padding: 0;
   margin:0;
   height: 100vh;
- 
+
    /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
- 
+
 
 }
 
@@ -299,19 +304,33 @@ input {
 }
 
 footer{
-  display: flex;
+
+  footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10pt;
+    position: absolute ;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+
+
+  }
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 10pt;
-  
+  position: absolute;
   bottom: 0;
   width: 100%;
   background-color: white;
   /* padding: 10px; */
- 
+
 
 }
-/* 
+/*
 .form{
   adding-bottom: 500px;p
  } */
