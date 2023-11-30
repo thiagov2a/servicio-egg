@@ -18,14 +18,15 @@
       /* URL de tu imagen */
     </style>
   </head>
-
+  
   <body class="fondoimg">
+    <main class="cont-principal">
     <section >
       <nav th:replace="fragments/navbar :: nav"></nav>
 
       <h1>REGISTRAR USUARIOS</h1>
 
-      <form class="form"
+      <form class="form-registro"
         th:action="@{/registro}"
         method="POST"
         enctype="multipart/form-data"
@@ -156,5 +157,6 @@
 
     </section>
     <footer th:replace="/fragments/footer :: footer "></footer>
+  </main>
   </body>
 </html>
