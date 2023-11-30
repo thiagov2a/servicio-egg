@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Proveedores</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <!-- Usar th:href para resolver la URL del CSS -->
+  <script th:src="@{/js/Scripts.js}"></script>
+  <!-- Usar th:src para resolver la URL del script JS -->
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon">
+
+
+<style>
+
+button {
+    background-color: rgb(200, 200, 200);
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    padding: 6px;
+    font-size: 12pt;
+    border-radius: 5px;
+    border: none;
+  }
+  button:hover {
+    background-color: rgb(230, 230, 230);
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    }
+
+  a:visited {
+    color: black;
+    }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+  }
+
+  th {
+    padding: 1px;
+    border-bottom: 2px solid black;
+  }
+
+  td {
+    text-align: center;
+    height: 50px;
+  }
+</style>
+
+</head>
+
+<body>
+
+  <nav th:replace="fragments/navbar :: nav"></nav>
+
+
+
+    <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0"></th>
+            <th scope="col">Id del Usuario</th>
+            <th scope="col">Nombre Usuario</th>
+            <th scope="col">DNI</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Barrio</th>
+			<th scope="col">Servicio</th>
+            <th scope="col">Calificacion</th>
+            <th scope="col">Rol</th>
+          </tr>
+        </thead>
+        <tbody th:each="proveedor : ${proveedores}">
+          <tr>
+            <td>
+              <a th:if="${proveedor.usuario.imagen != null}" th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
+                <img th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}" width="50px" style="text-align: center"
+                  alt="Imagen de perfil" />
+              </a>
+              <a th:if="${proveedor.usuario.imagen == null}" href="#">
+                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
+              </a>
+            </td>
+            <td th:scope="row" th:text="${proveedor.usuario.id}"></td>
+            <td th:text="${proveedor.usuario.nombre}"></td>
+            <td th:text="${proveedor.usuario.dni}"></td>
+            <td th:text="${proveedor.usuario.email}"></td>
+            <td th:text="${proveedor.usuario.barrio}"></td>
+			<td th:text="${proveedor.servicio.nombre}"></td>
+            <td th:text="${proveedor.calificacion}"></td>
+            <td th:text="${proveedor.usuario.rol}"></td>
+            <td><button class="soy-residente">Hacer ADMIN</button></td>
+			<td><button class="soy-residente">Alta/Baja</button></td>
+			<td><button class="soy-residente">Presupuestar</button></td>
+
+
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+</body>
+
+</html>
