@@ -26,7 +26,7 @@
  
       <span th:text="${'Hola ' + session.usuariosession.nombre }" ></span>
            <button class="nav_btn"> 
-      <img th:if="${session.usuariosession.imagen != null}" th:src="@{/Imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42" class="nav_img_perfil" >
+      <img th:if="${session.usuariosession.imagen != null}" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42" class="nav_img_perfil" >
         <img th:if="${session.usuariosession.imagen == null}"  src="/img/sinImg.png"   alt="mdo" width="42" height="42" class="nav_img_perfil" >
       </button>
 

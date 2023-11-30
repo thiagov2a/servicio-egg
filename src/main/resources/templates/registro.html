@@ -5,19 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro de usuario</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <script th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/styles_registro.css}" />
   </head>
-  
+
   <body class="fondoimg">
     <main class="cont-principal">
       <nav th:replace="fragments/navbar :: nav"></nav>
 
-      <h1>REGISTRAR USUARIOS</h1>
+      <h1>REGISTRAR USUARIO</h1>
 
-      <form class="form"
-        th:action="@{/registro}"
-        method="POST"
-      >
+      <form th:action="@{/registro}" method="POST">
         <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
         <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
@@ -27,27 +24,33 @@
         </div>
 
         <div class="campo">
-          <input type="text" name="dni" placeholder="DNI" th:value="${dni}" required />
+          <input type="text" name="dni" placeholder="DNI" th:value="${dni}" />
         </div>
 
         <div class="campo">
-          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" required />
+          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" />
         </div>
 
         <div class="campo">
-          <input type="email" name="email" placeholder="E-Mail" th:value="${email}" required />
+          <input type="email" name="email" placeholder="E-Mail" th:value="${email}" />
         </div>
 
         <div class="campo">
-          <input type="password" name="password" placeholder="contraseña" required />
+          <input type="password" name="password" placeholder="Contraseña" />
         </div>
-
         <div class="campo">
-          <input type="password" name="password2" placeholder="repetir contraseña" required />
+          <input type="password" name="password2" placeholder="Repetir contraseña" />
         </div>
 
         <div class="campo">
           <input type="file" name="archivo" />
+        </div>
+
+        <div class="campo">
+          <select name="barrio">
+            <option value="">Seleccionar Barrio</option>
+            <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
+          </select>
         </div>
 
         <div id="campo-proveedor">
@@ -61,7 +64,7 @@
             <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
           </div>
           <div class="campo">
-            <input type="text" name="contacto" placeholder="Contacto" th:value="${contacto}" />
+            <input type="tel" name="contacto" placeholder="Contacto" th:value="${contacto}" />
           </div>
           <div class="campo">
             <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
@@ -71,12 +74,16 @@
           <input type="hidden" name="calificacion" th:value="0" />
         </div>
 
+        <div id="campo-residente"></div>
+
         <div class="campo">
           <button type="submit" class="boton">Registrarme!</button>
         </div>
       </form>
-    </section>
-    <footer th:replace="/fragments/footer :: footer "></footer>
-  </main>
+    </main>
+
+    <footer th:replace="~{/fragments/footer :: footer}"></footer>
+
+    <script th:src="@{/js/scripts.js}"></script>
   </body>
 </html>

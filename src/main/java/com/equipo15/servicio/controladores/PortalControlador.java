@@ -83,8 +83,6 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("email", email);
 
-            modelo.put("esProveedor", esProveedor);
-
             List<Servicio> servicios = servicioServicio.listarServicios();
 
             modelo.addAttribute("servicios", servicios);
