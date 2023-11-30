@@ -2,13 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head th:replace="/fragments/head :: head">
+
 </head>
 
+<nav th:replace="/fragments/navbar :: nav"></nav>
 <body>
 
   <aside class="admin_sidebar_left">
     <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
     <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
+    <button> <a th:href="@{/admin/usuarios}">Lista de Usuarios</a> </button>
+    <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
   </aside>
 
   <section class="admin_central">
@@ -86,5 +90,6 @@
       document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute("hidden");    }
   </script>
 </body>
+<footer th:replace="/fragments/footer :: footer"></footer>
 
 </html>
