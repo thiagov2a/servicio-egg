@@ -101,6 +101,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
             usuario.setAlta(false);
+            usuarioRepositorio.save(usuario);
         }
     }
 

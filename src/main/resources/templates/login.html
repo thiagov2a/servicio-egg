@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/login.css" />
     <!-- Usar th:href para resolver la URL del CSS -->
     <script th:src="@{/js/scripts.js}"></script>
     <!-- Usar th:src para resolver la URL del script JS -->
-
   </head>
   <nav th:replace="fragments/navbar :: nav"></nav>
   <body>
     <main class="cont-principal">
-  
-
       <div class="login-form">
         <h2 style="text-align: center">Login</h2>
         <form th:action="@{/logincheck}" method="post">
@@ -29,19 +26,17 @@
             <label for="password">Password:</label>
             <input type="password" name="password" required />
           </div>
-<br>
+          <!-- <br />
           <div class="campo">
             <label for="recuerdame">Recuerdame</label>
             <input style="width: 15px" type="checkbox" name="recuerdame" />
-          </div> 
-<br>
+          </div>
+          <br /> -->
           <div class="campo">
             <button class="boton" type="submit">Login</button>
           </div>
         </form>
       </div>
-
-
     </main>
   </body>
   <footer th:replace="/fragments/footer :: footer "></footer>
