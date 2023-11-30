@@ -34,7 +34,7 @@ public class SeguridadWeb {
                             .hasRole("ADMIN");
                     authz.requestMatchers("/", "/login", "/registrar", "/registro")
                             .permitAll();
-                    authz.requestMatchers("/css/**", "/js/**", "/img/**")
+                    authz.requestMatchers("/resources/**", "/static/**", "/css/**", "/img/**", "/js/**")
                             .permitAll();
                     authz.anyRequest()
                             .authenticated();

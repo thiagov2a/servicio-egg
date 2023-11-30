@@ -1,39 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
 
-
 * {
   font-family: 'Montserrat', sans-serif;
   /*font-family: 'Urbanist', sans-serif;*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  }
+}
 
 html {
-  font-size: 62,5%;
+  font-size: 62, 5%;
 }
 
-
-h1{
+h1 {
   text-align: center;
 }
-body{
-
+body {
   min-height: 100vh;
   position: relative;
-  
+
   height: 100%;
-/*width: 100%;*/
+  /*width: 100%;*/
 }
 /*Diego:esta clase main no la hice yo,no estaba en el index pero si en el css*/
-.cont-principal{
+.cont-principal {
   min-height: 100%;
   align-items: center;
   margin-bottom: 50px;
   position: relative;
   box-sizing: border-box;
-  padding-bottom: 100px
+  padding-bottom: 100px;
   /*width: 50%;
   display: flex;
   flex-direction: column;
@@ -46,14 +42,13 @@ body{
   height: 550px;
   display: flex;
   justify-content: end;
-
 }
 
 .logo {
   width: 40%;
   margin: auto;
 }
-.form-registro{
+.form-registro {
   position: relative;
 }
 
@@ -65,8 +60,8 @@ body{
   z-index: 2;
 
   position: fixed;
-    bottom: 0;
-    width: 100%; 
+  bottom: 0;
+  width: 100%;
 }
 
 .boton {
@@ -93,7 +88,8 @@ nav {
   text-decoration: none;
   background-color: rgba(213, 186, 8, 0.744);
   border-radius: 3px;
-  box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent, inset 0 0 0 transparent;
+  box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent,
+    inset 0 0 0 transparent;
   margin-bottom: 30px;
 }
 .nav_titulo {
@@ -131,7 +127,7 @@ nav {
   overflow: hidden;
   margin-right: 10px;
   align-items: center;
-border: 1px solid #050505ac;
+  border: 1px solid #050505ac;
 }
 .nav_search button {
   background-color: transparent;
@@ -166,12 +162,11 @@ border: 1px solid #050505ac;
   padding-right: 10px;
 }
 .nav_dropdown span {
-display: flex;
+  display: flex;
   color: #f1f1f1;
   padding-bottom: 10px;
-flex-direction: row;
-font-size: 1,5rem;
-
+  flex-direction: row;
+  font-size: 1, 5rem;
 }
 
 .nav_dropdown-content {
@@ -204,20 +199,16 @@ font-size: 1,5rem;
   background-color: transparent;
 
   font-size: 20px;
-
 }
 
-.fondoimg{
-  background-image:url(/img/fondo_05opac.png);
+.fondoimg {
+  background-image: url(/img/fondo_05opac.png);
   padding: 0;
-  margin:0;
+  margin: 0;
   height: 100vh;
 
-   /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
-
-
+  /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
 }
-
 
 #campo-proveedor {
   display: none;
@@ -246,7 +237,7 @@ font-size: 1,5rem;
 }
 
 .soy-residente:hover {
-  background-color:  rgb(220, 220, 220);
+  background-color: rgb(220, 220, 220);
 }
 
 .boton {
@@ -298,40 +289,32 @@ input {
   margin-top: 10px;
 }
 
-.contenedor{
+.contenedor {
   display: flex;
-  flex-direction:row ;
+  flex-direction: row;
   height: auto;
   margin-bottom: 20px;
   margin-top: 10px;
-
-
 }
-.principal{
+.principal {
   flex: 5;
   max-height: 1500px;
-
-
 }
-.costado{
+.costado {
   flex: 1;
 }
 
-footer{
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10pt;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px;
 
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 10pt;
-    position: absolute ;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    padding: 10px;
-
-
- 
   /* display: flex;
   align-items: center;
   justify-content: space-between;
@@ -341,8 +324,6 @@ footer{
   width: 100%;
   background-color: white;
   /* padding: 10px; */
-
-
 }
 /*
 .form{

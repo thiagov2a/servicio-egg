@@ -1,65 +1,55 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Usar th:href para resolver la URL del CSS -->
+    <script th:src="@{/js/scripts.js}"></script>
+    <!-- Usar th:src para resolver la URL del script JS -->
+    <style>
+      .login-form {
+        border: 1px solid #ccc;
+        width: 450px;
+        background-color: white;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <!-- Usar th:href para resolver la URL del CSS -->
-  <script th:src="@{/js/Scripts.js}"></script>
-  <!-- Usar th:src para resolver la URL del script JS -->
-  <style>
-    .login-form {
-      border: 1px solid #ccc;
-      width: 450px;
-      background-color: white;
-      border-radius: 10px;
-      display:flex;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
+  <body class="fondoimg">
+    <main class="cont-principal">
+      <nav th:replace="fragments/navbar :: nav"></nav>
 
-</head>
+      <div class="login-form">
+        <h2 style="text-align: center">Login</h2>
+        <form th:action="@{/logincheck}" method="post">
+          <div class="campo">
+            <label for="email">Email:</label>
+            <input style="width: 300px" type="email" name="email" th:value="${email}" required autofocus />
+          </div>
 
-<body class="fondoimg">
-  
-  <main class="cont-principal">
+          <div class="campo">
+            <label for="password">Password:</label>
+            <input style="width: 300px" type="password" name="password" required />
+          </div>
 
-    <nav th:replace="fragments/navbar :: nav"></nav>
+          <div class="campo">
+            <label for="recuerdame">Recuerdame</label>
+            <input style="width: 15px" type="checkbox" name="recuerdame" />
+          </div>
+          <div class="campo">
+            <button class="boton" type="submit">Login</button>
+          </div>
+        </form>
+      </div>
 
-    <div class="login-form">
-
-      <h2 style="text-align: center;">Login</h2>
-      <form th:action="@{/logincheck}" method="post">
-        <div class="campo">
-          <label for="email">Email:</label>
-          <input style="width: 300px;" type="email" name="email" th:value="${email}" required autofocus />
-        </div>
-
-        <div class="campo">
-          <label for="password">Password:</label>
-          <input style="width: 300px;" type="password" name="password" required />
-        </div>
-
-        <div class="campo">
-          <label for="recuerdame">Recuerdame</label>
-          <input style="width: 15px" type="checkbox" name="recuerdame">
-        </div>
-        <div class="campo">
-          <button class="boton" type="submit">Login</button>
-        </div>
-      </form>
-    </div>
- 
-  <footer th:replace="/fragments/footer :: footer "></footer>
-  </main>
-  
-</body>
-
-
-
-
+      <footer th:replace="/fragments/footer :: footer "></footer>
+    </main>
+  </body>
 </html>
