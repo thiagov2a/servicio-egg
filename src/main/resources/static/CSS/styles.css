@@ -11,13 +11,11 @@
   }
 
 body{
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: 60px;
+width: 100%;
 }
 
 html {
-  font-size: 62, 5%;
+  font-size: 62.5%;
 }
 
 
@@ -195,8 +193,9 @@ font-size: 1,5rem;
   padding: 0;
   margin:0;
   height: 100vh;
+ 
    /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
-
+ 
 
 }
 
@@ -292,7 +291,7 @@ input {
 .principal{
   flex: 5;
   max-height: 1500px;
-  overflow: hidden;
+
 
 }
 .costado{
@@ -304,12 +303,15 @@ footer{
   align-items: center;
   justify-content: space-between;
   font-size: 10pt;
-  position: absolute ;
+  
   bottom: 0;
   width: 100%;
   background-color: white;
-  padding: 10px;
-
+  /* padding: 10px; */
+ 
 
 }
-
+/* 
+.form{
+  adding-bottom: 500px;p
+ } */

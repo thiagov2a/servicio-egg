@@ -25,7 +25,7 @@
 
       <h1>REGISTRAR USUARIOS</h1>
 
-      <form 
+      <form class="form"
         th:action="@{/registro}"
         method="POST"
         enctype="multipart/form-data"
@@ -153,7 +153,8 @@
         </div>
       </form>
 
-      <footer th:replace="/fragments/footer :: footer "></footer>
+      
     </section>
+    <footer th:replace="/fragments/footer :: footer "></footer>
   </body>
 </html>
