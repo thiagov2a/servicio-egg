@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+      }
+
+      h1 {
+        color: #ff3333;
+      }
+
+      p {
+        color: #666666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      Error
+      <span th:text="${codigo}"></span>
+    </h1>
+    <p th:text="${mensaje}"></p>
+  </body>
+</html>
+º
