@@ -6,51 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" href="/css/login.css">
     <!-- Usar th:href para resolver la URL del CSS -->
     <script th:src="@{/js/scripts.js}"></script>
     <!-- Usar th:src para resolver la URL del script JS -->
-    <style>
-      .login-form {
-        border: 1px solid #ccc;
-        width: 450px;
-        background-color: white;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    </style>
-  </head>
 
-  <body class="fondoimg">
+  </head>
+  <nav th:replace="fragments/navbar :: nav"></nav>
+  <body>
     <main class="cont-principal">
-      <nav th:replace="fragments/navbar :: nav"></nav>
+  
 
       <div class="login-form">
         <h2 style="text-align: center">Login</h2>
         <form th:action="@{/logincheck}" method="post">
           <div class="campo">
             <label for="email">Email:</label>
-            <input style="width: 300px" type="email" name="email" th:value="${email}" required autofocus />
+            <input type="email" name="email" th:value="${email}" required autofocus />
           </div>
 
           <div class="campo">
             <label for="password">Password:</label>
-            <input style="width: 300px" type="password" name="password" required />
+            <input type="password" name="password" required />
           </div>
-
-          <!-- <div class="campo">
+<br>
+          <div class="campo">
             <label for="recuerdame">Recuerdame</label>
             <input style="width: 15px" type="checkbox" name="recuerdame" />
-          </div> -->
-
+          </div> 
+<br>
           <div class="campo">
             <button class="boton" type="submit">Login</button>
           </div>
         </form>
       </div>
 
-      <footer th:replace="/fragments/footer :: footer "></footer>
+
     </main>
   </body>
+  <footer th:replace="/fragments/footer :: footer "></footer>
 </html>

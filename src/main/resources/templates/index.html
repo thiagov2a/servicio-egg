@@ -17,10 +17,9 @@
       }
     </style>
   </head>
-
+  <nav th:replace="/fragments/navbar :: nav"></nav>
   <body>
     <main class="cont-principal">
-    <nav th:replace="/fragments/navbar :: nav"></nav>
 
     <div class="contenedor">
       <div class="costado"></div>
@@ -99,7 +98,7 @@
       </div>
       <div class="costado"></div>
     </div>
-    <footer th:replace="/fragments/footer :: footer"></footer>
+ 
   </main>
     
 
@@ -112,4 +111,5 @@
       crossorigin="anonymous"
     ></script>
   </body>
+  <footer th:replace="/fragments/footer :: footer"></footer>
 </html>

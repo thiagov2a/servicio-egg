@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head th:replace="/fragments/head :: head">
+</head>
+
+<body>
+
+  <aside class="admin_sidebar_left">
+    <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
+    <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
+  </aside>
+
+  <section class="admin_central">
+    <!-- Tabla de Proveedores -->
+    <table class="table" id="tablaProveedores" hidden>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+    <!-- Tabla de Usuarios -->
+    <table class="table" id="tablaUsuarios" hidden >
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>usuario1</td>
+            <td>usuario2</td>
+            <td>@usuario3</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+  <aside class="admin_sidebar_right">
+
+  </aside>
+  <script>
+    function mostrarTabla(tipo) {
+        document.getElementById('tablaUsuarios').setAttribute("hidden", "true");
+      document.getElementById('tablaProveedores').setAttribute("hidden", "true");
+
+      // Muestra la tabla correspondiente al tipo
+      document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute("hidden");    }
+  </script>
+</body>
+
+</html>

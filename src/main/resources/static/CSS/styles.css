@@ -201,14 +201,6 @@ nav {
   font-size: 20px;
 }
 
-.fondoimg {
-  background-image: url(/img/fondo_05opac.png);
-  padding: 0;
-  margin: 0;
-  height: 100vh;
-
-  /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
-}
 
 .estrellas {
   font-size: 30px;
@@ -255,11 +247,6 @@ nav {
   border: none;
 }
 
-.campo {
-  margin: 10px;
-  text-align: center;
-}
-
 select {
   font-size: 12pt;
   padding: 5px;
@@ -279,8 +266,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   font-size: 10pt;
-  position: absolute;
-  bottom: 0;
+
   width: 100%;
   background-color: white;
   padding: 10px;
