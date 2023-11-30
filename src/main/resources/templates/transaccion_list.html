@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace="fragments/head :: head"></head>
+
+  <style>
+    * {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .body {
+      text-align: center;  
+
+    
+        
+    }
+
+        
+    .campo {
+      margin: 15px;
+      margin-left: 750px;
+      text-align: center;
+    }
+
+    .tabla{
+      margin-left: 700px;
+      border-spacing: 20px;
+     
+        
+    }
+    
+    th {
+      padding: 20px;
+      border-bottom: 2px solid black;
+    }
+
+    td {
+      text-align: center;
+      height: 50px;
+      padding: 20;
+    }
+    
+    .size {
+        width: 300px;
+    }
+    
+  </style>
+
+  <body class="body">
+    <nav th:replace="fragments/navbar :: nav"></nav>
+
+    <main>
+      <div>
+        <h1 class="campo">LISTA DE TRANSACCIONES</h1>
+
+        <table class="tabla">
+          <thead>
+            <tr> 
+              
+              <th scope="col">Id del Transacción</th>
+              <th scope="col">Nombre Proveedor</th>
+              <th scope="col">Nombre Cliente</th>
+              <th scope="col">Presupuesto</th>
+              <th scope="col">Aceptar trabajo</th>
+              <th scope="col">Cancelar trabajo</th>
+              
+              
+            </tr>
+          </thead>
+          <tbody th:each="transaccion : ${transacciones}">
+            <tr>
+                
+              <td th:scope="row" th:text="${transaccion.id}"></td>
+              <td th:text="${transaccion.proveedor.usuario.nombre}"></td>
+              <td th:text="${transaccion.usuario.nombre}"></td>
+              <td th:text="${transaccion.presupuesto}"></td>
+              
+              <td > <a  th:href= "@{/}" method="POST"> Aceptar trabajo </a></td>
+              <td > <a th:href= "@{/}" method="POST" > Cancelar trabajo </a></td>
+            </tr>
+          </tbody>
+        </table>
+        <section>
+            <div>
+                <div>
+                    <a th:href="@{/}">Volver</a>
+                </div>
+            </div>
+        </section>
+      </div>
+    </main>
+  </body>
+  <footer th:replace="/fragments/footer :: footer "></footer>
+</html>
+

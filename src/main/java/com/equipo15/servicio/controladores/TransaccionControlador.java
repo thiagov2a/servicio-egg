@@ -44,7 +44,7 @@ public class TransaccionControlador {
         return "transaccion_form.html";
     }
 
-    @GetMapping("/registro/{idProveedor}")
+    @PostMapping("/registro/{idProveedor}")
     public String registro(@PathVariable String idProveedor, HttpSession session, Integer horas, ModelMap modelo) {
 
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
@@ -59,20 +59,21 @@ public class TransaccionControlador {
 
     }
 
-    @PostMapping("/alta")
-    public String alta(@RequestParam String idProveedor, @RequestParam String idResidente, Long presupuesto, ModelMap modelo) {
+    @PostMapping("/alta/{idProveedor}")
+    public String alta(@PathVariable String idProveedor, HttpSession session, @RequestParam Long presupuesto, ModelMap modelo) {
 
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        Usuario usuario = usuarioServicio.buscarUsuarioPorId(idResidente);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        String idUsuario= usuario.getId();
 
         try {
-            transaccionServicio.iniciarTransaccion(idProveedor, idResidente, presupuesto);
+            transaccionServicio.iniciarTransaccion(idProveedor, idUsuario, presupuesto);
             modelo.put("exito", "Se ha iniciado una solicitud se servicio correctamente");
             return "index.html";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "transaccion_form2.html";
+            return "transaccion_form.html";
         }
 
     }

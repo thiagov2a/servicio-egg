@@ -48,7 +48,7 @@
 
         <h3 th:text="${proveedor.descripcion}"> </h3>
 
-        <form  method="POST">
+        <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST">
             <!-- Campo oculto para el ID del proveedor -->
 
             <div class="campo">
@@ -57,26 +57,28 @@
 
 
             <div class="campo">
-                <button type="button" onclick="calcularPresupuesto()" class="boton">Solicitar Presupuesto</button>
+                <button type="submit" class="boton">Solicitar Presupuesto</button>
             </div>
 
-            <div class="campo" th:if="${presupuesto!=null}">
-                <h1 id="resultado"> </h1>
-            </div>
+
 
         </form>
 
-        <script>
+        <div th:if="${presupuesto!=null}">
 
-            function calcularPresupuesto(){
 
-                var resultadoCalculado = 100;
-                var resultadoElemento = document.getElementById("resultado");
-                resultadoElemento.innerHTML = "El resultado es: " + resultadoCalculado;
+            <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
+            
+            <form th:action="@{/transaccion/alta/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
+                <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
+                
+                <input hidden id="presupuesto" th:value="${presupuesto}" type="number" th:number="${presupuesto}" name="presupuesto" />
+                <button type="submit" class="boton">Aceptar Presupuesto</button>
+                                
+                <a type="button" class="boton"  th:href= "@{/proveedor/lista}" method="POST" >Cancelar solicitud</a>
 
-            };
-
-        </script>
+            </form>
+        </div>
 
 
 

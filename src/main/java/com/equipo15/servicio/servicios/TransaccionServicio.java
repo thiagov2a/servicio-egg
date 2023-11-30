@@ -167,6 +167,14 @@ public class TransaccionServicio {
             transaccionRepositorio.save(transaccion);
         }
     }
+    
+    public List<Transaccion> listarTransaccionesPorProveedor(String idProveedor) {
+        List<Transaccion> transacciones = new ArrayList<>();
+        transacciones = transaccionRepositorio.listarTransaccionesPorProveedor(idProveedor);
+        return transacciones;
+    }
+    
+    
 
     public void validar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,
             String idUsuario) throws MiException {

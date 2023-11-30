@@ -1,6 +1,7 @@
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
+import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
@@ -32,6 +33,9 @@ public class UsuarioServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
     private ImagenServicio imagenServicio;
+
+    @Autowired
+    private ProveedorRepositorio proveedorRepositorio;
 
     // Create
     @Transactional
@@ -177,8 +181,8 @@ public class UsuarioServicio implements UserDetailsService {
         if (usuario != null) {
 
             List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
-                    usuario.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"
+                    + usuario.getRol().toString());
 
             permisos.add(p);
 
@@ -193,5 +197,8 @@ public class UsuarioServicio implements UserDetailsService {
             return null;
         }
     }
+
+ 
+
 
 }

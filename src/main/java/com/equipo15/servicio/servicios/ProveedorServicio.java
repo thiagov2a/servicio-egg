@@ -10,14 +10,22 @@ import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -165,6 +173,31 @@ public class ProveedorServicio {
         Proveedor respuestaProveedor = proveedorRepositorio.buscarPorContacto(contacto.trim());
         if (respuestaProveedor != null) {
             throw new MiException("Ya existe un proveedor con ese contacto");
+        }
+    }
+    
+    
+    
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Proveedor proveedor = proveedorRepositorio.buscarPorEmail(email);
+
+        if (proveedor != null) {
+
+            List<GrantedAuthority> permisos = new ArrayList<>();
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"
+                    + proveedor.getUsuario().getRol().toString());
+
+            permisos.add(p);
+
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+            HttpSession session = attr.getRequest().getSession(true);
+
+            session.setAttribute("proveedorsession", proveedor);
+
+            return new User(proveedor.getUsuario().getEmail(), proveedor.getUsuario().getPassword(), permisos);
+        } else {
+            return null;
         }
     }
 
