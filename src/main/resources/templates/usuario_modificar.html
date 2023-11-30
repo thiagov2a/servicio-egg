@@ -32,6 +32,7 @@
           <div class="campo">
             <input type="password" name="password" placeholder="Contraseña" />
           </div>
+
           <div class="campo">
             <input type="password" name="password2" placeholder="Repetir contraseña" />
           </div>
@@ -52,8 +53,7 @@
           </div>
         </div>
 
-        <div th:if="${usuario.rol.descripcion == 'Proveedor'}" id="campo-proveedor">
-          <!-- Contenido del div aquí -->
+        <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
           <div class="campo">
             <select name="idServicio">
               <option value="">Seleccionar Servicio</option>
@@ -64,6 +64,7 @@
                 th:selected="${servicio.id == usuario.proveedor.servicio.id}"></option>
             </select>
           </div>
+
           <div class="campo">
             <input
               type="text"
@@ -71,6 +72,7 @@
               placeholder="Descripcion"
               th:value="${usuario.proveedor.descripcion}" />
           </div>
+
           <div class="campo">
             <input type="tel" name="contacto" placeholder="Contacto" th:value="${usuario.proveedor.contacto}" />
           </div>
@@ -81,6 +83,7 @@
               placeholder="Precio por hora"
               th:value="${usuario.proveedor.precioPorHora}" />
           </div>
+
           <input type="hidden" name="calificacion" th:value="${usuario.proveedor.calificacion}" />
         </div>
 
