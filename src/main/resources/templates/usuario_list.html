@@ -15,6 +15,28 @@
 
 <style>
 
+button {
+    background-color: rgb(200, 200, 200);
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    padding: 6px;
+    font-size: 12pt;
+    border-radius: 5px;
+    border: none;
+  }
+  button:hover {
+    background-color: rgb(230, 230, 230);
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    }
+
+  a:visited {
+    color: black;
+    }
+
   table {
     width: 100%;
     border-collapse: separate;
@@ -74,6 +96,8 @@
             <td th:text="${usuario.rol}"></td>
             <td><button class="soy-residente">Modificar</button></td>
             <td><button class="soy-residente">Eliminar</button></td>
+
+            
 
           </tr>
         </tbody>

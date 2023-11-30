@@ -260,6 +260,10 @@ input {
   border: 1px solid black;
   width: 350px;
 }
+.campo {
+  margin: 10px;
+  text-align: center;
+}
 
 footer {
   display: flex;
