@@ -15,14 +15,17 @@
       /* URL de tu imagen */
     </style>
   </head>
-
+  
   <body class="fondoimg">
-    <section>
+    <main class="cont-principal">
       <nav th:replace="fragments/navbar :: nav"></nav>
 
       <h1>REGISTRAR USUARIOS</h1>
 
-      <form class="form" th:action="@{/registro}" method="POST">
+      <form class="form"
+        th:action="@{/registro}"
+        method="POST"
+      >
         <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
         <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
@@ -82,5 +85,6 @@
       </form>
     </section>
     <footer th:replace="/fragments/footer :: footer "></footer>
+  </main>
   </body>
 </html>

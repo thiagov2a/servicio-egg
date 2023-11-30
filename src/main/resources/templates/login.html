@@ -11,24 +11,26 @@
   <script th:src="@{/js/Scripts.js}"></script>
   <!-- Usar th:src para resolver la URL del script JS -->
   <style>
-    .login {
+    .login-form {
       border: 1px solid #ccc;
-      padding: 20px;
       width: 450px;
-      margin: auto;
-      margin-top: 50px;
       background-color: white;
       border-radius: 10px;
+      display:flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 
 </head>
 
-<body>
-  <section class="fondoimg">
+<body class="fondoimg">
+  
+  <main class="cont-principal">
+
     <nav th:replace="fragments/navbar :: nav"></nav>
 
-    <div class="login">
+    <div class="login-form">
 
       <h2 style="text-align: center;">Login</h2>
       <form th:action="@{/logincheck}" method="post">
@@ -51,10 +53,13 @@
         </div>
       </form>
     </div>
-
+ 
+  <footer th:replace="/fragments/footer :: footer "></footer>
+  </main>
+  
 </body>
 
-<footer th:replace="/fragments/footer :: footer "></footer>
-</section>
+
+
 
 </html>
