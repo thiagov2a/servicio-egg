@@ -2,7 +2,7 @@ package com.equipo15.servicio.enumeraciones;
 
 public enum Estado {
 
-    CANCELADO("Cancelado"), ACEPTADO("Aceptado"), PROCESO("Proceso"), FINALIZADO("Finalizado");
+    CANCELADO("Cancelado"), PENDIENTE("Pendiente"), ACEPTADO("Aceptado"), FINALIZADO("Finalizado");
 
     private String descripcion;
 

@@ -1,7 +1,6 @@
 package com.equipo15.servicio.controladores;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
@@ -59,7 +57,7 @@ public class PortalControlador {
     @PostMapping("/registro")
     public String registrar(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String email, @RequestParam(required = false) String password,
-            String password2, @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
+            String password2, Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
@@ -93,10 +91,9 @@ public class PortalControlador {
             modelo.addAttribute("barrios", Barrio.values());
 
             modelo.put("contacto", contacto);
-            modelo.put("descripcion", descripcion);
             modelo.put("precioPorHora", precioPorHora);
             modelo.put("idServicio", idServicio);
-
+            modelo.put("descripcion", descripcion);
             modelo.put("archivo", archivo);
 
             return "registro.html";
@@ -112,41 +109,65 @@ public class PortalControlador {
     }
 
     @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
+    public String perfil(HttpSession session, ModelMap modelo) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        modelo.put("usuario", usuario);
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(id);
+            modelo.put("usuario", usuarioEncontrado);
+        }
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("servicios", servicios);
+        modelo.addAttribute("barrios", Barrio.values());
+
         return "usuario_modificar.html";
     }
 
     @PostMapping("/perfil/{id}")
-    public String modificar(@PathVariable String id, @RequestParam String dni, @RequestParam String nombre,
-            @RequestParam String email, @RequestParam String password, @RequestParam String password2,
-            MultipartFile archivo,
+    public String modificar(@PathVariable String id, @RequestParam(required = false) String dni,
+            @RequestParam(required = false) String nombre, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String password, @RequestParam String password2,
+            @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
             @RequestParam(required = false) Integer calificacion,
-            ModelMap modelo) {
+            @RequestParam(required = false) String idServicio,
+            HttpSession session, ModelMap modelo) throws MiException {
         try {
             // Obtener el usuario actualizado
             Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
 
             // Verificar si el usuario es también un proveedor
             if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
-                // Modificar datos específicos del proveedor
-                proveedorServicio.modificar(id, dni, nombre, email, password, password2, contacto, descripcion,
-                        precioPorHora, calificacion, id);
+                proveedorServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo, contacto,
+                        descripcion, precioPorHora, calificacion, idServicio);
             } else {
-                usuarioServicio.modificar(id, dni, nombre, email, password, password2, archivo);
+                usuarioServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo);
             }
 
             modelo.put("exito", "Usuario actualizado correctamente!");
-
             return "index.html";
         } catch (MiException ex) {
+
             modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            modelo.put("email", email);
+
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+            if (usuario != null) {
+                String idUsuario = usuario.getId();
+                Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(idUsuario);
+                modelo.put("usuario", usuarioEncontrado);
+            }
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("barrios", Barrio.values());
 
             return "usuario_modificar.html";
         }

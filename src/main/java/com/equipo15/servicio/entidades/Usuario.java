@@ -39,8 +39,7 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Barrio barrio;
 
-    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
-    @JoinColumn(name = "imagen_id")
+    @OneToOne
     private Imagen imagen;
 
     @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
