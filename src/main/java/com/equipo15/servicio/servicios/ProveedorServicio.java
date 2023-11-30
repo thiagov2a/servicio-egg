@@ -117,7 +117,6 @@ public class ProveedorServicio {
             usuario.setBarrio(barrio);
 
             String idImagen = null;
-
             if (usuario.getImagen() != null) {
                 idImagen = usuario.getImagen().getId();
             }

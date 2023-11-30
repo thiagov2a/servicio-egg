@@ -13,7 +13,7 @@
 
       <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
 
-      <form th:action="@{/perfil/__${usuario.id}__}" method="POST">
+      <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
         <input hidden th:value="${usuario.id}" name="id" />
 
         <div id="campo-residente">

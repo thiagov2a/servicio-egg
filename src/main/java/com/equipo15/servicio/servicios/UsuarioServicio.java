@@ -34,8 +34,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     // Create
     @Transactional
-    public void registrar(String dni, String nombre, String email, String password, String password2,
-            Barrio barrio, MultipartFile archivo) throws MiException {
+    public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
+            MultipartFile archivo) throws MiException {
 
         validar(dni, nombre, email, password, password2, barrio);
         validarExistencia(email);
@@ -88,7 +88,6 @@ public class UsuarioServicio implements UserDetailsService {
             }
 
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -127,8 +126,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    public void validar(String dni, String nombre, String email, String password, String password2,
-            Barrio barrio)
+    public void validar(String dni, String nombre, String email, String password, String password2, Barrio barrio)
             throws MiException {
 
         if (dni == null || dni.trim().isEmpty()) {

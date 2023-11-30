@@ -57,7 +57,8 @@ public class PortalControlador {
     @PostMapping("/registro")
     public String registrar(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String email, @RequestParam(required = false) String password,
-            String password2, Barrio barrio, MultipartFile archivo,
+            @RequestParam String password2, @RequestParam(required = false) Barrio barrio,
+            @RequestParam(required = false) MultipartFile archivo,
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
@@ -129,7 +130,7 @@ public class PortalControlador {
     public String modificar(@PathVariable String id, @RequestParam(required = false) String dni,
             @RequestParam(required = false) String nombre, @RequestParam(required = false) String email,
             @RequestParam(required = false) String password, @RequestParam String password2,
-            @RequestParam(required = false) Barrio barrio, MultipartFile archivo,
+            @RequestParam(required = false) Barrio barrio, @RequestParam(required = false) MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
