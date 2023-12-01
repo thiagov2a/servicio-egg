@@ -33,7 +33,7 @@
 
       <div class="nav_dropdown-content">
 
-        <a th:href="@{/proveedor/lista}">Proveedores</a>
+        <a sec:authorize="hasRole('USER')" th:href="@{/proveedor/lista}">Proveedores</a>
         <a th:href="@{/perfil}">Perfil</a>
         <a th:href="@{/logout}">Cerrar sesión</a>
       </div>
