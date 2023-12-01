@@ -4,6 +4,7 @@ public enum Estado {
 
     CANCELADO("Cancelado"), PENDIENTE("Pendiente"), ACEPTADO("Aceptado"), FINALIZADO("Finalizado");
 
+    
     private String descripcion;
 
     Estado(String descripcion) {

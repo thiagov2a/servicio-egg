@@ -61,6 +61,7 @@
               <th scope="col">Nombre Proveedor</th>
               <th scope="col">Nombre Cliente</th>
               <th scope="col">Presupuesto</th>
+              <th scope="col">Estado</th>
               <th scope="col">Aceptar trabajo</th>
               <th scope="col">Cancelar trabajo</th>
               
@@ -74,9 +75,9 @@
               <td th:text="${transaccion.proveedor.usuario.nombre}"></td>
               <td th:text="${transaccion.usuario.nombre}"></td>
               <td th:text="${transaccion.presupuesto}"></td>
-              
-              <td > <a  th:href= "@{/}" method="POST"> Aceptar trabajo </a></td>
-              <td > <a th:href= "@{/}" method="POST" > Cancelar trabajo </a></td>
+              <td th:text="${transaccion.estado}"></td>
+              <td > <a th:if="${transaccion.estado.descripcion=='Pendiente'}" th:href= "@{/proveedor/transacciones/aceptar/__${transaccion.id}__}" method="POST"> Aceptar trabajo </a></td>
+              <td > <a th:if="${transaccion.estado.descripcion=='Pendiente'}" th:href= "@{/proveedor/transacciones/cancelar/__${transaccion.id}__}" method="POST" > Cancelar trabajo </a></td>
             </tr>
           </tbody>
         </table>
