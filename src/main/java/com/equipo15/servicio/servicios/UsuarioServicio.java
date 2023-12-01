@@ -96,21 +96,16 @@ public class UsuarioServicio implements UserDetailsService {
 
     // Delete
     @Transactional
-    public void darDeBaja(String id) {
+    public void cambiarEstado(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
-            usuario.setAlta(false);
+            if (usuario.getAlta()) {
+                usuario.setAlta(false);
+            } else {
+                usuario.setAlta(true);
+            }
             usuarioRepositorio.save(usuario);
-        }
-    }
-
-    public Usuario buscarUsuarioPorId(String id) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            return respuesta.get();
-        } else {
-            return null;
         }
     }
 
@@ -124,6 +119,15 @@ public class UsuarioServicio implements UserDetailsService {
             } else if (usuario.getRol().equals(Rol.PROVEEDOR)) {
                 usuario.setRol(Rol.USER);
             }
+        }
+    }
+
+    public Usuario buscarUsuarioPorId(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
         }
     }
 

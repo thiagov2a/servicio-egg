@@ -9,6 +9,7 @@
 
   <body class="fondoimg">
     <main class="cont-principal">
+      
       <nav th:replace="fragments/navbar :: nav"></nav>
 
       <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
