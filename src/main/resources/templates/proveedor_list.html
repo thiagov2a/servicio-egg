@@ -1,123 +1,116 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Proveedores</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+    <style>
+      button {
+        background-color: rgb(200, 200, 200);
+        font-weight: 500;
+        font-family: 'Montserrat', sans-serif;
+        padding: 6px;
+        font-size: 12pt;
+        border-radius: 5px;
+        border: none;
+      }
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Lista de Proveedores</title>
-	<link rel="stylesheet" th:href="@{/css/styles.css}" />
-	<!-- Usar th:href para resolver la URL del CSS -->
-	<script th:src="@{/js/Scripts.js}"></script>
-	<!-- Usar th:src para resolver la URL del script JS -->
-	<link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon">
+      button:hover {
+        background-color: rgb(230, 230, 230);
+      }
 
+      a {
+        text-decoration: none;
+        color: black;
+      }
 
-	<style>
-		button {
-			background-color: rgb(200, 200, 200);
-			font-weight: 500;
-			font-family: 'Montserrat', sans-serif;
-			padding: 6px;
-			font-size: 12pt;
-			border-radius: 5px;
-			border: none;
-		}
+      a:visited {
+        color: black;
+      }
 
-		button:hover {
-			background-color: rgb(230, 230, 230);
-		}
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 5px;
+      }
 
-		a {
-			text-decoration: none;
-			color: black;
-		}
+      th {
+        padding: 1px;
+        border-bottom: 2px solid black;
+      }
 
-		a:visited {
-			color: black;
-		}
+      td {
+        text-align: center;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav th:replace="fragments/navbar :: nav"></nav>
 
-		table {
-			width: 100%;
-			border-collapse: separate;
-			border-spacing: 5px;
-		}
+    <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
 
-		th {
-			padding: 1px;
-			border-bottom: 2px solid black;
-		}
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
+            <th scope="col">Id del Proveedor</th>
+            <th scope="col">Nombre Proveedor</th>
+            <th scope="col">Email Proveedor</th>
+            <th scope="col">Tipo de Servicio</th>
+            <th scope="col">
+              <div class="size">Descripción</div>
+            </th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Precio por Hora</th>
+            <th scope="col">Calificación</th>
+          </tr>
+        </thead>
+        <tbody th:each="proveedor : ${proveedores}">
+          <tr>
+            <td>
+              <a th:if="${proveedor.usuario.imagen != null}" th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
+                <img
+                  th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}"
+                  width="50px"
+                  style="text-align: center"
+                  alt="Imagen de perfil" />
+              </a>
+              <a th:if="${proveedor.usuario.imagen == null}" href="#">
+                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
+              </a>
+            </td>
+            <td th:scope="row" th:text="${proveedor.usuario.id}"></td>
+            <td th:text="${proveedor.usuario.nombre}"></td>
+            <td th:text="${proveedor.usuario.email}"></td>
+            <td th:text="${proveedor.servicio.nombre}"></td>
+            <td th:text="${proveedor.descripcion}" style="text-align: left"></td>
+            <td th:text="${proveedor.contacto}"></td>
+            <td th:text="${proveedor.precioPorHora}"></td>
+            <td th:text="${proveedor.calificacion}"></td>
 
-		td {
-			text-align: center;
-			height: 50px;
-		}
-	</style>
+            <td sec:authorize="hasRole('ADMIN')">
+              <button><a th:href="@{/admin/modificarRol/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+              <button class="soy-residente"><a th:href="@{/}">Alta/Baja</a></button>
+            </td>
+            <td sec:authorize="hasRole('USER')">
+              <a th:href="@{/transaccion/presupuesto/__${proveedor.id}__}">
+                <button class="soy-residente">Presupuestar</button>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-</head>
+    <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-<body>
-
-	<nav th:replace="fragments/navbar :: nav"></nav>
-
-
-
-	<h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
-
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen </th>
-					<th scope="col">Id del Proveedor</th>
-					<th scope="col">Nombre Proveedor</th>
-					<th scope="col">Email Proveedor</th>
-					<th scope="col">Tipo de Servicio</th>
-					<th scope="col">
-						<div class="size">Descripción</div>
-					</th>
-					<th scope="col">Contacto</th>
-					<th scope="col">Precio por Hora</th>
-					<th scope="col">Calificación</th>
-
-
-				</tr>
-			</thead>
-			<tbody th:each="proveedor : ${proveedores}">
-				<tr>
-					<td>
-						<a th:if="${proveedor.usuario.imagen != null}"
-							th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
-							<img th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}" width="50px"
-								style="text-align: center" alt="Imagen de perfil" />
-						</a>
-						<a th:if="${proveedor.usuario.imagen == null}" href="#">
-							<img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
-						</a>
-					</td>
-					<td th:scope="row" th:text="${proveedor.usuario.id}"></td>
-					<td th:text="${proveedor.usuario.nombre}"></td>
-					<td th:text="${proveedor.usuario.email}"></td>
-					<td th:text="${proveedor.servicio.nombre}"></td>
-					<td th:text="${proveedor.descripcion}" style="text-align: left;"></td>
-					<td th:text="${proveedor.contacto}"></td>
-					<td th:text="${proveedor.precioPorHora}"></td>
-					<td th:text="${proveedor.calificacion}"></td>
-
-					<td sec:authorize="hasRole('ADMIN')"><!--<a th:href="">--><button class="soy-residente">Hacer ADMIN</button><!--</a>--></td>
-					<td sec:authorize="hasRole('ADMIN')"><!--<a th:href="">--><button class="soy-residente">Alta/Baja</button><!--</a>--></td>
-					<td sec:authorize="hasRole('USER')"><a th:href="@{/transaccion/presupuesto/__${proveedor.id}__}"><button class="soy-residente"
-						>Presupuestar</button></a></td>
-
-
-
-				</tr>
-			</tbody>
-		</table>
-
-	</div>
-
-
-</body>
-
+    <script th:src="@{/js/scripts.js}"></script>
+  </body>
 </html>

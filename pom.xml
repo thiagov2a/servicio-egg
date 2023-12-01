@@ -6,8 +6,6 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <!-- Descomentar la versión con la que este trabajando -->
-        <!-- <version>2.7.17</version> -->
         <version>3.2.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
@@ -17,8 +15,6 @@
     <name>servicio</name>
     <description>Proyecto final de EGG sobre servicios</description>
     <properties>
-        <!-- Descomentar la versión con la que este trabajando -->
-        <!-- <java.version>1.8</java.version> -->
         <java.version>17</java.version>
     </properties>
     <dependencies>
@@ -79,16 +75,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Descomentar la versión con la que este trabajando -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-
-        <!-- <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-        </dependency> -->
 
     </dependencies>
 
