@@ -65,8 +65,7 @@ public class PortalControlador {
             @RequestParam(required = false) Integer precioPorHora,
             @RequestParam(required = false) Integer calificacion,
             @RequestParam(required = false) String idServicio,
-            
-            
+
             ModelMap modelo) {
         try {
             if (esProveedor) {
