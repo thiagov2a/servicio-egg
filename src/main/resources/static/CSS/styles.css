@@ -43,16 +43,16 @@ h1 {
   position: relative;
 }
 
-.footer {
+footer {
   display: flex;
-  justify-content: space-arround;
   align-items: center;
-  height: 50px;
-  z-index: 2;
-
+  justify-content: space-between;
+  font-size: 10pt;  
+  width: 100%;
+  background-color: white;
+  padding: 10px;
   position: fixed;
   bottom: 0;
-  width: 100%;
 }
 
 .boton {
@@ -192,28 +192,6 @@ nav {
   font-size: 20px;
 }
 
-
-.estrellas {
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.estrella {
-  display: inline-block;
-  margin: 0 5px;
-  color: #ccc;
-}
-
-.estrella:hover,
-.estrella:hover ~ .estrella {
-  color: #ffdd00;
-}
-
-.calificacion {
-  font-size: 18px;
-  margin-top: 10px;
-}
-
 .contenedor {
   display: flex;
   flex-direction: row;
@@ -256,27 +234,4 @@ input {
   text-align: center;
 }
 
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10pt;
 
-  width: 100%;
-  background-color: white;
-  padding: 10px;
-
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10pt;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  /* padding: 10px; */
-}
-/*
-.form{
-  adding-bottom: 500px;p
- } */
