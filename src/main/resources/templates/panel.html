@@ -43,9 +43,12 @@
 <body>
 
   <aside class="admin_sidebar_left">
+    <!--
     <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
     <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
+    -->
     <button> <a th:href="@{/admin/usuarios}">Lista de Usuarios</a> </button>
+    <button> <a th:href="@{/proveedor/lista}">Lista de Proveedores</a> </button>
     <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
   </aside>
 
