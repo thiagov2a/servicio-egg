@@ -1,9 +1,7 @@
 /*ACA VA TODO EL ESTILO DEL INDEX*/
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
-
 * {
   font-family: 'Montserrat', sans-serif;
-  /*font-family: 'Urbanist', sans-serif;*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -27,15 +25,6 @@ img {
 h1 {
   text-align: center;
 }
-body {
-padding: 0;
-margin: 0;
-/* height: 80vh; */
-
-background: linear-gradient(to right, rgb(0, 136, 255) ,rgb(116,170,210));
-
-
-}
 
 .header {
   background-image: url(img/fondo);
@@ -51,18 +40,6 @@ background: linear-gradient(to right, rgb(0, 136, 255) ,rgb(116,170,210));
 }
 .form-registro {
   position: relative;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-arround;
-  align-items: center;
-  height: 50px;
-  z-index: 2;
-
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
 
 .boton {
