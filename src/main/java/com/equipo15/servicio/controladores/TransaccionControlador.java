@@ -66,16 +66,12 @@ public class TransaccionControlador {
 
     @GetMapping("/lista")
     public String listar(ModelMap modelo) {
-
         List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
-
         modelo.addAttribute("transacciones", transacciones);
-
         return "transaccion_list.html";
-
     }
 
-    @GetMapping("/modificar/{isbn}")
+    @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
         modelo.put("transaccion", transaccion);
@@ -89,7 +85,7 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
 
-    @PostMapping("/modificar/{isbn}")
+    @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
         try {
@@ -99,7 +95,6 @@ public class TransaccionControlador {
 
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
-            ;
 
             transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 

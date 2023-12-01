@@ -1,74 +1,111 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="fragments/head :: head"></head>
 
-  <style>
-    * {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de usuario</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <!-- Usar th:href para resolver la URL del CSS -->
+  <script th:src="@{/js/Scripts.js}"></script>
+  <!-- Usar th:src para resolver la URL del script JS -->
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon">
+
+
+<style>
+
+button {
+    background-color: rgb(200, 200, 200);
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    padding: 6px;
+    font-size: 12pt;
+    border-radius: 5px;
+    border: none;
+  }
+  button:hover {
+    background-color: rgb(230, 230, 230);
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
     }
 
-    .campo {
-      margin: 10px;
-      text-align: center;
+  a:visited {
+    color: black;
     }
 
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 5px;
-    }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+  }
 
-    th {
-      padding: 1px;
-      border-bottom: 2px solid black;
-    }
+  th {
+    padding: 1px;
+    border-bottom: 2px solid black;
+  }
 
-    td {
-      text-align: center;
-      height: 50px;
-    }
-  </style>
+  td {
+    text-align: center;
+    height: 50px;
+  }
+</style>
 
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
+</head>
 
-    <main>
-      <div>
-        <h1 class="campo">LISTA DE USUARIOS REGISTRADOS</h1>
+<body>
 
-        <table>
-          <thead>
-            <tr>
-              <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0"></th>
-              <th scope="col">Id del Usuario</th>
-              <th scope="col">Nombre Usuario</th>
-              <th scope="col">Barrio</th>
-              <th scope="col">Rol</th>
-            </tr>
-          </thead>
-          <tbody th:each="usuario : ${usuarios}">
-            <tr>
-              <td>
-                <a th:if="${usuario.imagen != null}" th:href="@{/imagen/perfil/__${usuario.id}__}">
-                  <img
-                    th:src="@{/imagen/perfil/__${usuario.id}__}"
-                    width="50px"
-                    style="text-align: center"
-                    alt="Imagen de perfil" />
-                </a>
-                <a th:if="${usuario.imagen == null}" href="#">
-                  <img src="/img/sin-foto.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
-                </a>
-              </td>
-              <td th:scope="row" th:text="${usuario.id}"></td>
-              <td th:text="${usuario.nombre}"></td>
-              <td th:text="${usuario.barrio}"></td>
-              <td th:text="${usuario.rol}"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </body>
+  <nav th:replace="fragments/navbar :: nav"></nav>
+
+
+
+    <h1>LISTA DE USUARIOS REGISTRADOS</h1>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0"></th>
+            <th scope="col">Id del Usuario</th>
+            <th scope="col">Nombre Usuario</th>
+            <th scope="col">DNI</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Barrio</th>
+            <th scope="col">Rol</th>
+          </tr>
+        </thead>
+        <tbody th:each="usuario : ${usuarios}">
+          <tr>
+            <td>
+              <a th:if="${usuario.imagen != null}" th:href="@{/imagen/perfil/__${usuario.id}__}">
+                <img th:src="@{/imagen/perfil/__${usuario.id}__}" width="50px" style="text-align: center"
+                  alt="Imagen de perfil" />
+              </a>
+              <a th:if="${usuario.imagen == null}" href="#">
+                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
+              </a>
+            </td>
+            <td th:scope="row" th:text="${usuario.id}"></td>
+            <td th:text="${usuario.nombre}"></td>
+            <td th:text="${usuario.dni}"></td>
+            <td th:text="${usuario.email}"></td>
+            <td th:text="${usuario.barrio}"></td>
+            <td th:text="${usuario.rol}"></td>
+            <td><button class="soy-residente">Modificar</button></td>
+            <td><button class="soy-residente">Eliminar</button></td>
+
+            
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+</body>
+
 </html>

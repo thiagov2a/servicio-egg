@@ -1,0 +1,28 @@
+body{
+width: min-content max-content; /* 100% del alto de la ventana */
+
+}
+.cont-principal {
+display: flex;
+justify-content: center;
+align-items: center;
+padding-top: 10px;
+}
+.login-form {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    width: 450px;
+    background-color: white;
+    border-radius: 10px;
+    
+    padding: 30px;
+
+& form {
+padding: 20px;
+gap: 20px;
+
+}
+}

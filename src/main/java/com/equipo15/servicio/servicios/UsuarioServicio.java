@@ -34,9 +34,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     // Create
     @Transactional
-    public void registrar(String dni, String nombre, String email, String password, String password2,
-            Barrio barrio, MultipartFile archivo)
-            throws MiException {
+    public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
+            MultipartFile archivo) throws MiException {
 
         validar(dni, nombre, email, password, password2, barrio);
         validarExistencia(email);
@@ -60,29 +59,28 @@ public class UsuarioServicio implements UserDetailsService {
     // Read
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        usuarios = usuarioRepositorio.findAll();
+        usuarios = usuarioRepositorio.listarUsuarios();
         return usuarios;
     }
 
     // Update
     @Transactional
-    public void modificar(String id, String dni, String nombre, String email,
-            String password, String password2, Barrio barrio, MultipartFile archivo) throws MiException {
+    public void modificar(String id, String dni, String nombre, String email, String password, String password2,
+            Barrio barrio, MultipartFile archivo) throws MiException {
 
         validar(dni, nombre, email, password, password2, barrio);
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
 
-        if (respuesta.isPresent()) {
-
-            Usuario usuario = respuesta.get();
+        if (respuestaUsuario.isPresent()) {
+            Usuario usuario = respuestaUsuario.get();
 
             usuario.setDni(dni);
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setBarrio(barrio);
             usuario.setRol(Rol.USER);
+            usuario.setBarrio(barrio);
 
             String idImagen = null;
             if (usuario.getImagen() != null) {
@@ -90,7 +88,6 @@ public class UsuarioServicio implements UserDetailsService {
             }
 
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -99,11 +96,29 @@ public class UsuarioServicio implements UserDetailsService {
 
     // Delete
     @Transactional
-    public void darDeBaja(String id) {
+    public void cambiarEstado(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
-            usuario.setAlta(false);
+            if (usuario.getAlta()) {
+                usuario.setAlta(false);
+            } else {
+                usuario.setAlta(true);
+            }
+            usuarioRepositorio.save(usuario);
+        }
+    }
+
+    @Transactional
+    public void cambiarRol(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+            if (usuario.getRol().equals(Rol.USER)) {
+                usuario.setRol(Rol.PROVEEDOR);
+            } else if (usuario.getRol().equals(Rol.PROVEEDOR)) {
+                usuario.setRol(Rol.USER);
+            }
         }
     }
 
@@ -116,44 +131,31 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public void cambiarRol(String id) {
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Usuario usuario = respuesta.get();
-            if (usuario.getRol().equals(Rol.USER)) {
-                usuario.setRol(Rol.ADMIN);
-            } else if (usuario.getRol().equals(Rol.ADMIN)) {
-                usuario.setRol(Rol.USER);
-            }
-        }
-    }
-
     public void validar(String dni, String nombre, String email, String password, String password2, Barrio barrio)
             throws MiException {
 
         if (dni == null || dni.trim().isEmpty()) {
-            throw new MiException("El dni no puede ser nulo o estar vacío");
+            throw new MiException("El Dni no puede ser nulo o estar vacío");
         }
 
         if (nombre == null || nombre.trim().isEmpty()) {
-            throw new MiException("El nombre no puede ser nulo o estar vacío");
+            throw new MiException("El Nombre no puede ser nulo o estar vacío");
         }
 
         if (email == null || email.trim().isEmpty()) {
-            throw new MiException("El email no puede ser nulo o estar vacío");
+            throw new MiException("El Email no puede ser nulo o estar vacío");
         }
 
         if (password == null || password.trim().isEmpty() || password.trim().length() < 8) {
-            throw new MiException("La contraseña no puede estar vacía o tener menos de 8 caracteres");
+            throw new MiException("La Contraseña no puede estar vacía o tener menos de 8 caracteres");
         }
 
         if (!password2.equals(password)) {
-            throw new MiException("Las contraseñas deben coincidir");
+            throw new MiException("Las Contraseñas deben coincidir");
         }
 
         if (barrio == null) {
-            throw new MiException("El barrio no puede ser nulo");
+            throw new MiException("El Barrio no puede ser nulo");
         }
 
     }
@@ -173,8 +175,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (usuario != null) {
 
             List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
-                    usuario.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
 
             permisos.add(p);
 

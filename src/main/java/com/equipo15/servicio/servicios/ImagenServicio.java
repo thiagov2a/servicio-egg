@@ -20,6 +20,7 @@ public class ImagenServicio {
         if (archivo != null) {
             try {
                 Imagen imagen = new Imagen();
+
                 imagen.setMime(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
@@ -37,12 +38,14 @@ public class ImagenServicio {
         if (archivo != null) {
             try {
                 Imagen imagen = new Imagen();
+
                 if (idImagen != null) {
                     Optional<Imagen> respuesta = imagenRepositorio.findById(idImagen);
                     if (respuesta.isPresent()) {
                         imagen = respuesta.get();
                     }
                 }
+
                 imagen.setMime(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());

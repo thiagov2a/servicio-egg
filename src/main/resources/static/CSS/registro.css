@@ -1,0 +1,46 @@
+#campo-proveedor {
+  display: none;
+}
+
+#campo-residente {
+  display: block;
+}
+
+.soy-proveedor {
+  background-color: white;
+  font-weight: 500;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+
+.soy-proveedor:hover {
+  background-color: rgb(220, 220, 220);
+}
+
+.soy-residente {
+  background-color: rgb(200, 200, 200);
+  font-weight: 500;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+.fondoimg {
+  background-image: url(/img/fondo_05opac.png);
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+
+  /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
+}
+.campo {
+  margin: 10px;
+  text-align: center;
+}
+
+
+.soy-residente:hover {
+  background-color: rgb(220, 220, 220);
+}

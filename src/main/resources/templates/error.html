@@ -4,27 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Error Page</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 50px;
-      }
-
-      h1 {
-        color: #ff3333;
-      }
-
-      p {
-        color: #666666;
-      }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/error.css}" />
   </head>
   <body>
-    <h1>
+    <h1 class="error-header">
       Error
       <span th:text="${codigo}"></span>
     </h1>
-    <p th:text="${mensaje}"></p>
+    <p class="error-message" th:text="${mensaje}"></p>
   </body>
 </html>

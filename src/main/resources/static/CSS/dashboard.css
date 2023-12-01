@@ -1,0 +1,12 @@
+body{
+display: flex;
+flex-direction: column;
+
+
+}
+main {
+display: flex;
+justify-content: center;
+height: 30vw;
+
+}

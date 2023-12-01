@@ -1,43 +1,17 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="/fragments/head :: head "></head>
 
-  <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
-
-  <style>
-    * {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .boton {
-      background-color: rgb(0, 140, 255);
-      font-weight: 600;
-      padding: 6px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: none;
-    }
-
-    .campo {
-      margin: 10px;
-      text-align: center;
-    }
-
-    input {
-      padding: 5px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: 1px solid black;
-      width: 350px;
-    }
-
-    select {
-      font-size: 12pt;
-      padding: 5px;
-      border-radius: 5px;
-    }
-  </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Usar th:href para resolver la URL del CSS -->
+    <script th:src="@{/js/Scripts.js}"></script>
+    <!-- Usar th:src para resolver la URL del script JS -->
+    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+  </head>
 
   <body>
     <nav th:replace="fragments/navbar :: nav"></nav>
@@ -52,7 +26,7 @@
       </div>
 
       <div class="campo">
-        <textarea name="descripcion" placeholder="Descripción" th:value="${descripcion}"></textarea>
+        <textarea style="width: 350px; height: 150px;" name="descripcion" placeholder="Descripción" th:value="${descripcion}"></textarea>
       </div>
 
       <div class="campo">
