@@ -1,115 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Corlink</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-    <style>
-      img {
-        max-height: 100%; /* La imagen no superará la altura del contenedor */
-        width: auto; /* La imagen mantiene su relación de aspecto original */
-        display: block; /* Elimina el espacio extra por debajo de la imagen */
-        margin: 0 auto; /* Centra la imagen horizontalmente en el contenedor */
-      }
-    </style>
-  </head>
-  <nav th:replace="/fragments/navbar :: nav"></nav>
-  <body>
-    <main class="cont-principal">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corlink</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<style>
+
+</style>
+</head>
+<nav th:replace="/fragments/navbar :: nav"></nav>
+
+<body>
+  <main class="cont-principal">
 
     <div class="contenedor">
-      <div class="costado"></div>
+      <h1> </h1>
+      <div class="costado">
+
+      </div>
       <div class="principal">
-        <div
-          id="carouselExampleSlidesOnly"
-          class="carousel slide"
-          data-bs-ride="carousel"
-        >
+        <div class="sidebar">
+          <h1></h1>
+        </div>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner" style="height: 100%">
             <div class="carousel-item active" data-bs-interval="3000">
-              <img
-                th:src="@{/img/j.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/j.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/g.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/g.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/a.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/a.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/h.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/h.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/c.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/c.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/g.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/g.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/k.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/k.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/f.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/f.png}" class="d-block w-100" alt="..." />
             </div>
             <div class="carousel-item" data-bs-interval="3000">
-              <img
-                th:src="@{/img/i.png}"
-                class="d-block w-100"
-                alt="..."
-              />
+              <img th:src="@{/img/i.png}" class="d-block w-100" alt="..." />
             </div>
           </div>
         </div>
       </div>
-      <div class="costado"></div>
-    </div>
- 
+      <div class="costado">
+        <h1></h1>
+        </div>
+      </div>
+
   </main>
-    
 
-    
 
-    <!-- BOOTSTRAP-->
-    <script th:src="@{/js/scripts.js}"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-  <footer th:replace="/fragments/footer :: footer"></footer>
+
+
+  <!-- BOOTSTRAP-->
+  <script th:src="@{/js/scripts.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+<footer th:replace="/fragments/footer :: footer"></footer>
+
 </html>

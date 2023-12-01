@@ -13,29 +13,28 @@ html {
   font-size: 62, 5%;
 }
 
+img {
+    max-height: 100%;
+    /* La imagen no superará la altura del contenedor */
+    width: auto;
+    /* La imagen mantiene su relación de aspecto original */
+    display: block;
+    /* Elimina el espacio extra por debajo de la imagen */
+    margin: 0 auto;
+    /* Centra la imagen horizontalmente en el contenedor */
+  }
+  
 h1 {
   text-align: center;
 }
 body {
-  min-height: 100vh;
-  position: relative;
+padding: 0;
+margin: 0;
+/* height: 80vh; */
 
-  height: 100%;
-  /*width: 100%;*/
-}
+background: linear-gradient(to right, rgb(0, 136, 255) ,rgb(116,170,210));
 
-/*Diego:esta clase main no la hice yo,no estaba en el index pero si en el css*/
-.cont-principal {
-  min-height: 100%;
-  align-items: center;
-  margin-bottom: 50px;
-  position: relative;
-  box-sizing: border-box;
-  padding-bottom: 100px;
-  /*width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center; */
+
 }
 
 .header {
@@ -123,3 +122,5 @@ input {
   text-align: center;
 }
 
+
+  

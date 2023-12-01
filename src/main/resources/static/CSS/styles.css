@@ -28,10 +28,10 @@ body {
 .cont-principal {
   min-height: 100%;
   align-items: center;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   position: relative;
   box-sizing: border-box;
-  padding-bottom: 100px;
+  /* padding-bottom: 100px; */
   /*width: 50%;
   display: flex;
   flex-direction: column;
@@ -90,8 +90,8 @@ nav {
   text-decoration: none;
   background-color: rgba(213, 186, 8, 0.744);
   border-radius: 3px;
-  box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent,
-    inset 0 0 0 transparent;
+  /* box-shadow: 1em 1em 2em rgb(164, 165, 165), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent,
+    inset 0 0 0 transparent; */
   margin-bottom: 30px;
 }
 .nav_titulo {
@@ -225,20 +225,7 @@ nav {
   margin-top: 10px;
 }
 
-.contenedor {
-  display: flex;
-  flex-direction: row;
-  height: auto;
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-.principal {
-  flex: 5;
-  max-height: 1500px;
-}
-.costado {
-  flex: 1;
-}
+
 
 .boton {
   background-color: rgb(0, 140, 255);
@@ -249,19 +236,6 @@ nav {
   border: none;
 }
 
-select {
-  font-size: 12pt;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-input {
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 350px;
-}
 .campo {
   margin: 10px;
   text-align: center;
