@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
+
+button {
+  background-color: rgb(200, 200, 200);
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+button:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  }
+
+a:visited {
+  color: black;
+  }

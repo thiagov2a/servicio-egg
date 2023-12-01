@@ -1,0 +1,22 @@
+
+
+.estrellas {
+    font-size: 30px;
+    cursor: pointer;
+  }
+  
+  .estrella {
+    display: inline-block;
+    margin: 0 5px;
+    color: #ccc;
+  }
+  
+  .estrella:hover,
+  .estrella:hover ~ .estrella {
+    color: #ffdd00;
+  }
+  
+  .calificacion {
+    font-size: 18px;
+    margin-top: 10px;
+  }

@@ -1,7 +1,4 @@
 /*ACA VA TODO EL ESTILO DEL INDEX*/
-
-
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
 
 * {
@@ -26,6 +23,7 @@ body {
   height: 100%;
   /*width: 100%;*/
 }
+
 /*Diego:esta clase main no la hice yo,no estaba en el index pero si en el css*/
 .cont-principal {
   min-height: 100%;
@@ -82,150 +80,6 @@ body {
 .boton:active {
   box-shadow: none;
 }
-nav {
-  display: flex;
-  justify-content: space-between;
-  text-align: right;
-  align-items: center;
-  position: relative;
-  max-height: 5rem;
-  text-decoration: none;
-  background-color: rgba(213, 186, 8, 0.744);
-  border-radius: 3px;
-  box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent,
-    inset 0 0 0 transparent;
-  margin-bottom: 30px;
-}
-.nav_titulo {
-  margin: none;
-  min-height: 40px;
-  text-align: start;
-  padding-left: 5px;
-}
-.nav_titulo a {
-  text-align: left;
-  color: #000000;
-  text-decoration: none;
-  font-size: 2.5rem;
-  text-shadow: 5px 5px 6px rgb(69, 69, 69);
-}
-.nav_search {
-  display: flex;
-  align-items: center;
-  max-height: 3rem;
-}
-.nav_search input {
-  background-color: transparent;
-  box-shadow: 1px 1px 8px rgb(46, 45, 45);
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 5px;
-  min-height: 25px;
-}
-::placeholder {
-  color: #000000;
-  font-size: 16px; /* Cambia el color a gris claro */
-}
-
-.nav_img_perfil {
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-  align-items: center;
-  border: 1px solid #050505ac;
-}
-.nav_search button {
-  background-color: transparent;
-  box-shadow: 1px 1px 8px rgb(51, 51, 51);
-  border-radius: 5px;
-  border: 1.4px solid rgb(0, 0, 0);
-  min-height: 31px;
-  color: rgb(49, 49, 49);
-  padding: 0px 5px;
-}
-.nav_guest {
-  display: flex;
-  text-decoration: none;
-  gap: 20px;
-  color: rgb(8, 8, 8);
-  -webkit-text-stroke: 0.1px rgb(0, 0, 0);
-  text-shadow: 2px 2px 2px rgb(0, 0, 0);
-  padding-right: 10px;
-}
-.nav_guest a {
-  display: flex;
-  text-decoration: none;
-  gap: 20px;
-  color: rgb(0, 0, 0);
-  -webkit-text-stroke: 0.1px rgb(0, 0, 0);
-  text-shadow: 2px 2px 2px rgb(156, 156, 156);
-  padding-right: 10px;
-}
-.nav_dropdown {
-  position: relative;
-  display: inline-block;
-  padding-right: 10px;
-}
-.nav_dropdown span {
-  display: flex;
-  color: #f1f1f1;
-  padding-bottom: 10px;
-  flex-direction: row;
-  font-size: 1, 5rem;
-}
-
-.nav_dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  font-family: fantasy;
-  right: 10px;
-  top: 100px;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.nav_dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.nav_dropdown-content a:hover {
-  background-color: #f1f1f1;
-}
-
-.nav_dropdown:hover .dropdown-content {
-  display: block;
-}
-.nav_btn {
-  border: none;
-  background-color: transparent;
-
-  font-size: 20px;
-}
-
-
-.estrellas {
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.estrella {
-  display: inline-block;
-  margin: 0 5px;
-  color: #ccc;
-}
-
-.estrella:hover,
-.estrella:hover ~ .estrella {
-  color: #ffdd00;
-}
-
-.calificacion {
-  font-size: 18px;
-  margin-top: 10px;
-}
 
 .contenedor {
   display: flex;
@@ -269,27 +123,3 @@ input {
   text-align: center;
 }
 
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10pt;
-
-  width: 100%;
-  background-color: white;
-  padding: 10px;
-
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10pt;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  /* padding: 10px; */
-}
-/*
-.form{
-  adding-bottom: 500px;p
- } */
