@@ -6,6 +6,51 @@
     <title>Registro de usuario</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/registro.css}" />
+
+    <style>
+      .error {
+        color: red;
+      }
+
+      .exito {
+        color: green;
+      }
+
+    </style>
+    <script>
+
+      function mostrarMensaje(mensaje, tipo) {
+        var mensajeImagen = document.getElementById('mensaje');
+        mensajeImagen.innerHTML = '<div class="' + tipo + '">' + mensaje + '</div>';
+      }
+
+      function validarArchivo() {
+        var archivoInput = document.getElementById('archivo');
+        var archivo = archivoInput.files[0];
+
+        mostrarMensaje('', '');
+
+        var tipoPermitido = ['image/jpeg', 'image/jpg'];
+        if (tipoPermitido.indexOf(archivo.type) === -1) {
+          mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
+          return false;
+        }
+
+
+        var maxSizeMB = 1;
+        var maxSizeBytes = maxSizeMB * 1024 * 1024;
+        if (archivo.size > maxSizeBytes) {
+          mostrarMensaje('La imagen debe pesar menos de 1 MB.', 'error');
+          return false;
+        }
+
+        // Paso todas las validaciones
+        mostrarMensaje('Imagen Valida!', 'exito');
+
+        return true;
+      }
+    </script>
+
   </head>
   <body class="fondoimg">
     <main class="cont-principal">
@@ -44,8 +89,9 @@
         </div>
 
         <div class="campo">
-          <input type="file" name="archivo" />
+          <input type="file" name="archivo" id="archivo" accept=".jpeg, .jpg" onchange="return validarArchivo()" />
         </div>
+        <div id="mensaje" style="text-align: center;"></div>
 
         <div class="campo">
           <select name="barrio">
