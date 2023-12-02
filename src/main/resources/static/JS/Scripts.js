@@ -16,10 +16,16 @@ function mostrarProveedor() {
   divResidente.style.display = 'none';
 
   var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'rgb(200, 200, 200)';
+  botonProveedor.style.backgroundColor = 'white';
+  botonProveedor.style.border = '1px solid black';
+  botonProveedor.style.color = 'black';
+  botonProveedor.style.fontWeight = '600';
 
   var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'white';
+  botonResidente.style.backgroundColor = 'rgb(220, 220, 220)';
+  botonResidente.style.border = 'none';
+  botonResidente.style.color = 'rgb(160, 160, 160)';
+  botonResidente.style.fontWeight = '500';
 
   // Actualiza el valor del campo oculto
   document.getElementById('esProveedor').value = 'true';
@@ -33,10 +39,16 @@ function mostrarResidente() {
   divProveedor.style.display = 'none';
 
   var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'white';
+  botonProveedor.style.backgroundColor = 'rgb(220, 220, 220)';
+  botonProveedor.style.border = 'none';
+  botonProveedor.style.color = 'rgb(160, 160, 160)';
+  botonProveedor.style.fontWeight = '500';
 
   var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'rgb(200, 200, 200)';
+  botonResidente.style.backgroundColor = 'white';
+  botonResidente.style.border = '1px solid black';
+  botonResidente.style.color = 'black';
+  botonResidente.style.fontWeight = '600';
 
   // Actualiza el valor del campo oculto
   document.getElementById('esProveedor').value = 'false';

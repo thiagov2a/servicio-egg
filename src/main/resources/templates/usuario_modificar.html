@@ -31,12 +31,16 @@
 
       mostrarMensaje('', '');
 
+      if (!archivo) {
+        mostrarMensaje('Por favor, seleccione una imagen.', 'error');
+        return false;
+      }
+
       var tipoPermitido = ['image/jpeg', 'image/jpg'];
       if (tipoPermitido.indexOf(archivo.type) === -1) {
         mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
         return false;
       }
-
 
       var maxSizeMB = 1;
       var maxSizeBytes = maxSizeMB * 1024 * 1024;

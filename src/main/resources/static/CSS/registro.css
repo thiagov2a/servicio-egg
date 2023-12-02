@@ -7,7 +7,8 @@
 }
 
 .soy-proveedor {
-  background-color: white;
+  background-color:rgb(220, 220, 220);
+  color: rgb(160, 160, 160);
   font-weight: 500;
   padding: 6px;
   font-size: 12pt;
@@ -20,12 +21,12 @@
 }
 
 .soy-residente {
-  background-color: rgb(200, 200, 200);
-  font-weight: 500;
+  background-color: white;
+  font-weight: 600;
   padding: 6px;
   font-size: 12pt;
   border-radius: 5px;
-  border: none;
+  border: 1px solid black;
 }
 .fondoimg {
   background-image: url(/img/fondo_05opac.png);
