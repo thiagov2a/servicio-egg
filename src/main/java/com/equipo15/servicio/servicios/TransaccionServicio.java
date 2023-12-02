@@ -181,6 +181,10 @@ public class TransaccionServicio {
     }
     
     
+       
+        
+        
+        
 
     public void validar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,
             String idUsuario) throws MiException {

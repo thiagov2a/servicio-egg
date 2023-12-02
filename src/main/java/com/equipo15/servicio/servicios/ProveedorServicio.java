@@ -3,29 +3,25 @@ package com.equipo15.servicio.servicios;
 import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
+import com.equipo15.servicio.repositorios.TransaccionRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -41,11 +37,14 @@ public class ProveedorServicio {
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ImagenServicio imagenServicio;
+    
+    @Autowired
+    private TransaccionRepositorio transaccionRepositorio;
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2,
             Barrio barrio,
-            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
@@ -99,10 +98,25 @@ public class ProveedorServicio {
         }
     }
 
+    //actualizarCalificacion
+    @Transactional
+    public void actualizarCalificacion(Transaccion transaccion) {
+
+        Proveedor proveedor = transaccion.getProveedor();
+        Integer cantidad = transaccionRepositorio.CantidadDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
+        Integer suma = transaccionRepositorio.SumaDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
+                
+        Double calificacion = suma / (cantidad * 1.0);
+        
+        proveedor.setCalificacion(calificacion);
+        proveedorRepositorio.save(proveedor);
+
+    }
+
     @Transactional
     public void modificar(MultipartFile archivo, String id, String dni, String nombre, String email,
             String password, String password2,
-            Barrio barrio, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+            Barrio barrio, String contacto, String descripcion, Integer precioPorHora, Double calificacion,
             String idServicio)
             throws MiException {
 
@@ -144,7 +158,7 @@ public class ProveedorServicio {
         }
     }
 
-    public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+    public void validar(String contacto, String descripcion, Integer precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         if (contacto == null || contacto.trim().isEmpty()) {
@@ -175,30 +189,5 @@ public class ProveedorServicio {
             throw new MiException("Ya existe un proveedor con ese contacto");
         }
     }
-    
-    
-    
-/*    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Proveedor proveedor = proveedorRepositorio.buscarPorEmail(email);
-
-        if (proveedor != null) {
-
-            List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_"
-                    + proveedor.getUsuario().getRol().toString());
-
-            permisos.add(p);
-
-            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-            HttpSession session = attr.getRequest().getSession(true);
-
-            session.setAttribute("proveedorsession", proveedor);
-
-            return new User(proveedor.getUsuario().getEmail(), proveedor.getUsuario().getPassword(), permisos);
-        } else {
-            return null;
-        }
-    }*/
 
 }

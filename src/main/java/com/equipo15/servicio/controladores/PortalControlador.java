@@ -73,7 +73,7 @@ public class PortalControlador {
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
             ModelMap modelo) {
         try {
@@ -136,7 +136,7 @@ public class PortalControlador {
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double calificacion,
             ModelMap modelo) throws MiException {
         try {
             // Obtener el usuario actualizado
@@ -221,6 +221,8 @@ public class PortalControlador {
         transaccion.setEstado(Estado.FINALIZADO);
 
         transaccionRepositorio.save(transaccion);
+        
+        proveedorServicio.actualizarCalificacion(transaccion);
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         String idUsuario = usuario.getId();

@@ -34,12 +34,16 @@ public class TransaccionControlador {
     public String presupuesto(@PathVariable String idProveedor, HttpSession session, ModelMap modelo) {
 
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+             
 
         modelo.put("proveedor", proveedor);
         modelo.put("usuario", usuario);
         modelo.put("presupuesto", null);
+        modelo.addAttribute("transacciones", transacciones);
+        
 
         return "transaccion_form.html";
     }
