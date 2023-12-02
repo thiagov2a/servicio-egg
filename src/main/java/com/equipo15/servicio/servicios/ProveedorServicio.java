@@ -178,7 +178,7 @@ public class ProveedorServicio {
     
     
     
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+/*    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Proveedor proveedor = proveedorRepositorio.buscarPorEmail(email);
 
         if (proveedor != null) {
@@ -199,6 +199,6 @@ public class ProveedorServicio {
         } else {
             return null;
         }
-    }
+    }*/
 
 }

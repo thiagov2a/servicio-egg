@@ -71,7 +71,7 @@
         <h1 class="campo">REGISTRAR USUARIO</h1>
 
         <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
-<<<<<<< Updated upstream
+
 
             <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
                 <div class="card-body">
@@ -188,7 +188,7 @@
                 document.getElementById('esProveedor').value = 'false';
             }
         </script>
-=======
+
             <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
             <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
@@ -305,7 +305,7 @@
 
 
 
->>>>>>> Stashed changes
+
     </body>
 
     <footer th:replace="/fragments/footer :: footer "></footer>

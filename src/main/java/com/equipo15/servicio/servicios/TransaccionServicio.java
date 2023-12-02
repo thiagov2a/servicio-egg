@@ -174,6 +174,12 @@ public class TransaccionServicio {
         return transacciones;
     }
     
+        public List<Transaccion> listarTransaccionesPorUsuario(String idUsuario) {
+        List<Transaccion> transacciones = new ArrayList<>();
+        transacciones = transaccionRepositorio.listarTransaccionesPorUsuario(idUsuario);
+        return transacciones;
+    }
+    
     
 
     public void validar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,

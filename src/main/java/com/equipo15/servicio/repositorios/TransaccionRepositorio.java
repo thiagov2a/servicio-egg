@@ -13,5 +13,8 @@ public interface TransaccionRepositorio extends JpaRepository<Transaccion, Strin
     @Query("SELECT t FROM Transaccion t WHERE t.proveedor.usuario.id = :id")
     public List <Transaccion> listarTransaccionesPorProveedor(@Param ("id") String id);
     
+    @Query("SELECT t FROM Transaccion t WHERE t.usuario.id = :id")
+    public List <Transaccion> listarTransaccionesPorUsuario(@Param ("id") String id);
+    
     
 }
