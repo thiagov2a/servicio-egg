@@ -8,9 +8,9 @@ import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +30,7 @@ public class TransaccionControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/presupuesto/{idProveedor}")
     public String presupuesto(@PathVariable String idProveedor, HttpSession session, ModelMap modelo) {
 
@@ -48,6 +49,7 @@ public class TransaccionControlador {
         return "transaccion_form.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping("/registro/{idProveedor}")
     public String registro(@PathVariable String idProveedor, HttpSession session, Integer horas, ModelMap modelo) {
 
@@ -63,6 +65,7 @@ public class TransaccionControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping("/alta/{idProveedor}")
     public String alta(@PathVariable String idProveedor, HttpSession session, @RequestParam Long presupuesto, ModelMap modelo) {
 
@@ -82,6 +85,7 @@ public class TransaccionControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/lista")
     public String listar(ModelMap modelo) {
 
@@ -93,6 +97,7 @@ public class TransaccionControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
@@ -107,6 +112,7 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
@@ -133,19 +139,5 @@ public class TransaccionControlador {
         }
     }
 
-    /*try {
-            transaccionServicio.registrar(comentario, calificacion, presupuesto, idProveedor, idResidente);
-            modelo.put("exito", "La Transacción fué cargada correctamente!");
-            return "index.html";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
-
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
-
-            return "transaccion_form.html";
-        }*/
+   
 }

@@ -162,6 +162,7 @@ public class PortalControlador {
         }
     }
 
+    //Este metodo permite a los Residentes ver la lista de las transacciones en las que participa
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/transacciones")
     public String listarTransacciones(ModelMap modelo, HttpSession session) {
@@ -175,6 +176,7 @@ public class PortalControlador {
 
     }
 
+    //Este metodo permite a los Residentes cancelar una transaccion
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/transacciones/cancelar/{idTransaccion}")
     public String cancelarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session) {
@@ -194,34 +196,36 @@ public class PortalControlador {
         return "transaccion_list2.html";
 
     }
-    
-@PreAuthorize("hasAnyRole('ROLE_USER')")
+
+    //Este metodo permite a los Residentes finalizar una transaccion
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/transacciones/finalizar/{idTransaccion}")
     public String finalizarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session) {
 
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
- 
+
         modelo.addAttribute("transaccion", transaccion);
-        
+
         return "calificar.html";
 
     }
-    
+
+    //Este metodo permite a los Residentes comentar y calificar una transaccion
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-        @PostMapping("/transacciones/finalizar/{idTransaccion}")
+    @PostMapping("/transacciones/finalizar/{idTransaccion}")
     public String comentarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session, @RequestParam String comentario, @RequestParam Integer calificacion) {
 
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
 
         transaccion.setComentario(comentario);
         transaccion.setCalificacion(calificacion);
-                
+
         transaccion.setEstado(Estado.FINALIZADO);
 
         transaccionRepositorio.save(transaccion);
-        
+
         proveedorServicio.actualizarCalificacion(transaccion);
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
