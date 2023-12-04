@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
+import com.equipo15.servicio.enumeraciones.Estado;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
+import com.equipo15.servicio.repositorios.TransaccionRepositorio;
 import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
+import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 @RequestMapping("/")
@@ -31,6 +36,12 @@ public class PortalControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private ServicioServicio servicioServicio;
+
+    @Autowired
+    private TransaccionServicio transaccionServicio;
+
+    @Autowired
+    private TransaccionRepositorio transaccionRepositorio;
 
     @GetMapping("/")
     public String index(HttpSession session) {
@@ -63,7 +74,7 @@ public class PortalControlador {
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
             
             
@@ -96,6 +107,8 @@ public class PortalControlador {
             modelo.put("idServicio", idServicio);
             modelo.put("descripcion", descripcion);
             modelo.put("archivo", archivo);
+
+            modelo.put("Error", e.getMessage());
 
             return "registro.html";
         }
@@ -136,7 +149,7 @@ public class PortalControlador {
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
             @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
             HttpSession session, ModelMap modelo) throws MiException {
         try {
@@ -172,6 +185,82 @@ public class PortalControlador {
 
             return "usuario_modificar.html";
         }
+    }
+
+    //Este método permite a los Residentes ver la lista de las transacciones en las que participa
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/transacciones")
+    public String listarTransacciones(ModelMap modelo, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        String idUsuario = usuario.getId();
+
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorUsuario(idUsuario);
+        modelo.addAttribute("transacciones", transacciones);
+        return "transaccion_list2.html";
+
+    }
+
+    //Este método permite a los Residentes cancelar una transaccion
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/transacciones/cancelar/{idTransaccion}")
+    public String cancelarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session) {
+
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+
+        transaccion.setEstado(Estado.CANCELADO);
+
+        transaccionRepositorio.save(transaccion);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        String idUsuario = usuario.getId();
+
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorUsuario(idUsuario);
+        modelo.addAttribute("transacciones", transacciones);
+
+        return "transaccion_list2.html";
+
+    }
+
+    //Este método permite a los Residentes finalizar una transaccion
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/transacciones/finalizar/{idTransaccion}")
+    public String finalizarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session) {
+
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        modelo.addAttribute("transaccion", transaccion);
+
+        return "calificar.html";
+
+    }
+
+    //Este método permite a los Residentes comentar y calificar una transaccion
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/transacciones/finalizar/{idTransaccion}")
+    public String comentarTransaccion(ModelMap modelo, @PathVariable String idTransaccion, HttpSession session, @RequestParam String comentario, @RequestParam Integer calificacion) {
+
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+
+        transaccion.setComentario(comentario);
+        transaccion.setCalificacion(calificacion);
+
+        transaccion.setEstado(Estado.FINALIZADO);
+
+        transaccionRepositorio.save(transaccion);
+
+        proveedorServicio.actualizarCalificacion(transaccion);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        String idUsuario = usuario.getId();
+
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorUsuario(idUsuario);
+        modelo.addAttribute("transacciones", transacciones);
+
+        return "transaccion_list2.html";
+
     }
 
 }

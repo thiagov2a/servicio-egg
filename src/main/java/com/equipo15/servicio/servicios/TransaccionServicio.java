@@ -62,6 +62,75 @@ public class TransaccionServicio {
         }
     }
 
+    @Transactional
+    public void iniciarTransaccion(String idProveedor, String idUsuario, Long presupuesto) throws MiException {
+
+        Proveedor proveedor = proveedorRepositorio.findById(idProveedor).get();
+        Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
+
+        Transaccion transaccion = new Transaccion();
+
+        transaccion.setPresupuesto(presupuesto);
+        transaccion.setEstado(Estado.PENDIENTE);
+        transaccion.setProveedor(proveedor);
+        transaccion.setUsuario(usuario);
+
+        transaccionRepositorio.save(transaccion);
+
+    }
+
+    @Transactional
+    public void aceptarTransaccion(String idTransaccion) throws MiException {
+
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.ACEPTADO);
+
+            transaccionRepositorio.save(transaccion);
+        }
+
+    }
+
+    @Transactional
+    public void finalizarTransaccion(String idTransaccion, String comentario, Integer calificacion) throws MiException {
+
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.FINALIZADO);
+            transaccion.setComentario(comentario);
+            transaccion.setCalificacion(calificacion);
+
+            transaccionRepositorio.save(transaccion);
+        }
+
+    }
+    
+        @Transactional
+    public void CancelarTransaccion(String idTransaccion) throws MiException {
+
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.CANCELADO);
+            
+            transaccionRepositorio.save(transaccion);
+        }
+
+    }
+    
+    
+
     public void modificar(String id, String comentario, Integer calificacion, Long presupuesto, String idProveedor,
             String idUsuario) throws MiException {
 
@@ -98,6 +167,24 @@ public class TransaccionServicio {
             transaccionRepositorio.save(transaccion);
         }
     }
+    
+    public List<Transaccion> listarTransaccionesPorProveedor(String idProveedor) {
+        List<Transaccion> transacciones = new ArrayList<>();
+        transacciones = transaccionRepositorio.listarTransaccionesPorProveedor(idProveedor);
+        return transacciones;
+    }
+    
+        public List<Transaccion> listarTransaccionesPorUsuario(String idUsuario) {
+        List<Transaccion> transacciones = new ArrayList<>();
+        transacciones = transaccionRepositorio.listarTransaccionesPorUsuario(idUsuario);
+        return transacciones;
+    }
+    
+    
+       
+        
+        
+        
 
     public void validar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,
             String idUsuario) throws MiException {

@@ -38,5 +38,28 @@
         <a th:href="@{/logout}">Cerrar sesión</a>
       </div>
     </div>
-  </div>
+
+    <div>
+        <!-- Opciones de Login y Registro -->
+        <div th:unless="${session.usuariosession != null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/registrar}">Registrarse</a>
+        </div>
+
+        <!-- Lista desplegable cuando el usuario está logeado -->
+        <div th:if="${session.usuariosession != null}">
+            <!-- Botón para desplegar el menú -->
+            <button th:text="${'Hola ' + session.usuariosession.nombre + ' \u2630'}">&#9776;</button>
+
+            <span th:text="${session.usuariosession.nombre}"></span>
+
+            
+
+                <div class="nav_dropdown-content">
+
+                    <a th:href="@{/perfil}">Perfil</a>
+                    <a th:href="@{/logout}">Cerrar sesión</a>
+                </div>
+            
+        </div>
 </nav>

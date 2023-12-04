@@ -3,12 +3,14 @@ package com.equipo15.servicio.servicios;
 import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
+import com.equipo15.servicio.repositorios.TransaccionRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 
 import java.util.ArrayList;
@@ -16,8 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -33,10 +37,13 @@ public class ProveedorServicio {
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ImagenServicio imagenServicio;
+    
+    @Autowired
+    private TransaccionRepositorio transaccionRepositorio;
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
-            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
@@ -89,10 +96,25 @@ public class ProveedorServicio {
         }
     }
 
+    //actualizarCalificacion
+    @Transactional
+    public void actualizarCalificacion(Transaccion transaccion) {
+
+        Proveedor proveedor = transaccion.getProveedor();
+        Integer cantidad = transaccionRepositorio.CantidadDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
+        Integer suma = transaccionRepositorio.SumaDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
+                
+        Double calificacion = suma / (cantidad * 1.0);
+        
+        proveedor.setCalificacion(calificacion);
+        proveedorRepositorio.save(proveedor);
+
+    }
+
     @Transactional
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
             Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora,
-            Integer calificacion, String idServicio) throws MiException {
+            Double calificacion, String idServicio) throws MiException {
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -139,7 +161,7 @@ public class ProveedorServicio {
         }
     }
 
-    public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+    public void validar(String contacto, String descripcion, Integer precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         if (contacto == null || contacto.trim().isEmpty()) {

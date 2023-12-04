@@ -7,9 +7,10 @@ import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
-
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,41 +30,62 @@ public class TransaccionControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @GetMapping("/registrar")
-    public String registrar(ModelMap modelo) {
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/presupuesto/{idProveedor}")
+    public String presupuesto(@PathVariable String idProveedor, HttpSession session, ModelMap modelo) {
 
-        List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-        List<Usuario> residentes = usuarioServicio.listarUsuarios();
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+             
 
-        modelo.addAttribute("proveedores", proveedores);
-        modelo.addAttribute("residentes", residentes);
+        modelo.put("proveedor", proveedor);
+        modelo.put("usuario", usuario);
+        modelo.put("presupuesto", null);
+        modelo.addAttribute("transacciones", transacciones);
+        
 
         return "transaccion_form.html";
     }
 
-    @PostMapping("/registro")
-    public String registro(@RequestParam(required = false) String id, @RequestParam String comentario,
-            @RequestParam String idProveedor,
-            @RequestParam String idResidente, @RequestParam(required = false) Integer calificacion,
-            @RequestParam(required = false) Long presupuesto, ModelMap modelo) {
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/registro/{idProveedor}")
+    public String registro(@PathVariable String idProveedor, HttpSession session, Integer horas, ModelMap modelo) {
 
-        try {
-            transaccionServicio.registrar(comentario, calificacion, presupuesto, idProveedor, idResidente);
-            modelo.put("exito", "La Transacción fué cargada correctamente!");
-            return "index.html";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        Integer presupuesto = horas * proveedor.getPrecioPorHora();
 
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
+        modelo.put("proveedor", proveedor);
+        modelo.put("usuario", usuario);
+        modelo.put("presupuesto", presupuesto);
 
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
+        return "transaccion_form.html";
 
-            return "transaccion_form.html";
-        }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/alta/{idProveedor}")
+    public String alta(@PathVariable String idProveedor, HttpSession session, @RequestParam Long presupuesto, ModelMap modelo) {
+
+        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        String idUsuario= usuario.getId();
+
+        try {
+            transaccionServicio.iniciarTransaccion(idProveedor, idUsuario, presupuesto);
+            modelo.put("exito", "Se ha iniciado una solicitud se servicio correctamente");
+            return "index.html";
+
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "transaccion_form.html";
+        }
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/lista")
     public String listar(ModelMap modelo) {
         List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
@@ -71,6 +93,7 @@ public class TransaccionControlador {
         return "transaccion_list.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
@@ -85,6 +108,7 @@ public class TransaccionControlador {
         return "transaccion_modificar.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
             Integer calificacion, Long presupuesto, ModelMap modelo) {
@@ -110,4 +134,5 @@ public class TransaccionControlador {
         }
     }
 
+   
 }

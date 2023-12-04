@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head "></head>
+
+    <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
+
+    <style>
+        * {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .boton {
+            background-color: rgb(0, 140, 255);
+            font-weight: 600;
+            padding: 6px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .campo {
+            margin: 10px;
+            text-align: center;
+        }
+
+        input {
+            padding: 5px;
+            font-size: 12pt;
+            border-radius: 5px;
+            border: 1px solid black;
+            width: 350px;
+        }
+
+        select {
+            font-size: 12pt;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+
+    <body>
+        <nav th:replace="fragments/navbar :: nav"></nav>
+
+        <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
+
+        <h2 th:text="${proveedor.usuario.nombre}"> </h2>
+
+        <h3 th:text="${proveedor.descripcion}"> </h3>
+        
+        <h3 th:text="${proveedor.calificacion}"> </h3>
+
+        <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST">
+            <!-- Campo oculto para el ID del proveedor -->
+
+            <div class="campo">
+                <input type="number" name="horas" placeholder="horas a presupuestar" th:value="${horas}" id="horas" />
+            </div>
+
+
+            <div class="campo">
+                <button type="submit" class="boton">Solicitar Presupuesto</button>
+            </div>
+
+
+
+        </form>
+
+        <div th:if="${presupuesto!=null}">
+
+
+            <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
+
+            <form th:action="@{/transaccion/alta/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
+                <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
+
+                <input hidden id="presupuesto" th:value="${presupuesto}" type="number" th:number="${presupuesto}" name="presupuesto" />
+                <button type="submit" class="boton">Aceptar Presupuesto</button>
+
+                <a type="button" class="boton"  th:href= "@{/proveedor/lista}" method="POST" >Cancelar solicitud</a>
+
+            </form>
+        </div>
+
+
+        <div> 
+
+
+            <table class="tabla">
+                <thead>
+                    <tr> 
+
+                        <th scope="col">Comentarios</th>
+
+
+                    </tr>
+                </thead>
+                <tbody th:each="transaccion: ${transacciones}">
+                    <tr>
+
+                        
+                        <td th:text="${transaccion.comentario}"></td>
+                        
+
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+
+
+
+        <footer th:replace="/fragments/footer :: footer "></footer>
+    </body>
+</html>
+
+

@@ -1,19 +1,11 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calificar servicio</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <!-- Usar th:href para resolver la URL del CSS -->
-    <script th:src="@{/js/Scripts.js}"></script>
-    <!-- Usar th:src para resolver la URL del script JS -->
-
-    
+    <title>Calificación con Estrellas</title>
+    <link rel="stylesheet" th:href="@{/css/calificar.css}" />
   </head>
-
   <body>
     <div class="calificacion">
       Calificación:
@@ -25,9 +17,34 @@
         <span class="estrella" onclick="calificar(1)">★</span>
       </span>
     </div>
-    <div class="campo">
-      <textarea name="comentario" placeholder="Ingrese su comentario" th:value="${comentario}" style="width: 300px; height: 150px; font-size: 14pt;"></textarea>
+
+    <div>
+      <form th:action="@{/transacciones/finalizar/__${transaccion.id}__}" method="POST" enctype="multipart/form-data">
+        <input type="radio" id="1" name="calificacion" value="1" />
+        <label for="1">1</label>
+        <br />
+        <input type="radio" id="2" name="calificacion" value="2" />
+        <label for="2">2</label>
+        <br />
+        <input type="radio" id="3" name="calificacion" value="3" />
+        <label for="3">3</label>
+        <br />
+        <input type="radio" id="4" name="calificacion" value="4" />
+        <label for="4">4</label>
+        <br />
+        <input type="radio" id="5" name="calificacion" value="5" />
+        <label for="5">5</label>
+
+        <div class="campo">
+          <textarea name="comentario" placeholder="Comentario" rows="10" cols="40"></textarea>
+        </div>
+
+        <div class="campo">
+          <button type="submit" class="boton">Enviar el Comentario y la calificación</button>
+        </div>
+      </form>
     </div>
+
     <script>
       var calificacion = 0;
 
