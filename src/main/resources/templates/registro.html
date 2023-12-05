@@ -120,14 +120,19 @@
               <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
             </select>
           </div>
-        </div>
 
+          <div class="campo">
+            <button type="submit" class="boton">Registrarme!</button>
+          </div>
+        </div>
+      
         <div id="campo-proveedor">
           <div class="campo">
             <select name="idServicio">
               <option value="">Seleccionar Servicio</option>
               <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
             </select>
+            
           </div>
           <div class="campo">
             <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
@@ -137,120 +142,11 @@
           </div>
           <div class="campo">
             <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
-          <div class="campo">
-            <button
-              type="button"
-              onclick="mostrarResidente()"
-              class="soy-residente"
-            >
-              Soy Residente
-            </button>
-            <button
-              type="button"
-              onclick="mostrarProveedor()"
-              class="soy-proveedor"
-            >
-              Soy Proveedor
-            </button>
-          </div>
-
-          <div class="campo">
-            <input type="text" name="dni" placeholder="DNI" th:value="${dni}" />
-          </div>
-
-          <div class="campo">
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Nombre del usuario"
-              th:value="${nombre}"
-            />
-          </div>
-
-          <div class="campo">
-            <input
-              type="email"
-              name="email"
-              placeholder="E-Mail"
-              th:value="${email}"
-            />
-          </div>
-
-          <div class="campo">
-            <input type="password" name="password" placeholder="Contraseña" />
-          </div>
-          <div class="campo">
-            <input
-              type="password"
-              name="password2"
-              placeholder="Repetir contraseña"
-            />
-          </div>
-
-          <div class="campo">
-            <input
-              type="file"
-              name="archivo"
-              id="archivo"
-              accept=".jpeg, .jpg"
-              onchange="return validarArchivo()"
-            />
-          </div>
-          <div id="mensaje" style="text-align: center"></div>
-
-          <div id="campo-residente">
-            <div class="campo">
-              <select name="barrio">
-                <option value="">Seleccionar Barrio</option>
-                <option
-                  th:each="barrio : ${barrios}"
-                  th:value="${barrio}"
-                  th:text="${barrio.descripcion}"
-                />
-              </select>
-            </div>
-          </div>
-          <div id="campo-proveedor">
-            <div class="campo">
-              <select name="idServicio">
-                <option value="">Seleccionar Servicio</option>
-                <option
-                  th:each="servicio : ${servicios}"
-                  th:value="${servicio.id}"
-                  th:text="${servicio.nombre}"
-                />
-              </select>
-            </div>
-            <div class="campo">
-              <input
-                type="text"
-                name="descripcion"
-                placeholder="Descripcion"
-                th:value="${descripcion}"
-              />
-            </div>
-            <div class="campo">
-              <input
-                type="tel"
-                name="contacto"
-                placeholder="Contacto"
-                th:value="${contacto}"
-              />
-            </div>
-            <div class="campo">
-              <input
-                type="number"
-                name="precioPorHora"
-                placeholder="Precio por hora"
-                th:value="${precioPorHora}"
-              />
-            </div>
-
+          
             <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
             <input type="hidden" name="calificacion" th:value="0" />
           </div>
 
-          <div id="campo-residente"></div>
 
           <div class="campo">
             <button type="submit" class="boton">Registrarme!</button>
@@ -258,9 +154,6 @@
         </form>
       </div>
       
-      <div class="curveado">
-        <img src="img/img2.svg" />
-      </div>
 
     </main>
 

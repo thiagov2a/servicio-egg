@@ -11,39 +11,27 @@ html {
   font-size: 62, 5%;
 }
 
-img {
-    max-height: 100%;
-    /* La imagen no superará la altura del contenedor */
-    width: auto;
-    /* La imagen mantiene su relación de aspecto original */
-    display: block;
-    /* Elimina el espacio extra por debajo de la imagen */
-    margin: 0 auto;
-    /* Centra la imagen horizontalmente en el contenedor */
-  }
-  
-h1 {
-  text-align: center;
+
+main.cont-principal {
+  height: 100vh;
 }
-
-
 .wrp{
   width: 100%; height: 600px;
   position: relative;
 }
-.portada{
-  width: 100%; height: 100%;
-  background: url("src\main\resources\static\img\portada.png");
-  background-attachment: fixed;
+
+.portada {
+  position: relative;
+  height: 90%;
 }
+
 .contenido{
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+    width: 100%; height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(0,0,11,0.6);
+  
 }
 .contenido .info{
   width: 100%;
@@ -82,6 +70,7 @@ h1 {
 .curveado img{
   width: 100%;
 }
+
 @media(max-width:768px){
   .contenido .info h1{
       font-size: 35px;
