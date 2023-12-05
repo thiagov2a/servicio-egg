@@ -8,48 +8,50 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-function mostrarProveedor() {
+// registro.html
+function cambiarTipoUsuario(esProveedor) {
   var divProveedor = document.getElementById('campo-proveedor');
   var divResidente = document.getElementById('campo-residente');
 
-  divProveedor.style.display = 'block';
-  divResidente.style.display = 'none';
-
   var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'white';
-  botonProveedor.style.border = '1px solid black';
-  botonProveedor.style.color = 'black';
-  botonProveedor.style.fontWeight = '600';
-
   var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'rgb(220, 220, 220)';
-  botonResidente.style.border = 'none';
-  botonResidente.style.color = 'rgb(160, 160, 160)';
-  botonResidente.style.fontWeight = '500';
+
+  var tipoActual = esProveedor ? divProveedor : divResidente;
+  var tipoOtro = esProveedor ? divResidente : divProveedor;
+  var botonActual = esProveedor ? botonProveedor : botonResidente;
+  var botonOtro = esProveedor ? botonResidente : botonProveedor;
+
+  tipoActual.style.display = 'block';
+  tipoOtro.style.display = 'none';
+
+  actualizarEstilosBoton(botonActual, true);
+  actualizarEstilosBoton(botonOtro, false);
 
   // Actualiza el valor del campo oculto
-  document.getElementById('esProveedor').value = 'true';
+  document.getElementById('esProveedor').value = esProveedor.toString();
+
+  // Si es proveedor, selecciona aleatoriamente un barrio
+  if (esProveedor) {
+    seleccionarBarrioAleatorio();
+  }
 }
 
-function mostrarResidente() {
-  var divProveedor = document.getElementById('campo-proveedor');
-  var divResidente = document.getElementById('campo-residente');
+function actualizarEstilosBoton(boton, activo) {
+  var estiloActivo = activo ? 'white' : 'rgb(220, 220, 220)';
+  var estiloInactivo = activo ? 'rgb(160, 160, 160)' : 'black';
+  var borde = activo ? '1px solid black' : 'none';
+  var fontWeight = activo ? '600' : '500';
 
-  divResidente.style.display = 'block';
-  divProveedor.style.display = 'none';
-
-  var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'rgb(220, 220, 220)';
-  botonProveedor.style.border = 'none';
-  botonProveedor.style.color = 'rgb(160, 160, 160)';
-  botonProveedor.style.fontWeight = '500';
-
-  var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'white';
-  botonResidente.style.border = '1px solid black';
-  botonResidente.style.color = 'black';
-  botonResidente.style.fontWeight = '600';
-
-  // Actualiza el valor del campo oculto
-  document.getElementById('esProveedor').value = 'false';
+  boton.style.backgroundColor = estiloActivo;
+  boton.style.border = borde;
+  boton.style.color = estiloInactivo;
+  boton.style.fontWeight = fontWeight;
 }
+
+function seleccionarBarrioAleatorio() {
+  var barriosSelect = document.getElementsByName('barrio')[0];
+  var opcionesBarrios = barriosSelect.options;
+  var barrioAleatorio = opcionesBarrios[Math.floor(Math.random() * opcionesBarrios.length)].value;
+  barriosSelect.value = barrioAleatorio;
+}
+//

@@ -12,11 +12,15 @@
     <!-- Usar th:src para resolver la URL del script JS -->
     <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
   </head>
-  <nav th:replace="fragments/navbar :: nav"></nav>
   <body>
+    <nav th:replace="fragments/navbar :: nav"></nav>
+
     <main class="cont-principal">
       <div class="login-form">
         <h2 style="text-align: center">Login</h2>
+
+        <div th:replace="~{/fragments/alert.html :: div}"></div>
+
         <form th:action="@{/logincheck}" method="post">
           <div class="campo">
             <label for="email">Email:</label>
@@ -27,18 +31,21 @@
             <label for="password">Password:</label>
             <input type="password" name="password" required />
           </div>
+
           <!-- <br />
           <div class="campo">
             <label for="recuerdame">Recuerdame</label>
             <input style="width: 15px" type="checkbox" name="recuerdame" />
           </div>
           <br /> -->
+
           <div class="campo">
             <button class="boton" type="submit">Login</button>
           </div>
         </form>
       </div>
     </main>
+
+    <footer th:replace="/fragments/footer :: footer "></footer>
   </body>
-  <footer th:replace="/fragments/footer :: footer "></footer>
 </html>

@@ -9,26 +9,20 @@
     }
 
     .body {
-      text-align: center;  
-
-    
-        
+      text-align: center;
     }
 
-        
     .campo {
       margin: 15px;
       margin-left: 750px;
       text-align: center;
     }
 
-    .tabla{
+    .tabla {
       margin-left: 700px;
       border-spacing: 20px;
-     
-        
     }
-    
+
     th {
       padding: 20px;
       border-bottom: 2px solid black;
@@ -39,11 +33,10 @@
       height: 50px;
       padding: 20;
     }
-    
+
     .size {
-        width: 300px;
+      width: 300px;
     }
-    
   </style>
 
   <body class="body">
@@ -55,42 +48,46 @@
 
         <table class="tabla">
           <thead>
-            <tr> 
-              
-              <th scope="col">Id del Transacción</th>
-              <th scope="col">Nombre Proveedor</th>
-              <th scope="col">Nombre Cliente</th>
+            <tr>
+              <th scope="col" sec:autorize="hasRole('ROLE_ADMIN')">ID</th>
+              <th scope="col">Proveedor</th>
+              <th scope="col">Usuario</th>
               <th scope="col">Presupuesto</th>
               <th scope="col">Estado</th>
-              <th scope="col">Aceptar trabajo</th>
-              <th scope="col">Cancelar trabajo</th>
-              
-              
+              <th scope="col" sec:autorize="hasRole('PROVEEDOR')">Acciones</th>
             </tr>
           </thead>
           <tbody th:each="transaccion : ${transacciones}">
             <tr>
-                
-              <td th:scope="row" th:text="${transaccion.id}"></td>
-              <td th:text="${transaccion.proveedor.usuario.nombre}"></td>
-              <td th:text="${transaccion.usuario.nombre}"></td>
-              <td th:text="${transaccion.presupuesto}"></td>
-              <td th:text="${transaccion.estado}"></td>
-              <td > <a th:if="${transaccion.estado.descripcion=='Pendiente'}" th:href= "@{/proveedor/transacciones/aceptar/__${transaccion.id}__}" method="POST"> Aceptar trabajo </a></td>
-              <td > <a th:if="${transaccion.estado.descripcion=='Pendiente'}" th:href= "@{/proveedor/transacciones/cancelar/__${transaccion.id}__}" method="POST" > Cancelar trabajo </a></td>
+              <td scope="row" th:text="${transaccion.id}" th:if=""></td>
+              <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
+              <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
+              <td scope="row" th:text="${transaccion.presupuesto}"></td>
+              <td scope="row" th:text="${transaccion.estado}"></td>
+              <td scope="row" sec:autorize="hasRole('PROVEEDOR')">
+                <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
+                  <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST">Aceptar trabajo</a>
+                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar trabajo</a>
+                </div>
+              </td>
+              <td scope="row" th:if="usuario.">
+                <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
+                  <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST">Finalizar trabajo</a>
+                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar trabajo</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
         <section>
+          <div>
             <div>
-                <div>
-                    <a th:href="@{/}">Volver</a>
-                </div>
+              <a th:href="@{/}">Volver</a>
             </div>
+          </div>
         </section>
       </div>
     </main>
   </body>
   <footer th:replace="/fragments/footer :: footer "></footer>
 </html>
-

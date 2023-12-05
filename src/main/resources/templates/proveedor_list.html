@@ -58,16 +58,17 @@
         <thead>
           <tr>
             <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
-            <th scope="col">Id del Proveedor</th>
-            <th scope="col">Nombre Proveedor</th>
-            <th scope="col">Email Proveedor</th>
-            <th scope="col">Tipo de Servicio</th>
+            <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Servicio</th>
             <th scope="col">
               <div class="size">Descripción</div>
             </th>
             <th scope="col">Contacto</th>
             <th scope="col">Precio por Hora</th>
             <th scope="col">Calificación</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody th:each="proveedor : ${proveedores}">
@@ -84,7 +85,7 @@
                 <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
               </a>
             </td>
-            <td th:scope="row" th:text="${proveedor.usuario.id}"></td>
+            <td th:scope="row" th:text="${proveedor.usuario.id}" sec:authorize="hasRole('ADMIN')"></td>
             <td th:text="${proveedor.usuario.nombre}"></td>
             <td th:text="${proveedor.usuario.email}"></td>
             <td th:text="${proveedor.servicio.nombre}"></td>
@@ -92,15 +93,12 @@
             <td th:text="${proveedor.contacto}"></td>
             <td th:text="${proveedor.precioPorHora}"></td>
             <td th:text="${proveedor.calificacion}"></td>
-
             <td sec:authorize="hasRole('ADMIN')">
               <button><a th:href="@{/admin/modificarRol/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
-            </td>
-            <td sec:authorize="hasRole('ADMIN')">
-              <button class="soy-residente"><a th:href="@{/}">Alta/Baja</a></button>
+              <button><a th:href="@{/}">Alta/Baja</a></button>
             </td>
             <td sec:authorize="hasRole('USER')">
-              <a th:href="@{/transaccion/presupuesto/__${proveedor.id}__}">
+              <a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">
                 <button class="soy-residente">Presupuestar</button>
               </a>
             </td>

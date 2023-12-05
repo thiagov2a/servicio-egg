@@ -34,12 +34,11 @@ public class ProveedorServicio {
     @Autowired
     private ServicioRepositorio servicioRepositorio;
     @Autowired
+    private TransaccionRepositorio transaccionRepositorio;
+    @Autowired
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ImagenServicio imagenServicio;
-    
-    @Autowired
-    private TransaccionRepositorio transaccionRepositorio;
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
@@ -96,19 +95,23 @@ public class ProveedorServicio {
         }
     }
 
-    //actualizarCalificacion
     @Transactional
-    public void actualizarCalificacion(Transaccion transaccion) {
+    public void actualizarCalificacion(String idTransaccion) {
+        Optional<Transaccion> respuesta = transaccionRepositorio.findById(idTransaccion);
 
-        Proveedor proveedor = transaccion.getProveedor();
-        Integer cantidad = transaccionRepositorio.CantidadDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
-        Integer suma = transaccionRepositorio.SumaDeCalificacionesPorProveedor(proveedor.getUsuario().getId());
-                
-        Double calificacion = suma / (cantidad * 1.0);
-        
-        proveedor.setCalificacion(calificacion);
-        proveedorRepositorio.save(proveedor);
+        if (respuesta.isPresent()) {
+            Transaccion transaccion = respuesta.get();
+            Proveedor proveedor = transaccion.getProveedor();
+            String idProveedor = proveedor.getUsuario().getId();
 
+            Integer suma = transaccionRepositorio.sumaDeCalificacionesPorProveedor(idProveedor);
+            Integer cantidad = transaccionRepositorio.cantidadDeCalificacionesPorProveedor(idProveedor);
+
+            Double calificacion = suma / (cantidad * 1.0);
+            proveedor.setCalificacion(calificacion);
+
+            proveedorRepositorio.save(proveedor);
+        }
     }
 
     @Transactional
@@ -123,7 +126,6 @@ public class ProveedorServicio {
         Optional<Servicio> respuestaServicio = servicioRepositorio.findById(idServicio);
 
         Servicio servicio = new Servicio();
-
         if (respuestaServicio.isPresent()) {
             servicio = respuestaServicio.get();
         }

@@ -68,8 +68,8 @@
         <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
         <div class="campo">
-          <button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-          <button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+          <button type="button" onclick="cambiarTipoUsuario(false)" class="soy-residente">Soy Residente</button>
+          <button type="button" onclick="cambiarTipoUsuario(true)" class="soy-proveedor">Soy Proveedor</button>
         </div>
 
         <div class="campo">
@@ -104,6 +104,7 @@
             </select>
           </div>
         </div>
+
         <div id="campo-proveedor">
           <div class="campo">
             <select name="idServicio">

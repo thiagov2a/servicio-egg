@@ -12,6 +12,9 @@ import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.text.html.Option;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +30,7 @@ public class TransaccionServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Transactional
-    public void registrar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,
+    public void registrar(String comentario, Double calificacion, Double presupuesto, String idProveedor,
             String idUsuario) throws MiException {
 
         validar(comentario, calificacion, presupuesto, idProveedor, idUsuario);
@@ -62,76 +65,7 @@ public class TransaccionServicio {
         }
     }
 
-    @Transactional
-    public void iniciarTransaccion(String idProveedor, String idUsuario, Long presupuesto) throws MiException {
-
-        Proveedor proveedor = proveedorRepositorio.findById(idProveedor).get();
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
-
-        Transaccion transaccion = new Transaccion();
-
-        transaccion.setPresupuesto(presupuesto);
-        transaccion.setEstado(Estado.PENDIENTE);
-        transaccion.setProveedor(proveedor);
-        transaccion.setUsuario(usuario);
-
-        transaccionRepositorio.save(transaccion);
-
-    }
-
-    @Transactional
-    public void aceptarTransaccion(String idTransaccion) throws MiException {
-
-        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
-
-        if (respuestaTransaccion.isPresent()) {
-
-            Transaccion transaccion = respuestaTransaccion.get();
-
-            transaccion.setEstado(Estado.ACEPTADO);
-
-            transaccionRepositorio.save(transaccion);
-        }
-
-    }
-
-    @Transactional
-    public void finalizarTransaccion(String idTransaccion, String comentario, Integer calificacion) throws MiException {
-
-        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
-
-        if (respuestaTransaccion.isPresent()) {
-
-            Transaccion transaccion = respuestaTransaccion.get();
-
-            transaccion.setEstado(Estado.FINALIZADO);
-            transaccion.setComentario(comentario);
-            transaccion.setCalificacion(calificacion);
-
-            transaccionRepositorio.save(transaccion);
-        }
-
-    }
-    
-        @Transactional
-    public void CancelarTransaccion(String idTransaccion) throws MiException {
-
-        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
-
-        if (respuestaTransaccion.isPresent()) {
-
-            Transaccion transaccion = respuestaTransaccion.get();
-
-            transaccion.setEstado(Estado.CANCELADO);
-            
-            transaccionRepositorio.save(transaccion);
-        }
-
-    }
-    
-    
-
-    public void modificar(String id, String comentario, Integer calificacion, Long presupuesto, String idProveedor,
+    public void modificar(String id, String comentario, Double calificacion, Double presupuesto, String idProveedor,
             String idUsuario) throws MiException {
 
         validar(comentario, calificacion, presupuesto, idProveedor, idUsuario);
@@ -144,17 +78,14 @@ public class TransaccionServicio {
         Usuario usuario = new Usuario();
 
         if (respuestaProveedor.isPresent()) {
-
             proveedor = respuestaProveedor.get();
         }
 
         if (respuestaUsuario.isPresent()) {
-
             usuario = respuestaUsuario.get();
         }
 
         if (respuestaTransaccion.isPresent()) {
-
             Transaccion transaccion = respuestaTransaccion.get();
 
             transaccion.setCalificacion(calificacion);
@@ -167,26 +98,82 @@ public class TransaccionServicio {
             transaccionRepositorio.save(transaccion);
         }
     }
-    
+
+    @Transactional
+    public void iniciarTransaccion(String idProveedor, String idUsuario, Double presupuesto) throws MiException {
+        Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(idProveedor);
+        Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
+
+        if (respuestaProveedor.isPresent() && respuestaUsuario.isPresent()) {
+            Proveedor proveedor = respuestaProveedor.get();
+            Usuario usuario = respuestaUsuario.get();
+
+            Transaccion transaccion = new Transaccion();
+
+            transaccion.setPresupuesto(presupuesto);
+            transaccion.setEstado(Estado.PENDIENTE);
+            transaccion.setProveedor(proveedor);
+            transaccion.setUsuario(usuario);
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    @Transactional
+    public void aceptarTransaccion(String idTransaccion) throws MiException {
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.ACEPTADO);
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    @Transactional
+    public void cancelarTransaccion(String idTransaccion) throws MiException {
+
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.CANCELADO);
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    @Transactional
+    public void finalizarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setEstado(Estado.FINALIZADO);
+            transaccion.setComentario(comentario);
+            transaccion.setCalificacion(calificacion);
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
     public List<Transaccion> listarTransaccionesPorProveedor(String idProveedor) {
         List<Transaccion> transacciones = new ArrayList<>();
         transacciones = transaccionRepositorio.listarTransaccionesPorProveedor(idProveedor);
         return transacciones;
     }
-    
-        public List<Transaccion> listarTransaccionesPorUsuario(String idUsuario) {
+
+    public List<Transaccion> listarTransaccionesPorUsuario(String idUsuario) {
         List<Transaccion> transacciones = new ArrayList<>();
         transacciones = transaccionRepositorio.listarTransaccionesPorUsuario(idUsuario);
         return transacciones;
     }
-    
-    
-       
-        
-        
-        
 
-    public void validar(String comentario, Integer calificacion, Long presupuesto, String idProveedor,
+    public void validar(String comentario, Double calificacion, Double presupuesto, String idProveedor,
             String idUsuario) throws MiException {
 
         if (comentario == null || comentario.trim().isEmpty()) {

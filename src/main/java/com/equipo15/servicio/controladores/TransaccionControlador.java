@@ -8,9 +8,10 @@ import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,31 +31,30 @@ public class TransaccionControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @GetMapping("/presupuesto/{idProveedor}")
-    public String presupuesto(@PathVariable String idProveedor, HttpSession session, ModelMap modelo) {
+    @GetMapping("/lista")
+    public String listar(ModelMap modelo, HttpSession session) {
+        List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+        modelo.addAttribute("transacciones", transacciones);
+        return "transaccion_list.html";
+    }
 
+    @GetMapping("/presupuestar/{idProveedor}")
+    public String presupuestar(@PathVariable String idProveedor, ModelMap modelo, HttpSession session) {
+        List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        
-        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
-             
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         modelo.put("proveedor", proveedor);
         modelo.put("usuario", usuario);
         modelo.put("presupuesto", null);
         modelo.addAttribute("transacciones", transacciones);
-        
-
         return "transaccion_form.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @PostMapping("/registro/{idProveedor}")
-    public String registro(@PathVariable String idProveedor, HttpSession session, Integer horas, ModelMap modelo) {
-
+    @PostMapping("/presupuesto/{idProveedor}")
+    public String presupuesto(@PathVariable String idProveedor, Integer horas, ModelMap modelo, HttpSession session) {
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
         Integer presupuesto = horas * proveedor.getPrecioPorHora();
 
         modelo.put("proveedor", proveedor);
@@ -62,77 +62,170 @@ public class TransaccionControlador {
         modelo.put("presupuesto", presupuesto);
 
         return "transaccion_form.html";
-
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @PostMapping("/alta/{idProveedor}")
-    public String alta(@PathVariable String idProveedor, HttpSession session, @RequestParam Long presupuesto, ModelMap modelo) {
-
-        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        String idUsuario= usuario.getId();
-
+    @PostMapping("/registro/{idProveedor}")
+    public String registro(@PathVariable String idProveedor, @RequestParam Double presupuesto,
+            ModelMap modelo, HttpSession session) {
         try {
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+            String idUsuario = usuario.getId();
+
             transaccionServicio.iniciarTransaccion(idProveedor, idUsuario, presupuesto);
+
             modelo.put("exito", "Se ha iniciado una solicitud se servicio correctamente");
             return "index.html";
-
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "transaccion_form.html";
         }
-
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
-        modelo.addAttribute("transacciones", transacciones);
-        return "transaccion_list.html";
+    @GetMapping("/aceptar/{idTransaccion}")
+    public String aceptarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
+        try {
+            transaccionServicio.aceptarTransaccion(idTransaccion);
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/cancelar/{idTransaccion}")
+    public String cancelarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
+        try {
+            transaccionServicio.cancelarTransaccion(idTransaccion);
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        }
+    }
+
+    @GetMapping("/finalizar/{idTransaccion}")
+    public String finalizarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        modelo.addAttribute("transaccion", transaccion);
+        modelo.addAttribute("usuario", usuario);
+        return "calificar.html";
+    }
+
+    @PostMapping("/finalizar/{idTransaccion}")
+    public String finalizarTransaccion(@PathVariable String idTransaccion, @RequestParam String comentario,
+            @RequestParam Double calificacion, ModelMap modelo, HttpSession session) {
+        try {
+            transaccionServicio.finalizarTransaccion(idTransaccion, comentario, calificacion);
+            proveedorServicio.actualizarCalificacion(idTransaccion);
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        }
+    }
+
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
-        modelo.put("transaccion", transaccion);
+        modelo.addAttribute("transaccion", transaccion);
 
         List<Proveedor> proveedores = proveedorServicio.listarProveedores();
         List<Usuario> residentes = usuarioServicio.listarUsuarios();
 
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("residentes", residentes);
-
         return "transaccion_modificar.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
-            Integer calificacion, Long presupuesto, ModelMap modelo) {
+            Double calificacion, Double presupuesto, ModelMap modelo) {
         try {
+            transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
             List<Usuario> residentes = usuarioServicio.listarUsuarios();
 
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
-
-            transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
-
-            return "redirect:../lista";
+            return "redirect:/transaccion/lista";
         } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
             List<Usuario> residentes = usuarioServicio.listarUsuarios();
 
-            modelo.put("error", ex.getMessage());
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
             return "transaccion_modificar.html";
         }
     }
 
-   
+    private List<Transaccion> obtenerTransaccionesPorRol(HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        if (usuario != null) {
+            String rolDescripcion = usuario.getRol().getDescripcion();
+
+            if (rolDescripcion.equals("Usuario")) {
+                return transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
+            } else if (rolDescripcion.equals("Proveedor")) {
+                return transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
+            } else {
+                return transaccionServicio.listarTransacciones();
+            }
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
+        }
+    }
+
 }

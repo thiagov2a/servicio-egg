@@ -11,17 +11,15 @@ import org.springframework.stereotype.Repository;
 public interface TransaccionRepositorio extends JpaRepository<Transaccion, String> {
 
     @Query("SELECT t FROM Transaccion t WHERE t.proveedor.usuario.id = :id")
-    public List <Transaccion> listarTransaccionesPorProveedor(@Param ("id") String id);
-    
+    public List<Transaccion> listarTransaccionesPorProveedor(@Param("id") String id);
+
     @Query("SELECT t FROM Transaccion t WHERE t.usuario.id = :id")
-    public List <Transaccion> listarTransaccionesPorUsuario(@Param ("id") String id);
-    
-     @Query("SELECT SUM(t.calificacion) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'FINALIZADO'" )
-     public Integer SumaDeCalificacionesPorProveedor(@Param ("id") String id);
-    
-     @Query("SELECT COUNT(t) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'FINALIZADO'" )
-     public Integer CantidadDeCalificacionesPorProveedor(@Param ("id") String id);
-    
-    
-    
+    public List<Transaccion> listarTransaccionesPorUsuario(@Param("id") String id);
+
+    @Query("SELECT SUM(t.calificacion) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'FINALIZADO'")
+    public Integer sumaDeCalificacionesPorProveedor(@Param("id") String id);
+
+    @Query("SELECT COUNT(t) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'FINALIZADO'")
+    public Integer cantidadDeCalificacionesPorProveedor(@Param("id") String id);
+
 }
