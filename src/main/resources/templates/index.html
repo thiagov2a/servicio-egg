@@ -1,47 +1,117 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Corlink</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" href="/css/index.css" />
-    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-  </head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corlink</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" href="/css/index.css" />
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 
-    <main class="cont-principal">
+  <!-- Estilos para carrousel de comentarios -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
-      <div class="wrp">
+  <style>
+    .item {
+      
+      font-size: 10pt;
+      width: 200px;
+      border: 1px solid black;
+      border-radius: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 5px;
+      margin-bottom: 100px;
+    }
+
+    .star {
+      color: gold;
+      font-size: 32px;
+      display: inline-block;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <main class="cont-principal">
+
+    <div class="wrp">
       <nav th:replace="/fragments/navbar :: nav"></nav>
 
-        <div class="portada">
-          <div class="contenido">
-            <div class="info">
-              <h1>El servicio que necesitás para tu hogar</h1>
-              <a href="#">Contactar</a>
-            </div>
-          </div>
-
-          <div class="curveado">
-            <img src="img/img2.svg" />
+      <div class="portada">
+        <div class="contenido">
+          <div class="info">
+            <h1>El servicio que necesitás para tu hogar</h1>
+            <a href="#">Contactar</a>
           </div>
         </div>
 
-        <!--SECCION JORGE-->
-
+        <div class="curveado">
+          <img src="img/img2.svg" />
+        </div>
       </div>
 
+      <!--SECCION JORGE-->
+      <!--Carousel de comentarios-->
+      <div class="owl-carousel owl-theme" style="margin-bottom: 20px;">
+        <div class="item">
+          <div class="card mx-2">
+            <div id="contenedorEstrellas" style="text-align: center;"></div>
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center; font-size: 12pt;">Nombre usuario</h5>
+              <p class="card-text" style="padding-top: 10px;">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit ea laboriosam amet
+                illo. Tempora consectetur magnam voluptatum odio voluptas quaerat!</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
+    </div>
 
+  </main>
 
+  <!-- Scripts para manejo de carrousel de comentarios -->
+  <!-- jQuery y Owl Carousel JS -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-      
-    </main>
-  </body>
-  <footer th:replace="/fragments/footer :: footer"></footer>
+  <script>
+    $(document).ready(function () {
+      $(".owl-carousel").owlCarousel({
+        items: 5,  // Muestra 3 tarjetas a la vez
+        loop: true, // Hace que el carrusel sea infinito
+        margin: 10,
+        autoplay: true,
+        autoplayTimeout: 2000, // Cambia esto al tiempo deseado en milisegundos (2 segundos en este caso)
+        autoplayHoverPause: true
+      });
+    });
+
+    // Script para manejo de dibujo de la estrella de calificacion
+
+    var valorVariable = 4;
+
+    dibujarEstrellas("contenedorEstrellas", valorVariable);
+
+    function dibujarEstrellas(idContenedor, valor) {
+
+      var contenedorEstrellas = document.getElementById(idContenedor);
+
+      for (var i = 0; i < valor; i++) {
+        var estrella = document.createElement("div");
+        estrella.innerHTML = "★";
+        estrella.className = "star";
+        contenedorEstrellas.appendChild(estrella);
+      }
+    }
+  </script>
+
+</body>
+<footer th:replace="/fragments/footer :: footer"></footer>
+
 </html>
