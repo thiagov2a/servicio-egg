@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
-/* ACA VA SOLO FOOTER Y NAVBAR 
-PERO TIENE ESTILOS DE REGISTRO 
+/* ACA VA SOLO FOOTER Y NAVBAR
+PERO TIENE ESTILOS DE REGISTRO
 Y LOGUIN Y NO PUDE SEPARARLOS A TODOS*/
 * {
   font-family: 'Montserrat', sans-serif;
@@ -36,18 +36,28 @@ h1 {
 }
 
 
-/*   FOOTER Y NAV   */
-footer {
+/*   FOOTER Y NAV */
+.foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 10pt;  
-  margin-left: 30px;
+  font-size: 10pt;
+  /*margin-left: 30px;*/
+
   width: 100%;
   background-color: white;
   padding: 10px;
-  position: fixed;
-  bottom: 0;
+  /*position: fixed;*/
+  /*bottom: 0;*/
+}
+
+
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color:white;
+  color: white;
+  margin-bottom: 0px;
 }
 
 nav {
@@ -62,7 +72,7 @@ nav {
   border-radius: 3px;
   box-shadow: 1em 1em 2em rgba(165, 164, 164, 0.761), -1em -1em 2em rgba(192, 184, 184, 0.736), inset 0 0 0 transparent,
     inset 0 0 0 transparent;
-    overflow: hidden;
+
 }
 .nav_titulo {
   margin: none;
@@ -195,7 +205,7 @@ nav {
 @media(max-width:768px){
   .contenido .info h1{
       font-size: 35px;
-  }    
+  }
 }
 
 

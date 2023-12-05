@@ -16,22 +16,23 @@ main.cont-principal {
   height: 100vh;
 }
 .wrp{
-  width: 100%; height: 600px;
-  position: relative;
+  width: 100%; height: 100%;
+ /* position: relative;*/
 }
 
 .portada {
   position: relative;
-  height: 90%;
+  height: 50%;
 }
 
 .contenido{
-    width: 100%; height: 100%;
+  /*  width: 100%; height: 100%;*/
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(0,0,11,0.6);
-  
+
 }
 .contenido .info{
   width: 100%;
@@ -74,7 +75,6 @@ main.cont-principal {
 @media(max-width:768px){
   .contenido .info h1{
       font-size: 35px;
-  }    
+  }
 }
 
-  

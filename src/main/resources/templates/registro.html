@@ -125,14 +125,14 @@
             <button type="submit" class="boton">Registrarme!</button>
           </div>
         </div>
-      
+
         <div id="campo-proveedor">
           <div class="campo">
             <select name="idServicio">
               <option value="">Seleccionar Servicio</option>
               <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
             </select>
-            
+
           </div>
           <div class="campo">
             <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
@@ -142,7 +142,7 @@
           </div>
           <div class="campo">
             <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
-          
+
             <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
             <input type="hidden" name="calificacion" th:value="0" />
           </div>
@@ -153,11 +153,11 @@
           </div>
         </form>
       </div>
-      
+
 
     </main>
 
-    <footer th:replace="~{/fragments/footer :: footer}"></footer>
+    <footer th:replace="/fragments/footer :: footer "></footer>
 
     <script th:src="@{/js/scripts.js}"></script>
   </body>
