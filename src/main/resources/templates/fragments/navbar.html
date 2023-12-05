@@ -1,16 +1,17 @@
 <nav>
   <div>
     <!-- Título de la aplicación -->
-    <a th:href="@{/}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="120px" /></a>
+    <a th:href="@{/}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px"></a>
+
   </div>
 
-  <!-- Buscador -->
+  <!-- Buscador 
   <div class="nav_search">
     <form th:action="@{/search}" method="POST">
       <input type="text" name="search" placeholder="Buscador" />
       <button type="submit">Search</button>
     </form>
-  </div>
+  </div  >  -->
 
   <div>
     <!-- Opciones de Login y Registro -->
@@ -49,3 +50,49 @@
     </div>
   </div>
 </nav>
+
+
+<!-- 
+<header>
+   Título de la aplicación 
+  <a th:href="@{/}"><img src="/img/CORLINK-2-sf.png" alt="logo" /></a>
+
+   Buscador 
+
+   <form th:action="@{/search}" method="POST">
+      <input type="text" name="search" placeholder="Buscador" />
+      <button type="submit">Search</button>
+    </form> 
+
+  <nav>
+    <div>
+       Opciones de Login y Registro 
+      <div th:unless="${session.usuariosession != null}">
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/registrar}">Registrarse</a>
+      </div>
+
+      Lista desplegable cuando el usuario está logeado 
+      <div th:if="${session.usuariosession != null}" class="nav_dropdown">
+         Botón para desplegar el menú 
+        <div class="nav-hola">
+        <p th:text="${'Hola ' + session.usuariosession.nombre }"></p>
+        <img class="nav-img1" id="btn"
+          th:if="${session.usuariosession.imagen != null}"
+          th:src="@{/imagen/perfil/${session.usuariosession.id}}"
+          alt="mdo"
+        />
+        <img class="nav-img1" id="btn"
+          th:if="${session.usuariosession.imagen == null}"
+          src="/img/sinImg.png"
+          alt="mdo"
+        />
+      </div>
+        <div class="nav_dropdown-content" id="abrir">
+          <a th:href="@{/perfil}">Perfil</a>
+          <a th:href="@{/logout}">Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>-->

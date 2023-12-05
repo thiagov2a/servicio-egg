@@ -26,78 +26,66 @@ h1 {
   text-align: center;
 }
 
-.header {
-  background-image: url(img/fondo);
-  background-size: cover;
-  height: 550px;
-  display: flex;
-  justify-content: end;
-}
 
-.logo {
-  width: 40%;
-  margin: auto;
-}
-.form-registro {
+.wrp{
+  width: 100%; height: 600px;
   position: relative;
 }
-
-.boton {
-  background-color: #ffcb00;
-  box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -webkit-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -moz-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+.portada{
+  width: 100%; height: 100%;
+  background: url("src\main\resources\static\img\portada.png");
+  background-attachment: fixed;
 }
-
-.boton:hover {
-  background-color: #ffe479;
-}
-
-.boton:active {
-  box-shadow: none;
-}
-
-.contenedor {
+.contenido{
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   display: flex;
-  flex-direction: row;
-  height: auto;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,11,0.6);
 }
-.principal {
-  flex: 5;
-  max-height: 1500px;
-}
-.costado {
-  flex: 1;
-}
-
-.boton {
-  background-color: rgb(0, 140, 255);
-  font-weight: 600;
-  padding: 6px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: none;
-}
-
-select {
-  font-size: 12pt;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-input {
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 350px;
-}
-.campo {
-  margin: 10px;
+.contenido .info{
+  width: 100%;
+  max-width: 750px;
   text-align: center;
 }
-
+.contenido .info h1{
+  color: #fff;
+  font-size: 50px;
+  text-shadow: 0px 1px 10px rgba(0,0,0,0.4);
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+.contenido .info a{
+  display: inline-block;
+  text-decoration: none;
+  font-size: 19px;
+  padding: 10px 25px;
+  color: #fff;
+  background: #4897C3;
+  border-radius: 50px;
+  margin-bottom: 40px;
+  border: 2px solid transparent;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px; /*Para separar un poco las letras*/
+}
+.contenido .info a:hover{
+  background: transparent; /*Fondo transparente*/
+  border: 2px solid #fff;
+}
+.curveado{
+  position: absolute;
+  width: 100%;
+  bottom: -10px;
+}
+.curveado img{
+  width: 100%;
+}
+@media(max-width:768px){
+  .contenido .info h1{
+      font-size: 35px;
+  }    
+}
 
   
