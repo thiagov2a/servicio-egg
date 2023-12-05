@@ -20,11 +20,11 @@
         <div class="portada">
           <div class="contenido">
             <div class="login-form">
-              <h2 style="text-align: center">Login</h2>
+              <h2>Login</h2>
               <form th:action="@{/logincheck}" method="post">
                 <div class="campo">
-                  <label for="email">Email:</label>
-                  <input type="email" name="email" th:value="${email}" required autofocus />
+                  <label for="email" >Email:</label>
+                  <input type="email" name="email" placeholder="user@user.com" th:value="${email}" required autofocus />
                 </div>
       
                 <div class="campo">
@@ -34,7 +34,7 @@
 
                 
               <div class="campo">
-                 <button type="submit" class="boton">Registrarme!</button>
+                 <button type="submit" class="boton">Iniciar Sesión</button>
               </div>
           </div>
 
