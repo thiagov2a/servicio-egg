@@ -16,7 +16,7 @@
 
   <style>
     .item {
-      
+
       font-size: 10pt;
       width: 200px;
       border: 1px solid black;
@@ -64,12 +64,13 @@
             <div id="contenedorEstrellas" style="text-align: center;"></div>
             <div class="card-body">
               <h5 class="card-title" style="text-align: center; font-size: 12pt;">Nombre usuario</h5>
-              <p class="card-text" style="padding-top: 10px;">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit ea laboriosam amet
-                illo. Tempora consectetur magnam voluptatum odio voluptas quaerat!</p>
+              <p class="card-text" style="padding-top: 10px;">Aca va en comentario. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                 Tempora consectetur magnam voluptatum odio voluptas quaerat!</p>
             </div>
           </div>
         </div>
       </div>
+      <!--Fin Carousel de comentarios-->
 
     </div>
 
@@ -83,18 +84,18 @@
   <script>
     $(document).ready(function () {
       $(".owl-carousel").owlCarousel({
-        items: 5,  // Muestra 3 tarjetas a la vez
+        items: 5,  // Muestra 5 tarjetas a la vez
         loop: true, // Hace que el carrusel sea infinito
         margin: 10,
         autoplay: true,
-        autoplayTimeout: 2000, // Cambia esto al tiempo deseado en milisegundos (2 segundos en este caso)
+        autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
         autoplayHoverPause: true
       });
     });
 
     // Script para manejo de dibujo de la estrella de calificacion
 
-    var valorVariable = 4;
+    var valorVariable = 4; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
 
     dibujarEstrellas("contenedorEstrellas", valorVariable);
 

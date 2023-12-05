@@ -38,14 +38,16 @@ function cambiarTipoUsuario(esProveedor) {
 
 function actualizarEstilosBoton(boton, activo) {
   var estiloActivo = activo ? 'white' : 'rgb(220, 220, 220)';
-  var estiloInactivo = activo ? 'rgb(160, 160, 160)' : 'black';
+  var estiloInactivo = activo ? 'black' : 'rgb(160, 160, 160)';
   var borde = activo ? '1px solid black' : 'none';
-  var fontWeight = activo ? '600' : '500';
+  var fontWeight = activo ? '600' : '400';
+ 
 
   boton.style.backgroundColor = estiloActivo;
   boton.style.border = borde;
   boton.style.color = estiloInactivo;
   boton.style.fontWeight = fontWeight;
+
 }
 
 function seleccionarBarrioAleatorio() {
