@@ -4,7 +4,6 @@ import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ImagenRepositorio;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

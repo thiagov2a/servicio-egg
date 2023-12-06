@@ -80,7 +80,7 @@
                     <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar</a>
                   </div>
                 </div>
-                <div th:if="${transaccion.estado.descripcion == 'Finalizado'}">
+                <div th:if="${transaccion.comentario == null && transaccion.estado.descripcion == 'Finalizado'}">
                   <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
                     <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST">Calificar</a>
                   </div>

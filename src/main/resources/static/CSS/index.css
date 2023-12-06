@@ -11,13 +11,13 @@ html {
   font-size: 62, 5%;
 }
 
-
 main.cont-principal {
   height: 100vh;
 }
-.wrp{
-  width: 100%; height: 100%;
- /* position: relative;*/
+.wrp {
+  width: 100%;
+  height: 100%;
+  /* position: relative;*/
 }
 
 .portada {
@@ -25,7 +25,7 @@ main.cont-principal {
   height: 50%;
 }
 
-.contenido{
+.contenido {
   /*  width: 100%; height: 100%;*/
   height: 100%;
   display: flex;
@@ -35,47 +35,45 @@ main.cont-principal {
   background-repeat: repeat-y;
   background-size: cover;
   margin-bottom: 50px;
-
 }
-.contenido .info{
+.contenido .info {
   width: 100%;
   max-width: 750px;
   text-align: center;
   justify-content: center;
 }
-.contenido .info h1{
+.contenido .info h1 {
   color: #fff;
   font-size: 50px;
-  text-shadow: 0px 1px 10px rgba(0,0,0,0.4);
+  text-shadow: 0px 1px 10px rgba(0, 0, 0, 0.4);
   margin-bottom: 25px;
   letter-spacing: 1px;
 }
-.contenido .info a{
+.contenido .info a {
   display: inline-block;
   text-decoration: none;
   font-size: 19px;
   padding: 10px 25px;
   color: #fff;
-  background: #4897C3;
+  background: #4897c3;
   border-radius: 50px;
   margin-bottom: 40px;
   border: 2px solid transparent;
   transition: all 300ms ease;
   letter-spacing: 0.5px; /*Para separar un poco las letras*/
 }
-.contenido .info a:hover{
+.contenido .info a:hover {
   background: transparent; /*Fondo transparente*/
   border: 2px solid #fff;
 }
 
-.owl-carousel{
+.owl-carousel {
   padding: 20px;
   border-collapse: collapse;
 }
 
-@media(max-width:768px){
-  .contenido .info h1{
-      font-size: 35px;
+@media (max-width: 768px) {
+  .contenido .info h1 {
+    font-size: 35px;
   }
 }
-

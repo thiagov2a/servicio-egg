@@ -36,22 +36,10 @@ function actualizarEstilosBoton(boton, activo) {
   var estiloInactivo = activo ? 'black' : 'rgb(160, 160, 160)';
   var borde = activo ? '1px solid black' : 'none';
   var fontWeight = activo ? '600' : '400';
- 
 
   boton.style.backgroundColor = estiloActivo;
   boton.style.border = borde;
   boton.style.color = estiloInactivo;
   boton.style.fontWeight = fontWeight;
-
 }
-<<<<<<< Updated upstream
-
-function seleccionarBarrioAleatorio() {
-  var barriosSelect = document.getElementsByName('barrio')[0];
-  var opcionesBarrios = barriosSelect.options;
-  var barrioAleatorio = opcionesBarrios[Math.floor(Math.random() * opcionesBarrios.length)].value;
-  barriosSelect.value = barrioAleatorio;
-}
-=======
->>>>>>> Stashed changes
 //

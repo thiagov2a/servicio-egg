@@ -1,8 +1,7 @@
 <nav>
   <div>
     <!-- Título de la aplicación -->
-    <a th:href="@{/}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px"></a>
-
+    <a th:href="@{/}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
   </div>
 
   <!-- Buscador
@@ -26,11 +25,13 @@
 
       <span th:text="${'Hola ' + session.usuariosession.nombre }"></span>
       <button class="nav_btn">
-        <img th:if="${session.usuariosession.imagen != null}"
-          th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42"
+        <img
+          th:if="${session.usuariosession.imagen != null}"
+          th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"
+          alt="mdo"
+          width="42"
+          height="42"
           class="nav_img_perfil" />
-        <img th:if="${session.usuariosession.imagen == null}" th:src="@{/img/sinImg.png}" alt="NO" width="42"
-          height="42" class="nav_img_perfil" />
       </button>
 
       <div class="nav_dropdown-content">
@@ -41,7 +42,6 @@
     </div>
   </div>
 </nav>
-
 
 <!--
 <header>

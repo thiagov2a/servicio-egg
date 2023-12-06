@@ -7,17 +7,24 @@
     <link rel="stylesheet" th:href="@{/css/calificar.css}" />
   </head>
   <body>
-    <form th:action="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/transaccion/calificar/__${transaccion.id}__}" method="POST" enctype="multipart/form-data">
       <div class="calificacion">
-        Calificación:
-        <span class="estrellas">
-          <span class="estrella" onclick="calificar(5)">★</span>
-          <span class="estrella" onclick="calificar(4)">★</span>
-          <span class="estrella" onclick="calificar(3)">★</span>
-          <span class="estrella" onclick="calificar(2)">★</span>
-          <span class="estrella" onclick="calificar(1)">★</span>
-        </span>
-        <input type="hidden" th:name="calificacion" th:value="${calificacion}" />
+        <div class="estrellas">
+          <input type="radio" class="radio" id="estrella5" name="calificacion" value="5" />
+          <label for="estrella5" class="estrella">★</label>
+
+          <input type="radio" class="radio" id="estrella4" name="calificacion" value="4" />
+          <label for="estrella4" class="estrella">★</label>
+
+          <input type="radio" class="radio" id="estrella3" name="calificacion" value="3" />
+          <label for="estrella3" class="estrella">★</label>
+
+          <input type="radio" class="radio" id="estrella2" name="calificacion" value="2" />
+          <label for="estrella2" class="estrella">★</label>
+
+          <input type="radio" class="radio" id="estrella1" name="calificacion" value="1" />
+          <label for="estrella1" class="estrella">★</label>
+        </div>
       </div>
 
       <div class="campo">
@@ -25,7 +32,7 @@
       </div>
 
       <div class="campo">
-        <button type="submit" class="boton" onclick="enviarFormulario()">Enviar el Comentario y la calificación</button>
+        <button type="submit" class="boton">Enviar el Comentario y la calificación</button>
       </div>
     </form>
 
@@ -38,8 +45,8 @@
       }
 
       function actualizarCalificacion() {
-        var mensaje = 'Calificación: ' + calificacion + ' estrella(s)';
-        document.querySelector('.calificacion').innerText = mensaje;
+        // var mensaje = 'Calificación: ' + calificacion + ' estrella(s)';
+        // document.querySelector('.calificacion').innerText = mensaje;
         // Actualizar el valor del campo oculto
         document.querySelector('input[name="calificacion"]').value = calificacion;
       }
