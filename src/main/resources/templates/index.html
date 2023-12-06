@@ -26,6 +26,7 @@
         padding-left: 10px;
         padding-right: 10px;
         padding-bottom: 5px;
+
       }
 
       .star {
@@ -39,7 +40,7 @@
   <body>
     <main class="cont-principal">
       <div class="wrp">
-        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <nav th:replace="~{/fragments/navbar :: nav}"></nav>
 
         <div class="portada">
           <div class="contenido">
@@ -105,5 +106,5 @@
       }
     </script>
   </body>
-  <footer th:replace="/fragments/footer :: footer "></footer>
+  <footer th:replace="~{/fragments/footer :: footer}"></footer>
 </html>

@@ -1,6 +1,7 @@
 
 #campo-proveedor {
   display: none;
+  margin-bottom: 50px;
 }
 
 #campo-residente {
@@ -44,16 +45,17 @@
 }
 
 .cont-principal{
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 
 }
 
 .fondoimg {
   background: linear-gradient(to bottom, rgb(255, 191, 0), #ffffff);
-   background-size: cover;
+  background-size: cover;
   padding: 0;
   margin: 0;
-  height: 80%;
+  /*height: 100%;*/
 
   /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
 }
@@ -61,7 +63,7 @@
 .formulario{
   height: 80%;
 
-  
+
 }
 .campo {
   margin: 10px;
@@ -117,7 +119,7 @@ input, select {
   border: 1px solid black;
   background-color: #fff;
   width: 350px;
-  
+
 }
 
 input::placeholder{

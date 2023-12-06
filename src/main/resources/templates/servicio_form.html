@@ -2,21 +2,21 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de usuario</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/registro.css}" />
-    <!-- Usar th:href para resolver la URL del CSS -->
-    <script th:src="@{/js/Scripts.js}"></script>
-    <!-- Usar th:src para resolver la URL del script JS -->
-    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de usuario</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
+  <!-- Usar th:href para resolver la URL del CSS -->
+  <script th:src="@{/js/Scripts.js}"></script>
+  <!-- Usar th:src para resolver la URL del script JS -->
+  <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+</head>
 
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
-
+<nav th:replace="fragments/navbar :: nav"></nav>
+<body>
+  <div style="min-height: 75vh;">
     <h1 class="campo">REGISTRAR SERVICIO</h1>
 
     <form th:action="@{/servicio/registro}" method="POST">
@@ -27,14 +27,16 @@
       </div>
 
       <div class="campo">
-        <textarea style="width: 350px; height: 150px;" name="descripcion" placeholder="Descripción" th:value="${descripcion}"></textarea>
+        <textarea style="width: 350px; height: 150px;" name="descripcion" placeholder="Descripción"
+          th:value="${descripcion}"></textarea>
       </div>
 
       <div class="campo">
         <button type="submit" class="boton">Registrar Servicio</button>
       </div>
     </form>
+  </div>
 
-    <footer th:replace="/fragments/footer :: footer "></footer>
-  </body>
+</body>
+<footer th:replace="/fragments/footer :: footer "></footer>
 </html>

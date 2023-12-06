@@ -1,89 +1,79 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de usuario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/registro.css}" />
-    <style>
-      .error {
-        color: red;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de usuario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
+  <style>
+    .error {
+      color: red;
+    }
+
+    .exito {
+      color: green;
+    }
+  </style>
+  <script>
+    function mostrarMensaje(mensaje, tipo) {
+      var mensajeImagen = document.getElementById("mensaje");
+      mensajeImagen.innerHTML =
+        '<div class="' + tipo + '">' + mensaje + "</div>";
+    }
+
+    function validarArchivo() {
+      var archivoInput = document.getElementById("archivo");
+      var archivo = archivoInput.files[0];
+
+      mostrarMensaje("", "");
+
+      if (!archivo) {
+        mostrarMensaje("Por favor, seleccione una imagen.", "error");
+        return false;
       }
 
-      .exito {
-        color: green;
-      }
-    </style>
-    <script>
-      function mostrarMensaje(mensaje, tipo) {
-        var mensajeImagen = document.getElementById("mensaje");
-        mensajeImagen.innerHTML =
-          '<div class="' + tipo + '">' + mensaje + "</div>";
+      var tipoPermitido = ["image/jpeg", "image/jpg"];
+      if (tipoPermitido.indexOf(archivo.type) === -1) {
+        mostrarMensaje(
+          "Por favor, selecciona una imagen en formato JPEG.",
+          "error"
+        );
+        return false;
       }
 
-      function validarArchivo() {
-        var archivoInput = document.getElementById("archivo");
-        var archivo = archivoInput.files[0];
-
-        mostrarMensaje("", "");
-
-        if (!archivo) {
-          mostrarMensaje("Por favor, seleccione una imagen.", "error");
-          return false;
-        }
-
-        var tipoPermitido = ["image/jpeg", "image/jpg"];
-        if (tipoPermitido.indexOf(archivo.type) === -1) {
-          mostrarMensaje(
-            "Por favor, selecciona una imagen en formato JPEG.",
-            "error"
-          );
-          return false;
-        }
-
-        var maxSizeMB = 1;
-        var maxSizeBytes = maxSizeMB * 1024 * 1024;
-        if (archivo.size > maxSizeBytes) {
-          mostrarMensaje("La imagen debe pesar menos de 1 MB.", "error");
-          return false;
-        }
-
-        // Paso todas las validaciones
-        mostrarMensaje("Imagen Valida!", "exito");
-
-        return true;
+      var maxSizeMB = 1;
+      var maxSizeBytes = maxSizeMB * 1024 * 1024;
+      if (archivo.size > maxSizeBytes) {
+        mostrarMensaje("La imagen debe pesar menos de 1 MB.", "error");
+        return false;
       }
-    </script>
-  </head>
 
-  <body>
-    <main class="cont-principal">
-      <nav th:replace="~{fragments/navbar :: nav}"></nav>
+      // Paso todas las validaciones
+      mostrarMensaje("Imagen Valida!", "exito");
 
-      <div class="fondoimg">
+      return true;
+    }
+  </script>
+</head>
 
-        <div th:replace="~{fragments/alert :: div}"></div>
+<body>
+  <main class="cont-principal">
+    <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-        <form class="formulario"
-          th:action="@{/registro}"
-          method="POST"
-          enctype="multipart/form-data"
-        >       
-         <h1>REGISTRAR USUARIO</h1>
+    <div class="fondoimg">
 
-          <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
-          <input
-            type="hidden"
-            id="esProveedor"
-            name="esProveedor"
-            value="false"
-          />
+      <div th:replace="~{fragments/alert :: div}"></div>
+
+      <form class="formulario" th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+        <h1>REGISTRAR USUARIO</h1>
+
+        <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
+        <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
         <div class="campo">
           <button type="button" onclick="cambiarTipoUsuario(false)" class="soy-residente">Soy Residente</button>
@@ -133,33 +123,37 @@
               <option value="">Seleccionar Servicio</option>
               <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
             </select>
-
           </div>
+
           <div class="campo">
             <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
           </div>
+
           <div class="campo">
             <input type="tel" name="contacto" placeholder="Contacto" th:value="${contacto}" />
           </div>
+
           <div class="campo">
             <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
-
             <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
             <input type="hidden" name="calificacion" th:value="0" />
           </div>
 
-
           <div class="campo">
             <button type="submit" class="boton">Registrarme!</button>
           </div>
-        </form>
-      </div>
+          
+        </div>
+      </form>
+    </div>
 
 
-    </main>
+  </main>
 
-    <footer th:replace="/fragments/footer :: footer "></footer>
 
-    <script th:src="@{/js/scripts.js}"></script>
-  </body>
+
+  <script th:src="@{/js/scripts.js}"></script>
+</body>
+<footer th:replace="/fragments/footer :: footer "></footer>
+
 </html>
