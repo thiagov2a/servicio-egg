@@ -26,7 +26,7 @@ public class ProveedorControlador {
 
     @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = proveedorServicio.listarProveedoresPorAlta(true);
+        List<Proveedor> proveedores = obtenerProveedoresPorRol(session);
         modelo.addAttribute("proveedores", proveedores);
         return "proveedor_list.html";
     }

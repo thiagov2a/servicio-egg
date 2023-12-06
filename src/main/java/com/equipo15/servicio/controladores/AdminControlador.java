@@ -38,7 +38,7 @@ public class AdminControlador {
     @GetMapping("/cambiarEstado/{id}")
     public String cambiarEstado(@PathVariable String id) {
         usuarioServicio.cambiarEstado(id);
-        return "redirect:/admin/usuarios";
+        return "redirect:/admin/dashboard";
     }
 
 }
