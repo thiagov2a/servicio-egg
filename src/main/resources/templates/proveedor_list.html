@@ -73,34 +73,34 @@
         </thead>
         <tbody th:each="proveedor : ${proveedores}">
           <tr>
-            <td>
-              <a th:if="${proveedor.usuario.imagen != null}" th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
-                <img
-                  th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}"
-                  width="50px"
-                  style="text-align: center"
-                  alt="Imagen de perfil" />
-              </a>
-              <a th:if="${proveedor.usuario.imagen == null}" href="#">
-                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
-              </a>
+            <td scope="row">
+              <div th:if="${proveedor.usuario.imagen != null}">
+                <a th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
+                  <img
+                    th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}"
+                    width="50px"
+                    style="text-align: center"
+                    alt="mdo" />
+                </a>
+              </div>
             </td>
-            <td th:scope="row" th:text="${proveedor.usuario.id}" sec:authorize="hasRole('ADMIN')"></td>
-            <td th:text="${proveedor.usuario.nombre}"></td>
-            <td th:text="${proveedor.usuario.email}"></td>
-            <td th:text="${proveedor.servicio.nombre}"></td>
-            <td th:text="${proveedor.descripcion}" style="text-align: left"></td>
-            <td th:text="${proveedor.contacto}"></td>
-            <td th:text="${proveedor.precioPorHora}"></td>
-            <td th:text="${proveedor.calificacion}"></td>
-            <td sec:authorize="hasRole('ADMIN')">
-              <button><a th:href="@{/admin/modificarRol/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
-              <button><a th:href="@{/}">Alta/Baja</a></button>
-            </td>
-            <td sec:authorize="hasRole('USER')">
-              <a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">
-                <button class="soy-residente">Presupuestar</button>
-              </a>
+            <td scope="row" th:text="${proveedor.usuario.id}" sec:authorize="hasRole('ADMIN')"></td>
+            <td scope="row" th:text="${proveedor.usuario.nombre}"></td>
+            <td scope="row" th:text="${proveedor.usuario.email}"></td>
+            <td scope="row" th:text="${proveedor.servicio.nombre}"></td>
+            <td scope="row" th:text="${proveedor.descripcion}" style="text-align: left"></td>
+            <td scope="row" th:text="${proveedor.contacto}"></td>
+            <td scope="row" th:text="${proveedor.precioPorHora}"></td>
+            <td scope="row" th:text="${proveedor.calificacion}"></td>
+            <td scope="row">
+              <div sec:authorize="hasRole('ADMIN')">
+                <button><a th:href="@{/admin/hacerAdmin/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
+                <button><a th:href="@{/admin/cambiarEstado/__${proveedor.usuario.id}__}">Alta/Baja</a></button>
+              </div>
+
+              <div sec:authorize="hasRole('USER')">
+                <button><a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">Presupuestar</a></button>
+              </div>
             </td>
           </tr>
         </tbody>

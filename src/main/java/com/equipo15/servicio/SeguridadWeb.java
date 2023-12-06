@@ -29,7 +29,7 @@ public class SeguridadWeb {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/admin/*", "/error", "/transaccion/modificar/*")
+                    authz.requestMatchers("/admin/*", "/servicio/*", "/transaccion/modificar/*")
                             .hasRole("ADMIN");
                     authz.requestMatchers("/", "/login", "/registrar", "/registro")
                             .permitAll();

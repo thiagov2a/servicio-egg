@@ -160,38 +160,32 @@ public class TransaccionControlador {
     }
 
     @PostMapping("/calificar/{idTransaccion}")
-    public String finalizarTransaccion(@PathVariable String idTransaccion, @RequestParam String comentario,
-            @RequestParam Double calificacion, ModelMap modelo, HttpSession session) {
+    public String calificarTransaccion(@PathVariable String idTransaccion,
+            @RequestParam(required = false) String comentario, @RequestParam(required = false) Double calificacion,
+            ModelMap modelo, HttpSession session) {
         try {
+            // ! Agregar validación de comentario y calificación en comentarTransaccion()
             transaccionServicio.comentarTransaccion(idTransaccion, comentario, calificacion);
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
-            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
-            Usuario usuario = obtenerUsuarioDesdeSession(session);
-
-            modelo.addAttribute("transacciones", transacciones);
-            modelo.addAttribute("usuario", usuario);
+            // ! Manejar las alertas en todos los métodos
+            modelo.put("exito", "Se ha calificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
 
-            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
-            Usuario usuario = obtenerUsuarioDesdeSession(session);
-
-            modelo.addAttribute("transacciones", transacciones);
-            modelo.addAttribute("usuario", usuario);
-            return "redirect:/transaccion/lista";
+            modelo.put("comentario", comentario);
+            modelo.put("calificacion", calificacion);
+            return "calificar.html";
         }
     }
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
-        modelo.addAttribute("transaccion", transaccion);
-
         List<Proveedor> proveedores = proveedorServicio.listarProveedores();
         List<Usuario> residentes = usuarioServicio.listarUsuarios();
-
+        modelo.addAttribute("transaccion", transaccion);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("residentes", residentes);
         return "transaccion_modificar.html";
@@ -203,18 +197,15 @@ public class TransaccionControlador {
         try {
             transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
-
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
+            modelo.put("exito", "Se ha modificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
 
+            Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
             List<Usuario> residentes = usuarioServicio.listarUsuarios();
-
+            modelo.addAttribute("transaccion", transaccion);
             modelo.addAttribute("proveedores", proveedores);
             modelo.addAttribute("residentes", residentes);
             return "transaccion_modificar.html";

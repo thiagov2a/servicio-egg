@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head th:replace="/fragments/head :: head "></head>
-
-  <!-- ESTILOS CSS PARA PASAR A ARCHIVO EXTERNO-->
-
   <style>
     * {
       font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -51,10 +47,8 @@
     <h3 th:text="${proveedor.calificacion}"></h3>
 
     <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
-      <!-- Campo oculto para el ID del proveedor -->
-
       <div class="campo">
-        <input type="number" name="horas" placeholder="horas a presupuestar" th:value="${horas}" id="horas" />
+        <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
       </div>
 
       <div class="campo">
@@ -62,12 +56,10 @@
       </div>
     </form>
 
-    <div th:if="${presupuesto!=null}">
+    <div th:if="${presupuesto != null}">
       <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
-
+      <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
       <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
-        <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
-
         <input
           hidden
           id="presupuesto"

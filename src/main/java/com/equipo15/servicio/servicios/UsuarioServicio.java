@@ -1,10 +1,12 @@
 package com.equipo15.servicio.servicios;
 
 import com.equipo15.servicio.entidades.Imagen;
+import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
+import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private ProveedorRepositorio proveedorRepositorio;
     @Autowired
     private ImagenServicio imagenServicio;
 
@@ -114,11 +118,27 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
-            if (usuario.getRol().equals(Rol.USER)) {
+            if (usuario.getRol() == Rol.USER) {
                 usuario.setRol(Rol.PROVEEDOR);
-            } else if (usuario.getRol().equals(Rol.PROVEEDOR)) {
+            } else if (usuario.getRol() == Rol.PROVEEDOR) {
                 usuario.setRol(Rol.USER);
             }
+        }
+    }
+
+    @Transactional
+    public void hacerAdmin(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Usuario usuario = respuesta.get();
+            if (usuario.getRol() == Rol.PROVEEDOR) {
+                Proveedor proveedor = usuario.getProveedor();
+                proveedor.setAlta(false);
+                proveedorRepositorio.save(proveedor);
+                usuario.setProveedor(proveedor);
+            }
+            usuario.setRol(Rol.ADMIN);
+            usuarioRepositorio.save(usuario);
         }
     }
 
@@ -173,7 +193,6 @@ public class UsuarioServicio implements UserDetailsService {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario != null) {
-
             List<GrantedAuthority> permisos = new ArrayList<>();
             GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
 

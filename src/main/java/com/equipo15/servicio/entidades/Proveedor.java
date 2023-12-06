@@ -32,6 +32,7 @@ public class Proveedor {
     private String contacto;
     private Double precioPorHora;
     private Double calificacion;
+    private Boolean alta;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicio_id")

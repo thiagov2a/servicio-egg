@@ -24,21 +24,20 @@ public class ServicioControlador {
     }
 
     @PostMapping("/registro")
-    public String registrar(@RequestParam(required = false) String nombre,
+    public String registro(@RequestParam(required = false) String nombre,
             @RequestParam(required = false) String descripcion, ModelMap modelo) {
         try {
             servicioServicio.registrar(nombre, descripcion);
             modelo.put("exito", "El servicio fué cargado correctamente!");
-            return "index.html";
+            return "panel.html";
         } catch (MiException e) {
-
             modelo.put("error", e.getMessage());
-            
+
             modelo.put("nombre", nombre);
             modelo.put("descripcion", descripcion);
-
             return "servicio_form.html";
         }
     }
 
+    // TODO: Mapping lista de servicios, atributo de alta/baja, CRUD completo
 }

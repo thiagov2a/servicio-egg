@@ -34,9 +34,9 @@ public class PortalControlador {
 
     @GetMapping("/")
     public String index(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-        if (usuario != null && usuario.getRol().toString().equals("ADMIN")) {
+        if (usuario != null && usuario.getRol() == Rol.ADMIN) {
             return "redirect:/admin/dashboard";
         }
 
@@ -46,10 +46,8 @@ public class PortalControlador {
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo) {
         List<Servicio> servicios = servicioServicio.listarServicios();
-
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("barrios", Barrio.values());
-
         return "registro.html";
     }
 
@@ -78,23 +76,17 @@ public class PortalControlador {
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
 
+            List<Servicio> servicios = servicioServicio.listarServicios();
             modelo.put("dni", dni);
             modelo.put("nombre", nombre);
             modelo.put("email", email);
-
-            List<Servicio> servicios = servicioServicio.listarServicios();
-
             modelo.addAttribute("servicios", servicios);
             modelo.addAttribute("barrios", Barrio.values());
-
             modelo.put("contacto", contacto);
             modelo.put("precioPorHora", precioPorHora);
             modelo.put("idServicio", idServicio);
             modelo.put("descripcion", descripcion);
             modelo.put("archivo", archivo);
-
-            modelo.put("Error", e.getMessage());
-
             return "registro.html";
         }
     }
@@ -108,21 +100,12 @@ public class PortalControlador {
     }
 
     @GetMapping("/perfil")
-    public String perfil(HttpSession session, ModelMap modelo) {
-
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuario != null) {
-            String id = usuario.getId();
-            Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(id);
-            modelo.put("usuario", usuarioEncontrado);
-        }
-
+    public String perfil(ModelMap modelo, HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
         List<Servicio> servicios = servicioServicio.listarServicios();
-
+        modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("barrios", Barrio.values());
-
         return "usuario_modificar.html";
     }
 
@@ -136,13 +119,11 @@ public class PortalControlador {
             @RequestParam(required = false) Double precioPorHora,
             @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
-            HttpSession session, ModelMap modelo) throws MiException {
+            ModelMap modelo, HttpSession session) throws MiException {
         try {
-            // Obtener el usuario actualizado
-            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-            // Verificar si el usuario es también un proveedor
-            if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
+            if (usuario.getRol() == Rol.PROVEEDOR) {
                 proveedorServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo, contacto,
                         descripcion, precioPorHora, calificacion, idServicio);
             } else {
@@ -152,24 +133,24 @@ public class PortalControlador {
             modelo.put("exito", "Usuario actualizado correctamente!");
             return "index.html";
         } catch (MiException ex) {
-
             modelo.put("error", ex.getMessage());
-
-            // ! CREAR MÉTODO PRIVADO PARA ACTUALIZAR LOS CAMBIOS DEL USUARIO EN EL HTML
-            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-            if (usuario != null) {
-                String idUsuario = usuario.getId();
-                Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(idUsuario);
-                modelo.put("usuario", usuarioEncontrado);
-            }
-
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
             List<Servicio> servicios = servicioServicio.listarServicios();
-
+            modelo.addAttribute("usuario", usuario);
             modelo.addAttribute("servicios", servicios);
             modelo.addAttribute("barrios", Barrio.values());
-
             return "usuario_modificar.html";
+        }
+    }
+
+    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
         }
     }
 

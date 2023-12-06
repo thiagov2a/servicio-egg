@@ -7,7 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/registro.css}" />
     <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
-
     <style>
       .error {
         color: red;
@@ -17,7 +16,7 @@
         color: green;
       }
     </style>
-    
+
     <script>
       function mostrarMensaje(mensaje, tipo) {
         var mensajeImagen = document.getElementById('mensaje');
@@ -91,15 +90,21 @@
           </div>
           <div id="mensaje" style="text-align: center"></div>
 
-          <div class="campo" th:if="${usuario.rol.descripcion != 'Proveedor'}">
-            <select name="barrio">
-              <option value="">Seleccionar Barrio</option>
-              <option
-                th:each="barrio : ${barrios}"
-                th:value="${barrio}"
-                th:text="${barrio.descripcion}"
-                th:selected="${barrio == usuario.barrio}"></option>
-            </select>
+          <div th:if="${usuario.rol.descripcion != 'Proveedor'}">
+            <div class="campo">
+              <select name="barrio">
+                <option value="">Seleccionar Barrio</option>
+                <option
+                  th:each="barrio : ${barrios}"
+                  th:value="${barrio}"
+                  th:text="${barrio.descripcion}"
+                  th:selected="${barrio == usuario.barrio}"></option>
+              </select>
+            </div>
+          </div>
+
+          <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
+            <input hidden th:value="${usuario.barrio}" name="barrio" />
           </div>
         </div>
 

@@ -29,9 +29,15 @@ public class AdminControlador {
         return "usuario_list.html";
     }
 
-    @GetMapping("/modificarRol/{id}")
+    @GetMapping("/hacerAdmin/{id}")
     public String cambiarRol(@PathVariable String id) {
-        usuarioServicio.cambiarRol(id);
+        usuarioServicio.hacerAdmin(id);
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstado(@PathVariable String id) {
+        usuarioServicio.cambiarEstado(id);
         return "redirect:/admin/usuarios";
     }
 

@@ -45,7 +45,7 @@ public class ProveedorServicio {
             MultipartFile archivo, String contacto, String descripcion, Double precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
-        barrio = generarBarrioAleatorio();
+        barrio = generarBarrioAleatorio(); // Generamos un barrio aleatorio para el proveedor
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
@@ -75,6 +75,7 @@ public class ProveedorServicio {
         proveedor.setDescripcion(descripcion);
         proveedor.setPrecioPorHora(precioPorHora);
         proveedor.setCalificacion(calificacion); // Inicializar la calificación a 0
+        proveedor.setAlta(true);
 
         Servicio servicio = servicioRepositorio.findById(idServicio).get();
         proveedor.setServicio(servicio);
@@ -85,6 +86,12 @@ public class ProveedorServicio {
     public List<Proveedor> listarProveedores() {
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.findAll();
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorAlta(String alta) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;
     }
 
@@ -120,8 +127,6 @@ public class ProveedorServicio {
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
             Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Double precioPorHora,
             Double calificacion, String idServicio) throws MiException {
-
-        barrio = generarBarrioAleatorio();
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
