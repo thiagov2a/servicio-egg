@@ -29,11 +29,6 @@ function cambiarTipoUsuario(esProveedor) {
 
   // Actualiza el valor del campo oculto
   document.getElementById('esProveedor').value = esProveedor.toString();
-
-  // Si es proveedor, selecciona aleatoriamente un barrio
-  if (esProveedor) {
-    seleccionarBarrioAleatorio();
-  }
 }
 
 function actualizarEstilosBoton(boton, activo) {
@@ -49,6 +44,7 @@ function actualizarEstilosBoton(boton, activo) {
   boton.style.fontWeight = fontWeight;
 
 }
+<<<<<<< Updated upstream
 
 function seleccionarBarrioAleatorio() {
   var barriosSelect = document.getElementsByName('barrio')[0];
@@ -56,4 +52,6 @@ function seleccionarBarrioAleatorio() {
   var barrioAleatorio = opcionesBarrios[Math.floor(Math.random() * opcionesBarrios.length)].value;
   barriosSelect.value = barrioAleatorio;
 }
+=======
+>>>>>>> Stashed changes
 //

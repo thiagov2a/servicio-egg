@@ -55,12 +55,11 @@ public class TransaccionControlador {
     public String presupuesto(@PathVariable String idProveedor, Integer horas, ModelMap modelo, HttpSession session) {
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
         Usuario usuario = obtenerUsuarioDesdeSession(session);
-        Integer presupuesto = horas * proveedor.getPrecioPorHora();
+        Double presupuesto = horas * proveedor.getPrecioPorHora();
 
         modelo.put("proveedor", proveedor);
         modelo.put("usuario", usuario);
         modelo.put("presupuesto", presupuesto);
-
         return "transaccion_form.html";
     }
 
@@ -129,6 +128,29 @@ public class TransaccionControlador {
 
     @GetMapping("/finalizar/{idTransaccion}")
     public String finalizarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
+        try {
+            transaccionServicio.finalizarTransaccion(idTransaccion);
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+            return "redirect:/transaccion/lista";
+        }
+    }
+
+    @GetMapping("/calificar/{idTransaccion}")
+    public String calificarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
@@ -137,11 +159,11 @@ public class TransaccionControlador {
         return "calificar.html";
     }
 
-    @PostMapping("/finalizar/{idTransaccion}")
+    @PostMapping("/calificar/{idTransaccion}")
     public String finalizarTransaccion(@PathVariable String idTransaccion, @RequestParam String comentario,
             @RequestParam Double calificacion, ModelMap modelo, HttpSession session) {
         try {
-            transaccionServicio.finalizarTransaccion(idTransaccion, comentario, calificacion);
+            transaccionServicio.comentarTransaccion(idTransaccion, comentario, calificacion);
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);

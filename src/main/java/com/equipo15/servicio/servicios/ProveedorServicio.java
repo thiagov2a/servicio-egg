@@ -42,8 +42,10 @@ public class ProveedorServicio {
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
-            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Double calificacion,
+            MultipartFile archivo, String contacto, String descripcion, Double precioPorHora, Double calificacion,
             String idServicio) throws MiException {
+
+        barrio = generarBarrioAleatorio();
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
@@ -116,8 +118,10 @@ public class ProveedorServicio {
 
     @Transactional
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
-            Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora,
+            Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Double precioPorHora,
             Double calificacion, String idServicio) throws MiException {
+
+        barrio = generarBarrioAleatorio();
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -163,7 +167,7 @@ public class ProveedorServicio {
         }
     }
 
-    public void validar(String contacto, String descripcion, Integer precioPorHora, Double calificacion,
+    public void validar(String contacto, String descripcion, Double precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         if (contacto == null || contacto.trim().isEmpty()) {
@@ -193,6 +197,11 @@ public class ProveedorServicio {
         if (respuestaProveedor != null) {
             throw new MiException("Ya existe un proveedor con ese contacto");
         }
+    }
+
+    private Barrio generarBarrioAleatorio() {
+        int indice = (int) (Math.random() * Barrio.values().length);
+        return Barrio.values()[indice];
     }
 
 }

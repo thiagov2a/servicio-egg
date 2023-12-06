@@ -30,7 +30,7 @@ public class Proveedor {
     private Usuario usuario;
     private String descripcion;
     private String contacto;
-    private Integer precioPorHora;
+    private Double precioPorHora;
     private Double calificacion;
 
     @ManyToOne(fetch = FetchType.LAZY)

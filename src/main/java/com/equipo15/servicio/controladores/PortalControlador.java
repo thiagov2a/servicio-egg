@@ -34,7 +34,6 @@ public class PortalControlador {
 
     @GetMapping("/")
     public String index(HttpSession session) {
-
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         if (usuario != null && usuario.getRol().toString().equals("ADMIN")) {
@@ -46,7 +45,6 @@ public class PortalControlador {
 
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo) {
-
         List<Servicio> servicios = servicioServicio.listarServicios();
 
         modelo.addAttribute("servicios", servicios);
@@ -63,10 +61,9 @@ public class PortalControlador {
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
-            @RequestParam(required = false) Integer precioPorHora,
+            @RequestParam(required = false) Double precioPorHora,
             @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
-
             ModelMap modelo) {
         try {
             if (esProveedor) {
@@ -77,7 +74,6 @@ public class PortalControlador {
             }
 
             modelo.put("exito", "Te has registrado correctamente");
-
             return "index.html";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
@@ -137,7 +133,7 @@ public class PortalControlador {
             @RequestParam(required = false) Barrio barrio, @RequestParam(required = false) MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
-            @RequestParam(required = false) Integer precioPorHora,
+            @RequestParam(required = false) Double precioPorHora,
             @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
             HttpSession session, ModelMap modelo) throws MiException {
@@ -159,6 +155,7 @@ public class PortalControlador {
 
             modelo.put("error", ex.getMessage());
 
+            // ! CREAR MÉTODO PRIVADO PARA ACTUALIZAR LOS CAMBIOS DEL USUARIO EN EL HTML
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
             if (usuario != null) {

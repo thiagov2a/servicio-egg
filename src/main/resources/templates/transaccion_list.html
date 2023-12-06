@@ -49,31 +49,44 @@
         <table class="tabla">
           <thead>
             <tr>
-              <th scope="col" sec:autorize="hasRole('ROLE_ADMIN')">ID</th>
+              <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
               <th scope="col">Proveedor</th>
               <th scope="col">Usuario</th>
               <th scope="col">Presupuesto</th>
               <th scope="col">Estado</th>
-              <th scope="col" sec:autorize="hasRole('PROVEEDOR')">Acciones</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody th:each="transaccion : ${transacciones}">
             <tr>
-              <td scope="row" th:text="${transaccion.id}" th:if=""></td>
+              <td
+                scope="row"
+                th:text="${transaccion.id}"
+                th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
               <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
               <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
               <td scope="row" th:text="${transaccion.presupuesto}"></td>
               <td scope="row" th:text="${transaccion.estado}"></td>
-              <td scope="row" sec:autorize="hasRole('PROVEEDOR')">
+              <td scope="row">
                 <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
-                  <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST">Aceptar trabajo</a>
-                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar trabajo</a>
+                  <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
+                    <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST">Aceptar</a>
+                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar</a>
+                  </div>
                 </div>
-              </td>
-              <td scope="row" th:if="usuario.">
                 <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
-                  <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST">Finalizar trabajo</a>
-                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar trabajo</a>
+                  <div th:if="${session.usuariosession.rol.descripcion != 'Admin'}">
+                    <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST">Finalizar</a>
+                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar</a>
+                  </div>
+                </div>
+                <div th:if="${transaccion.estado.descripcion == 'Finalizado'}">
+                  <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
+                    <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST">Calificar</a>
+                  </div>
+                </div>
+                <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
+                  <a>Modificar</a>
                 </div>
               </td>
             </tr>

@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,7 +132,6 @@ public class TransaccionServicio {
 
     @Transactional
     public void cancelarTransaccion(String idTransaccion) throws MiException {
-
         Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
 
         if (respuestaTransaccion.isPresent()) {
@@ -147,13 +144,25 @@ public class TransaccionServicio {
     }
 
     @Transactional
-    public void finalizarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
+    public void finalizarTransaccion(String idTransaccion) throws MiException {
         Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
 
         if (respuestaTransaccion.isPresent()) {
             Transaccion transaccion = respuestaTransaccion.get();
 
             transaccion.setEstado(Estado.FINALIZADO);
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    @Transactional
+    public void comentarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+            Transaccion transaccion = respuestaTransaccion.get();
+
             transaccion.setComentario(comentario);
             transaccion.setCalificacion(calificacion);
 
@@ -195,7 +204,6 @@ public class TransaccionServicio {
         if (idUsuario == null || idUsuario.trim().isEmpty()) {
             throw new MiException("El residente no puede ser nulo o estar vació");
         }
-
     }
 
 }
