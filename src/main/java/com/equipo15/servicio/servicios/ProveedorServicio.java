@@ -89,7 +89,7 @@ public class ProveedorServicio {
         return proveedores;
     }
 
-    public List<Proveedor> listarProveedoresPorAlta(String alta) {
+    public List<Proveedor> listarProveedoresPorAlta(Boolean alta) {
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;

@@ -88,8 +88,8 @@
             <td scope="row" th:text="${usuario.rol}"></td>
             <td scope="row">
               <div sec:authorize="hasRole('ADMIN')">
-                <button><a th:href="@{/admin/hacerAdmin/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
-                <button><a th:href="@{/admin/cambiarEstado/__${proveedor.usuario.id}__}">Alta/Baja</a></button>
+                <button><a th:href="@{/admin/hacerAdmin/__${usuario.id}__}">Hacer ADMIN</a></button>
+                <button><a th:href="@{/admin/cambiarEstado/__${usuario.id}__}">Alta/Baja</a></button>
               </div>
             </td>
           </tr>

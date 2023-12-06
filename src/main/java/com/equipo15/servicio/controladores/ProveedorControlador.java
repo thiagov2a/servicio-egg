@@ -26,7 +26,7 @@ public class ProveedorControlador {
 
     @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorRol(session);
+        List<Proveedor> proveedores = proveedorServicio.listarProveedoresPorAlta(true);
         modelo.addAttribute("proveedores", proveedores);
         return "proveedor_list.html";
     }
@@ -40,7 +40,7 @@ public class ProveedorControlador {
             if (rolDescripcion.equals("Admin")) {
                 return proveedorServicio.listarProveedores();
             } else {
-                return proveedorServicio.listarProveedoresPorAlta("1");
+                return proveedorServicio.listarProveedoresPorAlta(true);
             }
         } else {
             return new ArrayList<>();
