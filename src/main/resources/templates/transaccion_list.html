@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="fragments/head :: head"></head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corlink</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+
+  <script th:src="@{/js/scripts.js}"></script>
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 
   <style>
     * {
       font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .body {
-      text-align: center;
     }
 
     .campo {
@@ -19,7 +23,7 @@
     }
 
     .tabla {
-      margin-left: 700px;
+
       border-spacing: 20px;
     }
 
@@ -38,69 +42,70 @@
       width: 300px;
     }
   </style>
+</head>
 
-  <body class="body">
-    <nav th:replace="fragments/navbar :: nav"></nav>
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-    <main>
-      <div>
-        <h1 class="campo">LISTA DE TRANSACCIONES</h1>
+<body class="body">
+  <main>
+    <div style="margin-left: 20px;">
+      <h1>LISTA DE TRANSACCIONES</h1>
 
-        <table class="tabla">
-          <thead>
-            <tr>
-              <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
-              <th scope="col">Proveedor</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Presupuesto</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody th:each="transaccion : ${transacciones}">
-            <tr>
-              <td
-                scope="row"
-                th:text="${transaccion.id}"
-                th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
-              <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
-              <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
-              <td scope="row" th:text="${transaccion.presupuesto}"></td>
-              <td scope="row" th:text="${transaccion.estado}"></td>
-              <td scope="row">
-                <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
-                  <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
-                    <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST">Aceptar</a>
-                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar</a>
-                  </div>
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Presupuesto</th>
+            <th scope="col">Estado</th>
+            <!--<th scope="col">Acciones</th>-->
+          </tr>
+        </thead>
+        <tbody th:each="transaccion : ${transacciones}">
+          <tr>
+            <td scope="row" th:text="${transaccion.id}" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
+            </td>
+            <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
+            <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
+            <td scope="row" th:text="${transaccion.presupuesto}"></td>
+            <td scope="row" th:text="${transaccion.estado}"></td>
+            <td scope="row">
+              <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
+                <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
+                  <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST"><button>Aceptar</button></a>
+                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST"><button>Cancelar</button></a>
                 </div>
-                <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
-                  <div th:if="${session.usuariosession.rol.descripcion != 'Admin'}">
-                    <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST">Finalizar</a>
-                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">Cancelar</a>
-                  </div>
+              </div>
+              <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
+                <div th:if="${session.usuariosession.rol.descripcion != 'Admin'}">
+                  <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST"><button>Finalizar</button></a>
+                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST"><button>Cancelar</button></a>
                 </div>
-                <div th:if="${transaccion.comentario == null && transaccion.estado.descripcion == 'Finalizado'}">
-                  <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
-                    <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST">Calificar</a>
-                  </div>
+              </div>
+              <div th:if="${transaccion.comentario == null && transaccion.estado.descripcion == 'Finalizado'}">
+                <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
+                  <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST"><button>Calificar</button></a>
                 </div>
-                <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
-                  <a>Modificar</a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <section>
+              </div>
+              <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
+                <a>Modificar</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <section>
+        <div>
           <div>
-            <div>
-              <a th:href="@{/}">Volver</a>
-            </div>
+            <a th:href="@{/}"><button>Volver</button></a>
           </div>
-        </section>
-      </div>
-    </main>
-  </body>
-  <footer th:replace="/fragments/footer :: footer "></footer>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+<footer th:replace="~{/fragments/footer :: footer} "></footer>
+
 </html>

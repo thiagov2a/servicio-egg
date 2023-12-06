@@ -60,10 +60,10 @@
     }
   </script>
 </head>
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 
 <body>
   <main class="cont-principal">
-    <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
     <div class="fondoimg">
 
@@ -142,7 +142,7 @@
           <div class="campo">
             <button type="submit" class="boton">Registrarme!</button>
           </div>
-          
+
         </div>
       </form>
     </div>
@@ -150,10 +150,10 @@
 
   </main>
 
-
-
   <script th:src="@{/js/scripts.js}"></script>
+
 </body>
+
 <footer th:replace="/fragments/footer :: footer "></footer>
 
 </html>

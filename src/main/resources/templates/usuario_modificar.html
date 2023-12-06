@@ -55,9 +55,9 @@
     </script>
   </head>
 
+  <nav th:replace="~{fragments/navbar :: nav}"></nav>
   <body class="fondoimg">
-    <main class="cont-principal">
-      <nav th:replace="fragments/navbar :: nav"></nav>
+    <main class="cont-principal" style="min-height: 75vh;">
 
       <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
 
@@ -148,8 +148,9 @@
       </form>
     </main>
 
-    <footer th:replace="~{/fragments/footer :: footer}"></footer>
+
 
     <script th:src="@{/js/scripts.js}"></script>
   </body>
+  <footer th:replace="~{/fragments/footer :: footer}"></footer>
 </html>

@@ -35,6 +35,7 @@
       </button>
 
       <div class="nav_dropdown-content">
+        <a sec:authorize="hasRole('PROVEEDOR')" th:href="@{/transaccion/lista}">Trabajos</a>
         <a sec:authorize="hasRole('USER')" th:href="@{/proveedor/lista}">Proveedores</a>
         <a th:href="@{/perfil}">Perfil</a>
         <a th:href="@{/logout}">Cerrar sesión</a>
