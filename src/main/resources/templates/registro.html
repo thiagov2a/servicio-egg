@@ -7,6 +7,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro de usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/registro.css}" />
     <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
@@ -66,16 +68,17 @@
     <main class="cont-principal">
       <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-      <div class="fondoimg"><br><br>
-        <h1>REGISTRAR USUARIO</h1>
+      <div class="fondoimg">
 
         <div th:replace="~{fragments/alert :: div}"></div>
 
-        <form
+        <form class="formulario"
           th:action="@{/registro}"
           method="POST"
           enctype="multipart/form-data"
-        >
+        >       
+         <h1>REGISTRAR USUARIO</h1>
+
           <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
           <input
             type="hidden"

@@ -40,13 +40,13 @@ h1 {
   align-items: center;
   justify-content: space-between;
   font-size: 10pt;
-  /*margin-left: 30px;*/
+  margin-left: 30px;
 
   width: 100%;
   background-color: white;
   padding: 10px;
-  /*position: fixed;*/
-  /*bottom: 0;*/
+  position: fixed;
+  bottom: 0;
 }
 
 footer {
@@ -67,8 +67,8 @@ nav {
   text-decoration: none;
   background-color: rgb(255, 191, 0);
   border-radius: 3px;
-  box-shadow: 1em 1em 2em rgba(165, 164, 164, 0.761), -1em -1em 2em rgba(192, 184, 184, 0.736), inset 0 0 0 transparent,
-    inset 0 0 0 transparent;
+  /*box-shadow: 1em 1em 2em rgba(165, 164, 164, 0.761), -1em -1em 2em rgba(192, 184, 184, 0.736), inset 0 0 0 transparent,
+    inset 0 0 0 transparent;*/
 }
 .nav_titulo {
   margin: none;

@@ -43,16 +43,25 @@
 
 }
 
+.cont-principal{
+  height: 100vh;
+
+}
 
 .fondoimg {
-  background-image: url(/img/fondo_05opac.png);
-  background-size: cover;
+  background: linear-gradient(to bottom, rgb(255, 191, 0), #ffffff);
+   background-size: cover;
   padding: 0;
   margin: 0;
-  height: 100%;
-  /*height: 75vh;*/
+  height: 80%;
 
   /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
+}
+
+.formulario{
+  height: 80%;
+
+  
 }
 .campo {
   margin: 10px;
@@ -75,23 +84,25 @@
 }
 */
 
+
+
 .boton {
   display: inline-block;
   text-decoration: none;
   font-size: 15px;
-  padding: 15px 25px;
+  padding: 10px 20px;
   color: #fff;
   background: #328cbd;
   border-radius: 50px;
   margin-bottom: 40px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   transition: all 300ms ease;
   letter-spacing: 0.5px; /*Para separar un poco las letras*/
 }
 
 .boton:hover {
   background:  #599bbf; /*Fondo transparente*/
-  border: 2px solid #fff;
+  border: 1px solid #fff;
 }
 
 .boton:active {
@@ -99,20 +110,16 @@
 }
 
 
-select {
-  font-size: 12pt;
-  padding: 7px;
-
-  border-radius: 15px;
-}
-
-
-input {
-  padding: 7px;
-  font-size: 12pt;
+input, select {
+  padding: 5px;
+  font-size: 10pt;
   border-radius: 10px;
   border: 1px solid black;
   background-color: #fff;
   width: 350px;
+  
+}
 
+input::placeholder{
+  inline-size: auto;
 }
