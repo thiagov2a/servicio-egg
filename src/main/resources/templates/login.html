@@ -7,15 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <link rel="stylesheet" href="/css/login.css" />
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
   <!-- Usar th:href para resolver la URL del CSS -->
   <script th:src="@{/js/scripts.js}"></script>
   <!-- Usar th:src para resolver la URL del script JS -->
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 </head>
-
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 <body>
-  <nav th:replace="~{fragments/navbar :: nav}"></nav>
+
   <main class="cont-principal">
 
     <div class="wrp">
@@ -40,11 +40,9 @@
               </div>
           </div>
 
-
-
   </main>
 
-  <footer th:replace="/fragments/footer :: footer "></footer>
-</body>
 
+</body>
+<footer th:replace="/fragments/footer :: footer "></footer>
 </html>
