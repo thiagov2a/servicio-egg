@@ -31,13 +31,17 @@ main.cont-principal {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,11,0.6);
+  background-image: url(../img/portadawavy.png);
+  background-repeat: repeat-y;
+  background-size: cover;
+  margin-bottom: 50px;
 
 }
 .contenido .info{
   width: 100%;
   max-width: 750px;
   text-align: center;
+  justify-content: center;
 }
 .contenido .info h1{
   color: #fff;
@@ -63,13 +67,10 @@ main.cont-principal {
   background: transparent; /*Fondo transparente*/
   border: 2px solid #fff;
 }
-.curveado{
-  position: absolute;
-  width: 100%;
-  bottom: -10px;
-}
-.curveado img{
-  width: 100%;
+
+.owl-carousel{
+  padding: 20px;
+  border-collapse: collapse;
 }
 
 @media(max-width:768px){
