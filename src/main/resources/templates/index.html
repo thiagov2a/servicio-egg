@@ -1,109 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Corlink</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/index.css}" />
-    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-    <script th:src="@{/js/scripts.js}"></script>
 
-    <!-- Estilos para carrousel de comentarios -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corlink</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/index.css}" />
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  <script th:src="@{/js/scripts.js}"></script>
 
-    <style>
-      .item {
-        font-size: 10pt;
-        width: 200px;
-        border: 1px solid black;
-        border-radius: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 5px;
+  <!-- Estilos para carrousel de comentarios -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
-      }
+  <style>
+    .item {
+      font-size: 10pt;
+      width: 200px;
+      border: 1px solid black;
+      border-radius: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 5px;
 
-      .star {
-        color: gold;
-        font-size: 32px;
-        display: inline-block;
-      }
-    </style>
-  </head>
+    }
 
-  <body>
-    <main class="cont-principal">
-      <div class="wrp">
-        <nav th:replace="~{/fragments/navbar :: nav}"></nav>
+    .star {
+      color: gold;
+      font-size: 32px;
+      display: inline-block;
+    }
+  </style>
+</head>
 
-        <div class="portada">
-          <div class="contenido">
-            <div class="info">
-              <h1>El servicio que necesitás para tu hogar</h1>
-              <a th:href="@{/registrar}">Contactar</a>
-            </div>
+<body>
+  <main class="cont-principal">
+    <div class="wrp">
+      <nav th:replace="~{/fragments/navbar :: nav}"></nav>
+
+      <div class="portada">
+        <div class="contenido">
+          <div class="info">
+            <h1>El servicio que necesitás para tu hogar</h1>
+            <a th:href="@{/registrar}">Contactar</a>
           </div>
         </div>
-        <!--SECCION JORGE-->
-        <!--Carousel de comentarios-->
-        <div class="owl-carousel owl-theme" style="margin-bottom: 20px" >
-          <div class="item" th:each="transaccion : ${transacciones}">
-            <div class="card mx-2" >
-              <div id="contenedorEstrellas" style="text-align: center" th:value="${transaccion.calificacion}"></div>
+      </div>
+      <!--SECCION JORGE-->
+      <!--Carousel de comentarios-->
+      <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
+        <div th:each="transaccion : ${transacciones}" th:if="${transaccion.calificacion != null}">
+
+          <div class="item">
+            <div class="card mx-2">
+              <div style="text-align: center">
+                <div class="star" th:if="${transaccion.calificacion == 1}">★</div>
+                <div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
+                <div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
+                <div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
+                <div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title" style="text-align: center; font-size: 12pt" th:text="${transaccion.proveedor.usuario.nombre}"></h5>
+                <h5 class="card-title" style="text-align: center; font-size: 12pt"
+                  th:text="${transaccion.proveedor.usuario.nombre}"></h5>
                 <p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
-                  
+
                 </p>
               </div>
             </div>
           </div>
-          <!--Fin Carousel de comentarios-->
+
         </div>
         <!--Fin Carousel de comentarios-->
       </div>
-    </main>
+      
+    </div>
+  </main>
 
-    <!-- Scripts para manejo de carrousel de comentarios -->
-    <!-- jQuery y Owl Carousel JS -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- Scripts para manejo de carrousel de comentarios -->
+  <!-- jQuery y Owl Carousel JS -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-    <script>
-      $(document).ready(function () {
-        $('.owl-carousel').owlCarousel({
-          items: 5, // Muestra 5 tarjetas a la vez
-          loop: true, // Hace que el carrusel sea infinito
-          margin: 10,
-          autoplay: true,
-          autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
-          autoplayHoverPause: true
-        });
+  <script>
+    $(document).ready(function () {
+      $('.owl-carousel').owlCarousel({
+        items: 5, // Muestra 5 tarjetas a la vez
+        loop: true, // Hace que el carrusel sea infinito
+        margin: 10,
+        autoplay: true,
+        autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
+        autoplayHoverPause: true
       });
+    });
 
-      // Script para manejo de dibujo de la estrella de calificacion
+    /* Script para manejo de dibujo de la estrella de calificacion
 
-      var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
+    var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
 
-      dibujarEstrellas('contenedorEstrellas', valorVariable);
+    dibujarEstrellas('contenedorEstrellas', valorVariable);
 
-      function dibujarEstrellas(idContenedor, valor) {
-        var contenedorEstrellas = document.getElementById(idContenedor);
+    function dibujarEstrellas(idContenedor, valor) {
+      var contenedorEstrellas = document.getElementById(idContenedor);
 
-        for (var i = 0; i < valor; i++) {
-          var estrella = document.createElement('div');
-          estrella.innerHTML = '★';
-          estrella.className = 'star';
-          contenedorEstrellas.appendChild(estrella);
-        }
+      for (var i = 0; i < valor; i++) {
+        var estrella = document.createElement('div');
+        estrella.innerHTML = '★';
+        estrella.className = 'star';
+        contenedorEstrellas.appendChild(estrella);
       }
-    </script>
-  </body>
-  <footer th:replace="~{/fragments/footer :: footer}"></footer>
+    }*/
+  </script>
+</body>
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
+
 </html>

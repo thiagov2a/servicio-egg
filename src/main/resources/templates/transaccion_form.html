@@ -1,89 +1,107 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de usuario</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/transaccion.css}" />
-    <script th:src="@{/js/scripts.js}"></script>
-    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <link
-    rel="stylesheet"
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de usuario</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/transaccion.css}" />
+  <script th:src="@{/js/scripts.js}"></script>
+  <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-     </head>
+
+  <style>
+    .item {
+      font-size: 12pt;
+      width: 200px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 5px;
+      text-align: center;
+
+    }
+  </style>
 
 
 
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
+</head>
 
-<div class="cards">
+
+
+<body>
+  <nav th:replace="fragments/navbar :: nav"></nav>
+
+  <div class="cards">
     <div class="card_presupuesto">
       <br>
-    <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
+      <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
 
-    <h3 th:text="'Provedoor : '+ ${proveedor.usuario.nombre}"></h3>
+      <h3 th:text="'Provedoor : '+ ${proveedor.usuario.nombre}"></h3>
 
-    <h3 th:text="'Descripcion : '+${proveedor.descripcion}"></h3>
+      <h3 th:text="'Descripcion : '+${proveedor.descripcion}"></h3>
 
-    <h3 th:text="'Calificacion : '+${proveedor.calificacion}"></h3>
+      <h3 th:text="'Calificacion : '+${proveedor.calificacion}"></h3>
 
-    <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
-      <div class="campo_input">
-        <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
-      </div>
+      <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
+        <div class="campo_input">
+          <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
+        </div>
 
-      <div class="campo">
-        <button type="submit" class="boton">Solicitar Presupuesto</button>
-      </div>
-    </form>
-
-    <div class="presupuesto" th:if="${presupuesto != null}">
-      <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
-      <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
-      <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
-        <input
-          hidden
-          id="presupuesto"
-          th:value="${presupuesto}"
-          type="number"
-          th:number="${presupuesto}"
-          name="presupuesto" />
-          <br>
-        <button type="submit" class="boton">Aceptar Presupuesto</button>
-
-        <a type="button" class="boton2" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
+        <div class="campo">
+          <button type="submit" class="boton">Solicitar Presupuesto</button>
+        </div>
       </form>
-    </div>
 
- 
+      <div class="presupuesto" th:if="${presupuesto != null}">
+        <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
+        <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
+        <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
+          <input hidden id="presupuesto" th:value="${presupuesto}" type="number" th:number="${presupuesto}"
+            name="presupuesto" />
+          <br>
+          <button type="submit" class="boton">Aceptar Presupuesto</button>
+
+          <a type="button" class="boton2" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
+        </form>
+      </div>
+
+
+    </div>
   </div>
-</div>
-<div class="comentarios">
-  <!--Carousel de comentarios-->
-        <!-- <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
-          <div class="item">
-            <div class="card mx-2">
-              <div id="contenedorEstrellas" style="text-align: center"></div>
-              <div class="card-body">
-                <h5 class="card-title" style="text-align: center; font-size: 12pt">Nombre usuario</h5>
-                <p class="card-text" style="padding-top: 10px">
-                  Aca va en comentario. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora consectetur
-                  magnam voluptatum odio voluptas quaerat!
-                </p>
-              </div>
+
+  <div class="comentarios">
+    <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
+      <div th:each="transaccion : ${transacciones}" th:if="${transaccion.calificacion != null}">
+
+        <div class="item">
+          <div class="card mx-2">
+            <div style="text-align: center">
+              <div class="star" th:if="${transaccion.calificacion == 1}">★</div>
+              <div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
+              <div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
+              <div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
+              <div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center; font-size: 12pt"
+                th:text="${transaccion.usuario.nombre}"></h5>
+              <p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
+
+              </p>
             </div>
           </div>
-          <!--Fin Carousel de comentarios-->
-        <!--</div> -->
-        <!--Fin Carousel de comentarios-->
+        </div>
+
       </div>
-      
-    <div>
+      <!--Fin Carousel de comentarios-->
+    </div>
+  </div>
+
+  <!--
+  <div>
     <table class="tabla">
       <thead>
         <tr>
@@ -97,39 +115,40 @@
       </tbody>
     </table>
   </div>
-   
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  
-    <script>
-      $(document).ready(function () {
-        $('.owl-carousel').owlCarousel({
-          items: 5, // Muestra 5 tarjetas a la vez
-          loop: true, // Hace que el carrusel sea infinito
-          margin: 10,
-          autoplay: true,
-          autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
-          autoplayHoverPause: true
-        });
+-->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('.owl-carousel').owlCarousel({
+        items: 5, // Muestra 5 tarjetas a la vez
+        loop: true, // Hace que el carrusel sea infinito
+        margin: 10,
+        autoplay: true,
+        autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
+        autoplayHoverPause: true
       });
+    });
 
-      // Script para manejo de dibujo de la estrella de calificacion
+    // Script para manejo de dibujo de la estrella de calificacion
 
-      var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
+    var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
 
-      dibujarEstrellas('contenedorEstrellas', valorVariable);
+    dibujarEstrellas('contenedorEstrellas', valorVariable);
 
-      function dibujarEstrellas(idContenedor, valor) {
-        var contenedorEstrellas = document.getElementById(idContenedor);
+    function dibujarEstrellas(idContenedor, valor) {
+      var contenedorEstrellas = document.getElementById(idContenedor);
 
-        for (var i = 0; i < valor; i++) {
-          var estrella = document.createElement('div');
-          estrella.innerHTML = '★';
-          estrella.className = 'star';
-          contenedorEstrellas.appendChild(estrella);
-        }
+      for (var i = 0; i < valor; i++) {
+        var estrella = document.createElement('div');
+        estrella.innerHTML = '★';
+        estrella.className = 'star';
+        contenedorEstrellas.appendChild(estrella);
       }
-    </script>
-   <footer th:replace="/fragments/footer :: footer "></footer>
-  </body>
+    }
+  </script>
+  <footer th:replace="/fragments/footer :: footer "></footer>
+</body>
+
 </html>
