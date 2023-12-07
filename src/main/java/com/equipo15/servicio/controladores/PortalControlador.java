@@ -45,7 +45,7 @@ public class PortalControlador {
 
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo) {
-        List<Servicio> servicios = servicioServicio.listarServicios();
+        List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("barrios", Barrio.values());
         return "registro.html";

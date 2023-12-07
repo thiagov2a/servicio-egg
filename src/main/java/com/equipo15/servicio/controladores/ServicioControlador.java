@@ -1,5 +1,8 @@
 package com.equipo15.servicio.controladores;
 
+import com.equipo15.servicio.entidades.Proveedor;
+import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ServicioServicio;
+import com.equipo15.servicio.servicios.UsuarioServicio;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/servicio")
@@ -17,6 +24,9 @@ public class ServicioControlador {
 
     @Autowired
     private ServicioServicio servicioServicio;
+    
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
     @GetMapping("/registrar")
     public String registrar() {
@@ -40,4 +50,41 @@ public class ServicioControlador {
     }
 
     // TODO: Mapping lista de servicios, atributo de alta/baja, CRUD completo
+    
+    @GetMapping("/lista")
+    public String listar(ModelMap modelo, HttpSession session) {
+        List<Servicio> servicios = obtenerServiciosPorRol(session);
+        modelo.addAttribute("servicios", servicios);
+        return "servicio_list.html";
+    }
+
+    private List<Servicio> obtenerServiciosPorRol(HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        if (usuario != null) {
+            String rolDescripcion = usuario.getRol().getDescripcion();
+
+            if (rolDescripcion.equals("Admin")) {
+                return servicioServicio.listarServicios();
+            } else {
+                return servicioServicio.listarServicioPorAlta(Boolean.TRUE);
+            }
+        } else {
+            return new ArrayList<>();
+        }
+        
+        
+        
+    }
+    
+        private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
+        }
+    }
 }

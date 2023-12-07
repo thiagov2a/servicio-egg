@@ -1,5 +1,6 @@
 package com.equipo15.servicio.servicios;
 
+import com.equipo15.servicio.entidades.Proveedor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
 
 import jakarta.transaction.Transactional;
+import static java.lang.Boolean.TRUE;
 
 @Service
 public class ServicioServicio {
@@ -28,6 +31,7 @@ public class ServicioServicio {
 
         servicio.setNombre(nombre);
         servicio.setDescripcion(descripcion);
+        servicio.setAlta(TRUE);
 
         servicioRepositorio.save(servicio);
     }
@@ -35,6 +39,13 @@ public class ServicioServicio {
     public List<Servicio> listarServicios() {
         List<Servicio> servicios = new ArrayList<>();
         servicios = servicioRepositorio.findAll();
+        return servicios;
+    }
+    
+    
+        public List<Servicio> listarServicioPorAlta(Boolean alta) {
+        List<Servicio> servicios = new ArrayList<>();
+        servicios = servicioRepositorio.listarPorAlta(alta);
         return servicios;
     }
 
@@ -65,6 +76,23 @@ public class ServicioServicio {
         }
 
     }
+    
+    
+        // Delete
+    @Transactional
+    public void cambiarEstadoServicio(String id) {
+        Optional<Servicio> respuesta = servicioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Servicio servicio = respuesta.get();
+            if (servicio.getAlta()) {
+                servicio.setAlta(false);
+            } else {
+                servicio.setAlta(true);
+            }
+            servicioRepositorio.save(servicio);
+        }
+    }
+    
 
     public void validar(String nombre, String descripcion) throws MiException {
 

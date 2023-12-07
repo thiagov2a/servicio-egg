@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lista de Servicio</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+        <style>
+            button {
+                background-color: rgb(200, 200, 200);
+                font-weight: 500;
+                font-family: 'Montserrat', sans-serif;
+                padding: 6px;
+                font-size: 12pt;
+                border-radius: 5px;
+                border: none;
+            }
+
+            button:hover {
+                background-color: rgb(230, 230, 230);
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+
+            a:visited {
+                color: black;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 5px;
+            }
+
+            th {
+                padding: 1px;
+                border-bottom: 2px solid black;
+            }
+
+            td {
+                text-align: center;
+                height: 50px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav th:replace="fragments/navbar :: nav"></nav>
+
+        <div  style="min-height: 75vh;">
+            <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
+                            <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Alta/Baja</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="servicio : ${servicios}">
+                        <tr>
+                            <td scope="row" th:text="${servicio.id}" sec:authorize="hasRole('ADMIN')"></td>
+                            <td scope="row" th:text="${servicio.nombre}"></td>
+                            <td scope="row" th:text="${servicio.descripcion}" style="text-align: left"></td>
+                            <td scope="row" th:text="${servicio.alta}"></td>
+                            <td scope="row">
+                                <div sec:authorize="hasRole('ADMIN')">
+                                    <button><a th:href="@{/admin/modificar/__${servicio.id}__}">Modificar</a></button>
+                                    <button><a th:href="@{/admin/cambiarEstado/__${servicio.id}__}">Alta/Baja</a></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer th:replace="~{/fragments/footer :: footer}"></footer>
+
+        <script th:src="@{/js/scripts.js}"></script>
+    </body>
+
+</html>

@@ -25,7 +25,5 @@ public interface ProveedorRepositorio extends JpaRepository<Proveedor, String> {
     @Query("SELECT p FROM Proveedor p WHERE p.usuario.alta = TRUE")
     public List<Proveedor> listarPorAlta(@Param("alta") Boolean alta);
     
-    @Query("SELECT p FROM Proveedor p WHERE p.usuario.alta = FALSE")
-    public List<Proveedor> listarPorBaja(@Param("alta") Boolean alta);
 
 }
