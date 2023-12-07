@@ -1,5 +1,5 @@
-.calificacion {
-  font-size: 18px;
+.estrella-cont {
+  font-size: 28px;
   margin-top: 10px;
   direction: rtl;
   unicode-bidi: bidi-override;
@@ -18,10 +18,23 @@
   display: inline-block;
   margin: 0 5px;
   color: #ccc;
+
 }
 
 .estrella:hover,
 .estrella:hover ~ .estrella,
 .radio:checked ~ .estrella {
   color: #ffdd00;
+}
+
+.contenido{
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../img/portadawavy.png);
+  background-repeat: repeat-y;
+  background-size: cover;
+  margin-bottom: 50px;
 }
