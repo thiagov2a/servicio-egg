@@ -1,53 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head th:replace="/fragments/head :: head "></head>
-  <style>
-    * {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/transaccion.css}" />
+    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+     </head>
 
-    .boton {
-      background-color: rgb(0, 140, 255);
-      font-weight: 600;
-      padding: 6px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: none;
-    }
 
-    .campo {
-      margin: 10px;
-      text-align: center;
-    }
-
-    input {
-      padding: 5px;
-      font-size: 12pt;
-      border-radius: 5px;
-      border: 1px solid black;
-      width: 350px;
-    }
-
-    select {
-      font-size: 12pt;
-      padding: 5px;
-      border-radius: 5px;
-    }
-  </style>
 
   <body>
     <nav th:replace="fragments/navbar :: nav"></nav>
 
+<div class="cards">
+    <div class="card_presupuesto">
+      <br>
     <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
 
-    <h2 th:text="${proveedor.usuario.nombre}"></h2>
+    <h3 th:text="'Provedoor : '+ ${proveedor.usuario.nombre}"></h3>
 
-    <h3 th:text="${proveedor.descripcion}"></h3>
+    <h3 th:text="'Descripcion : '+${proveedor.descripcion}"></h3>
 
-    <h3 th:text="${proveedor.calificacion}"></h3>
+    <h3 th:text="'Calificacion : '+${proveedor.calificacion}"></h3>
 
     <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
-      <div class="campo">
+      <div class="campo_input">
         <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
       </div>
 
@@ -56,7 +41,7 @@
       </div>
     </form>
 
-    <div th:if="${presupuesto != null}">
+    <div class="presupuesto" th:if="${presupuesto != null}">
       <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
       <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
       <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
@@ -67,27 +52,82 @@
           type="number"
           th:number="${presupuesto}"
           name="presupuesto" />
+          <br>
         <button type="submit" class="boton">Aceptar Presupuesto</button>
 
-        <a type="button" class="boton" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
+        <a type="button" class="boton2" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
       </form>
     </div>
 
-    <div>
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th scope="col">Comentarios</th>
-          </tr>
-        </thead>
-        <tbody th:each="transaccion: ${transacciones}">
-          <tr>
-            <td th:text="${transaccion.comentario}"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+ 
+  </div>
+</div>
+<div class="comentarios">
+  <!--Carousel de comentarios-->
+        <!-- <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
+          <div class="item">
+            <div class="card mx-2">
+              <div id="contenedorEstrellas" style="text-align: center"></div>
+              <div class="card-body">
+                <h5 class="card-title" style="text-align: center; font-size: 12pt">Nombre usuario</h5>
+                <p class="card-text" style="padding-top: 10px">
+                  Aca va en comentario. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora consectetur
+                  magnam voluptatum odio voluptas quaerat!
+                </p>
+              </div>
+            </div>
+          </div>
+          <!--Fin Carousel de comentarios-->
+        <!--</div> -->
+        <!--Fin Carousel de comentarios-->
+      </div>
+  <!-- <div>
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Comentarios</th>
+        </tr>
+      </thead>
+      <tbody th:each="transaccion: ${transacciones}">
+        <tr>
+          <td th:text="${transaccion.comentario}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+   
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  
+    <script>
+      $(document).ready(function () {
+        $('.owl-carousel').owlCarousel({
+          items: 5, // Muestra 5 tarjetas a la vez
+          loop: true, // Hace que el carrusel sea infinito
+          margin: 10,
+          autoplay: true,
+          autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
+          autoplayHoverPause: true
+        });
+      });
 
-    <footer th:replace="/fragments/footer :: footer "></footer>
+      // Script para manejo de dibujo de la estrella de calificacion
+
+      var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
+
+      dibujarEstrellas('contenedorEstrellas', valorVariable);
+
+      function dibujarEstrellas(idContenedor, valor) {
+        var contenedorEstrellas = document.getElementById(idContenedor);
+
+        for (var i = 0; i < valor; i++) {
+          var estrella = document.createElement('div');
+          estrella.innerHTML = '★';
+          estrella.className = 'star';
+          contenedorEstrellas.appendChild(estrella);
+        }
+      }
+    </script>
+   <footer th:replace="/fragments/footer :: footer "></footer>
   </body>
 </html>
