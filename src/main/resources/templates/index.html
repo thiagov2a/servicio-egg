@@ -52,15 +52,14 @@
         </div>
         <!--SECCION JORGE-->
         <!--Carousel de comentarios-->
-        <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
-          <div class="item">
-            <div class="card mx-2">
-              <div id="contenedorEstrellas" style="text-align: center"></div>
+        <div class="owl-carousel owl-theme" style="margin-bottom: 20px" >
+          <div class="item" th:each="transaccion : ${transacciones}">
+            <div class="card mx-2" >
+              <div id="contenedorEstrellas" style="text-align: center" th:value="${transaccion.calificacion}"></div>
               <div class="card-body">
-                <h5 class="card-title" style="text-align: center; font-size: 12pt">Nombre usuario</h5>
-                <p class="card-text" style="padding-top: 10px">
-                  Aca va en comentario. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora consectetur
-                  magnam voluptatum odio voluptas quaerat!
+                <h5 class="card-title" style="text-align: center; font-size: 12pt" th:text="${transaccion.proveedor.usuario.nombre}"></h5>
+                <p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
+                  
                 </p>
               </div>
             </div>

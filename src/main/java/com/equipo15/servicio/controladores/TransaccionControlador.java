@@ -40,8 +40,9 @@ public class TransaccionControlador {
 
     @GetMapping("/presupuestar/{idProveedor}")
     public String presupuestar(@PathVariable String idProveedor, ModelMap modelo, HttpSession session) {
-        List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+        
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         modelo.put("proveedor", proveedor);

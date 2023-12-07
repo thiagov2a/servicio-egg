@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
+import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -31,15 +34,23 @@ public class PortalControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private ServicioServicio servicioServicio;
+    
+    @Autowired
+    private TransaccionServicio transaccionServicio;
 
     @GetMapping("/")
-    public String index(HttpSession session) {
+    public String index(HttpSession session, ModelMap modelo) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null && usuario.getRol() == Rol.ADMIN) {
             return "redirect:/admin/dashboard";
         }
 
+        List <Transaccion> transacciones = new ArrayList();
+        transacciones = transaccionServicio.listarTransacciones();
+        modelo.put ("transacciones", transacciones);
+                
+        
         return "index.html";
     }
 
