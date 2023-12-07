@@ -8,6 +8,7 @@
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" th:href="@{/css/calificar.css}" />
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  <script th:src="@{/js/Scripts.js}"></script>
 </head>
 
 <nav th:replace="~{fragments/navbar :: nav}"></nav>
@@ -15,7 +16,7 @@
 <body>
   <main>
     <div class="contenido">
-      <h1>Califique el trabajo</h1>
+      <h1>CALIFIQUE EL TRABAJO</h1>
       <form th:action="@{/transaccion/calificar/__${transaccion.id}__}" method="POST" enctype="multipart/form-data">
         <div style="text-align: center;">
           <div class="estrella-cont">
@@ -37,10 +38,10 @@
         </div>
 
         <div class="campo" style="margin-top: 20px;">
-          <textarea name="comentario" placeholder="Comentario" rows="10" cols="40"></textarea>
+          <textarea name="comentario" placeholder="Comentario" rows="10" cols="40" style="font-size: 14pt;"></textarea>
         </div>
 
-        <div class="campo" style="margin-top: 20px;">
+        <div class="campo" style="margin-top: 20px; text-align: center;">
           <button type="submit" class="boton">Enviar el Comentario y la calificación</button>
         </div>
 

@@ -12,18 +12,9 @@
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 
   <style>
-    * {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .campo {
-      margin: 15px;
-      margin-left: 750px;
-      text-align: center;
-    }
 
     .tabla {
-
+      width: 100%;
       border-spacing: 20px;
     }
 
@@ -48,7 +39,7 @@
 
 <body class="body">
   <main>
-    <div style="margin-left: 20px;">
+    <div style="margin-top: 20px;">
       <h1>LISTA DE TRANSACCIONES</h1>
 
       <table class="tabla">
@@ -106,6 +97,6 @@
     </div>
   </main>
 </body>
-
+<footer th:replace="~{/fragments/footer :: footer} "></footer>
 
 </html>
