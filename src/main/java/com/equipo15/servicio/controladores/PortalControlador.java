@@ -34,7 +34,7 @@ public class PortalControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private ServicioServicio servicioServicio;
-    
+
     @Autowired
     private TransaccionServicio transaccionServicio;
 
@@ -46,11 +46,9 @@ public class PortalControlador {
             return "redirect:/admin/dashboard";
         }
 
-        List <Transaccion> transacciones = new ArrayList();
+        List<Transaccion> transacciones = new ArrayList<>();
         transacciones = transaccionServicio.listarTransacciones();
-        modelo.put ("transacciones", transacciones);
-                
-        
+        modelo.addAttribute("transacciones", transacciones);
         return "index.html";
     }
 
@@ -82,22 +80,22 @@ public class PortalControlador {
                 usuarioServicio.registrar(dni, nombre, email, password, password2, barrio, archivo);
             }
 
-            modelo.put("exito", "Te has registrado correctamente");
+            modelo.addAttribute("exito", "Te has registrado correctamente");
             return "index.html";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
             List<Servicio> servicios = servicioServicio.listarServicios();
-            modelo.put("dni", dni);
-            modelo.put("nombre", nombre);
-            modelo.put("email", email);
+            modelo.addAttribute("dni", dni);
+            modelo.addAttribute("nombre", nombre);
+            modelo.addAttribute("email", email);
             modelo.addAttribute("servicios", servicios);
             modelo.addAttribute("barrios", Barrio.values());
-            modelo.put("contacto", contacto);
-            modelo.put("precioPorHora", precioPorHora);
-            modelo.put("idServicio", idServicio);
-            modelo.put("descripcion", descripcion);
-            modelo.put("archivo", archivo);
+            modelo.addAttribute("contacto", contacto);
+            modelo.addAttribute("precioPorHora", precioPorHora);
+            modelo.addAttribute("idServicio", idServicio);
+            modelo.addAttribute("descripcion", descripcion);
+            modelo.addAttribute("archivo", archivo);
             return "registro.html";
         }
     }
@@ -105,7 +103,7 @@ public class PortalControlador {
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         if (error != null) {
-            modelo.put("error", "Usuario o contraseña incorrectos");
+            modelo.addAttribute("error", "Usuario o contraseña incorrectos");
         }
         return "login.html";
     }
@@ -141,10 +139,11 @@ public class PortalControlador {
                 usuarioServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo);
             }
 
-            modelo.put("exito", "Usuario actualizado correctamente!");
+            modelo.addAttribute("exito", "Usuario actualizado correctamente!");
             return "index.html";
         } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
+            modelo.addAttribute("error", ex.getMessage());
+            
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             List<Servicio> servicios = servicioServicio.listarServicios();
             modelo.addAttribute("usuario", usuario);

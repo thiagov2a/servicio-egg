@@ -40,14 +40,15 @@ public class TransaccionControlador {
 
     @GetMapping("/presupuestar/{idProveedor}")
     public String presupuestar(@PathVariable String idProveedor, ModelMap modelo, HttpSession session) {
-        
+
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        List<Transaccion> transacciones = transaccionServicio.listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+        List<Transaccion> transacciones = transaccionServicio
+                .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-        modelo.put("proveedor", proveedor);
-        modelo.put("usuario", usuario);
-        modelo.put("presupuesto", null);
+        modelo.addAttribute("proveedor", proveedor);
+        modelo.addAttribute("usuario", usuario);
+        modelo.addAttribute("presupuesto", null);
         modelo.addAttribute("transacciones", transacciones);
         return "transaccion_form.html";
     }
@@ -56,11 +57,12 @@ public class TransaccionControlador {
     public String presupuesto(@PathVariable String idProveedor, Integer horas, ModelMap modelo, HttpSession session) {
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
         Usuario usuario = obtenerUsuarioDesdeSession(session);
+        // ! Validar que se ingrese un integer/double en el argumento horas
         Double presupuesto = horas * proveedor.getPrecioPorHora();
 
-        modelo.put("proveedor", proveedor);
-        modelo.put("usuario", usuario);
-        modelo.put("presupuesto", presupuesto);
+        modelo.addAttribute("proveedor", proveedor);
+        modelo.addAttribute("usuario", usuario);
+        modelo.addAttribute("presupuesto", presupuesto);
         return "transaccion_form.html";
     }
 
@@ -68,15 +70,16 @@ public class TransaccionControlador {
     public String registro(@PathVariable String idProveedor, @RequestParam Double presupuesto,
             ModelMap modelo, HttpSession session) {
         try {
+            // ! Pasar id del usuario desde "transaccion_form.html" con un input hidden
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             String idUsuario = usuario.getId();
 
             transaccionServicio.iniciarTransaccion(idProveedor, idUsuario, presupuesto);
 
-            modelo.put("exito", "Se ha iniciado una solicitud se servicio correctamente");
+            modelo.addAttribute("exito", "Se ha iniciado una solicitud se servicio correctamente");
             return "index.html";
         } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
+            modelo.addAttribute("error", ex.getMessage());
             return "transaccion_form.html";
         }
     }
@@ -86,14 +89,16 @@ public class TransaccionControlador {
         try {
             transaccionServicio.aceptarTransaccion(idTransaccion);
 
+            // * Generar método privado para no repetir codigo
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
 
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
+            // *
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -116,7 +121,7 @@ public class TransaccionControlador {
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -139,7 +144,7 @@ public class TransaccionControlador {
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -170,13 +175,13 @@ public class TransaccionControlador {
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
             // ! Manejar las alertas en todos los métodos
-            modelo.put("exito", "Se ha calificado la transacción correctamente");
+            modelo.addAttribute("exito", "Se ha calificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
-            modelo.put("comentario", comentario);
-            modelo.put("calificacion", calificacion);
+            modelo.addAttribute("comentario", comentario);
+            modelo.addAttribute("calificacion", calificacion);
             return "calificar.html";
         }
     }
@@ -198,10 +203,10 @@ public class TransaccionControlador {
         try {
             transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
 
-            modelo.put("exito", "Se ha modificado la transacción correctamente");
+            modelo.addAttribute("exito", "Se ha modificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
+            modelo.addAttribute("error", ex.getMessage());
 
             Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
             List<Proveedor> proveedores = proveedorServicio.listarProveedores();
