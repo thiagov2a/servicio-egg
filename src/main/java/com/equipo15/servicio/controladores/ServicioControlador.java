@@ -24,7 +24,7 @@ public class ServicioControlador {
 
     @Autowired
     private ServicioServicio servicioServicio;
-    
+
     @Autowired
     private UsuarioServicio usuarioServicio;
 
@@ -38,19 +38,19 @@ public class ServicioControlador {
             @RequestParam(required = false) String descripcion, ModelMap modelo) {
         try {
             servicioServicio.registrar(nombre, descripcion);
-            modelo.put("exito", "El servicio fué cargado correctamente!");
+            modelo.addAttribute("exito", "El servicio fué cargado correctamente!");
             return "panel.html";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
 
-            modelo.put("nombre", nombre);
-            modelo.put("descripcion", descripcion);
+            modelo.addAttribute("nombre", nombre);
+            modelo.addAttribute("descripcion", descripcion);
             return "servicio_form.html";
         }
     }
 
     // TODO: Mapping lista de servicios, atributo de alta/baja, CRUD completo
-    
+
     @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
         List<Servicio> servicios = obtenerServiciosPorRol(session);
@@ -72,12 +72,10 @@ public class ServicioControlador {
         } else {
             return new ArrayList<>();
         }
-        
-        
-        
+
     }
-    
-        private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+
+    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         if (usuario != null) {

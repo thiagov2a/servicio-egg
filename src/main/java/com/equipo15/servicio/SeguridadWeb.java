@@ -25,6 +25,8 @@ public class SeguridadWeb {
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    // ! Determinar en que matchers pueden entrar "PROVEEDOR" y "USER"
+    // * Ejemplo: Si soy proveedor no debería tener acceso a "calificar.html"
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
