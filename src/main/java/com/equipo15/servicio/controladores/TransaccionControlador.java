@@ -212,6 +212,29 @@ public class TransaccionControlador {
             return "transaccion_modificar.html";
         }
     }
+    
+    @PostMapping("/modificarcomentario/{id}")
+    public String modificarComentario(@PathVariable String id, String comentario, ModelMap modelo) {
+        
+        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
+        
+        try {
+            transaccionServicio.modificar(id, comentario, transaccion.getCalificacion(), transaccion.getPresupuesto(), transaccion.getProveedor().getId(), transaccion.getUsuario().getId());
+
+            modelo.put("exito", "Se ha modificado el comentario correctamente");
+            return "redirect:/transaccion/lista";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+
+            
+            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
+            List<Usuario> residentes = usuarioServicio.listarUsuarios();
+            modelo.addAttribute("transaccion", transaccion);
+            modelo.addAttribute("proveedores", proveedores);
+            modelo.addAttribute("residentes", residentes);
+            return "transaccion_modificar.html";
+        }
+    }
 
     private List<Transaccion> obtenerTransaccionesPorRol(HttpSession session) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);

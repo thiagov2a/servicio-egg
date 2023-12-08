@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Presupuestar trabajo</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        <link rel="stylesheet" th:href="@{/css/transaccion.css}" />
+        <script th:src="@{/js/scripts.js}"></script>
+        <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+        <style>
+            .item {
+                font-size: 12pt;
+                width: 200px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-bottom: 5px;
+                text-align: center;
+
+            }
+        </style>
+
+
+
+    </head>
+
+
+
+    <body>
+        <nav th:replace="fragments/navbar :: nav"></nav>
+
+        <div class="cards">
+            <div class="card_presupuesto">
+                <br>
+                <h1 class="campo">MODIFICAR TRANSACCIÓN</h1>
+
+                <h2 class="campo" th:text="'ID: '+${transaccion.id}"></h2>
+                <h2 class="campo" th:text="'Proveedor: '+${transaccion.proveedor.usuario.nombre}"></h2>
+                <h2 class="campo" th:text="'Residente: '+${transaccion.usuario.nombre}"></h2>
+                <h2 class="campo" th:text="'Calificación: '+${transaccion.calificacion}"></h2>
+
+                <form th:action="@{/transaccion/modificarcomentario/__${transaccion.id}__}" method="POST">
+
+
+
+                    <div class="campo_input">
+                        <input type="text" id="comentario" name="comentario" th:value="${transaccion.comentario}" />
+                    </div>
+
+
+
+                    <div class="campo">
+                        <button type="submit" class="boton">Modificar</button>
+                    </div>
+                </form>
+
+            <h1 class="campo" th:text="${error}"></h1>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                items: 5, // Muestra 5 tarjetas a la vez
+                loop: true, // Hace que el carrusel sea infinito
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
+                autoplayHoverPause: true
+            });
+        });
+
+        // Script para manejo de dibujo de la estrella de calificacion
+
+        var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
+
+        dibujarEstrellas('contenedorEstrellas', valorVariable);
+
+        function dibujarEstrellas(idContenedor, valor) {
+            var contenedorEstrellas = document.getElementById(idContenedor);
+
+            for (var i = 0; i < valor; i++) {
+                var estrella = document.createElement('div');
+                estrella.innerHTML = '★';
+                estrella.className = 'star';
+                contenedorEstrellas.appendChild(estrella);
+            }
+        }
+    </script>
+    <footer th:replace="/fragments/footer :: footer "></footer>
+</body>
+
+</html>

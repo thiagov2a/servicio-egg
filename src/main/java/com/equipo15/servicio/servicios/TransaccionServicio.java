@@ -89,7 +89,7 @@ public class TransaccionServicio {
             transaccion.setCalificacion(calificacion);
             transaccion.setComentario(comentario);
             transaccion.setPresupuesto(presupuesto);
-            transaccion.setEstado(Estado.ACEPTADO);
+            //transaccion.setEstado(Estado.ACEPTADO);
             transaccion.setProveedor(proveedor);
             transaccion.setUsuario(usuario);
 

@@ -48,8 +48,9 @@
             <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
             <th scope="col">Proveedor</th>
             <th scope="col">Usuario</th>
-            <th scope="col">Presupuesto</th>
+            <th scope="col" th:if="${session.usuariosession.rol.descripcion != 'Admin'}">Presupuesto</th>
             <th scope="col">Estado</th>
+            <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">Comentario</th>
             <!--<th scope="col">Acciones</th>-->
           </tr>
         </thead>
@@ -59,8 +60,9 @@
             </td>
             <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
             <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
-            <td scope="row" th:text="${transaccion.presupuesto}"></td>
+            <td scope="row" th:text="${transaccion.presupuesto}" th:if="${session.usuariosession.rol.descripcion != 'Admin'}"></td>
             <td scope="row" th:text="${transaccion.estado}"></td>
+            <td scope="row" th:text="${transaccion.comentario}" th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
             <td scope="row">
               <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
                 <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
@@ -80,7 +82,7 @@
                 </div>
               </div>
               <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
-                <a>Modificar</a>
+                <a th:href="@{/transaccion/modificar/__${transaccion.id}__}" method="POST"><button>Modificar</button></a>
               </div>
             </td>
           </tr>
