@@ -117,6 +117,7 @@ public class ProveedorServicio {
             Integer cantidad = transaccionRepositorio.cantidadDeCalificacionesPorProveedor(idProveedor);
 
             Double calificacion = suma / (cantidad * 1.0);
+            calificacion = Math.round(calificacion * 100d) / 100d;
             proveedor.setCalificacion(calificacion);
 
             proveedorRepositorio.save(proveedor);
