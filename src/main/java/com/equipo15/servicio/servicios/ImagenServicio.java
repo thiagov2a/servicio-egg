@@ -69,7 +69,7 @@ public class ImagenServicio {
     private Imagen cargarImagenPredeterminada() throws Exception {
         Imagen imagen = new Imagen();
 
-        String rutaImagenPredeterminada = "C:/Users/Thiago/Desktop/servicio/src/main/resources/static/img/sinImg.png";
+        String rutaImagenPredeterminada = "classpath:static/img/sinImg.png";
 
         Path pathImagenPredeterminada = Paths.get(rutaImagenPredeterminada);
         byte[] contenidoImagenPredeterminada = Files.readAllBytes(pathImagenPredeterminada);

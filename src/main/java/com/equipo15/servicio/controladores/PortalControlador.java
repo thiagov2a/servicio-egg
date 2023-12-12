@@ -22,7 +22,6 @@ import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -164,6 +163,7 @@ public class PortalControlador {
         }
     }
 
+    // ! Agregar a notificación atributos como por ejemplo si tiene pendientes
     private Integer obtenerNotificaciones(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
@@ -179,15 +179,11 @@ public class PortalControlador {
             return null;
         }
     }
-    
-    
-        @GetMapping("/barrios")
+
+    @GetMapping("/barrios")
     public String barrios() {
-        
-        
+
         return "barrios.html";
     }
-    
-    
 
 }

@@ -28,63 +28,6 @@ public class TransaccionServicio {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Transactional
-    public void registrar(String comentario, Double calificacion, Double presupuesto, String idProveedor,
-            String idUsuario) throws MiException {
-
-        validar(comentario, calificacion, presupuesto, idProveedor, idUsuario);
-
-        Proveedor proveedor = proveedorRepositorio.findById(idProveedor).get();
-        Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
-
-        Transaccion transaccion = new Transaccion();
-
-        transaccion.setCalificacion(calificacion);
-        transaccion.setComentario(comentario);
-        transaccion.setPresupuesto(presupuesto);
-        transaccion.setEstado(Estado.ACEPTADO);
-        transaccion.setProveedor(proveedor);
-        transaccion.setUsuario(usuario);
-
-        transaccionRepositorio.save(transaccion);
-    }
-
-    public List<Transaccion> listarTransacciones() {
-        List<Transaccion> transacciones = new ArrayList<>();
-        transacciones = transaccionRepositorio.findAll();
-        return transacciones;
-    }
-
-    public Transaccion buscarTransaccionPorId(String id) {
-        Optional<Transaccion> respuesta = transaccionRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            return respuesta.get();
-        } else {
-            return null;
-        }
-    }
-
-    public Integer contarTransaccionesPorUsuario(String id) {
-        return transaccionRepositorio.contarTransaccionesPorUsuario(id);
-    }
-
-    public Integer contarTransaccionesPorProveedor(String id) {
-        return transaccionRepositorio.contarTransaccionesPorProveedor(id);
-    }
-
-        @Transactional
-    public void censurar(String idTransaccion) throws MiException {
-        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
-
-        if (respuestaTransaccion.isPresent()) {
-            Transaccion transaccion = respuestaTransaccion.get();
-
-            transaccion.setComentario("[El Administrador ha Censurado el Comentario]");
-
-            transaccionRepositorio.save(transaccion);
-        }
-    }
-
-    @Transactional
     public void iniciarTransaccion(String idProveedor, String idUsuario, Double presupuesto) throws MiException {
         Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(idProveedor);
         Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
@@ -145,6 +88,9 @@ public class TransaccionServicio {
 
     @Transactional
     public void comentarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
+
+        validarComentario(comentario, calificacion);
+
         Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
 
         if (respuestaTransaccion.isPresent()) {
@@ -154,6 +100,34 @@ public class TransaccionServicio {
             transaccion.setCalificacion(calificacion);
 
             transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    @Transactional
+    public void censurarComentario(String idTransaccion) throws MiException {
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuestaTransaccion.isPresent()) {
+            Transaccion transaccion = respuestaTransaccion.get();
+
+            transaccion.setComentario("[El Administrador ha Censurado el Comentario]");
+
+            transaccionRepositorio.save(transaccion);
+        }
+    }
+
+    public List<Transaccion> listarTransacciones() {
+        List<Transaccion> transacciones = new ArrayList<>();
+        transacciones = transaccionRepositorio.findAll();
+        return transacciones;
+    }
+
+    public Transaccion buscarTransaccionPorId(String id) {
+        Optional<Transaccion> respuesta = transaccionRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            return respuesta.get();
+        } else {
+            return null;
         }
     }
 
@@ -169,9 +143,15 @@ public class TransaccionServicio {
         return transacciones;
     }
 
-    public void validar(String comentario, Double calificacion, Double presupuesto, String idProveedor,
-            String idUsuario) throws MiException {
+    public Integer contarTransaccionesPorUsuario(String id) {
+        return transaccionRepositorio.contarTransaccionesPorUsuario(id);
+    }
 
+    public Integer contarTransaccionesPorProveedor(String id) {
+        return transaccionRepositorio.contarTransaccionesPorProveedor(id);
+    }
+
+    public void validarComentario(String comentario, Double calificacion) throws MiException {
         if (comentario == null || comentario.trim().isEmpty()) {
             throw new MiException("El comentario no puede ser nulo o estar vacío");
         }
@@ -180,17 +160,17 @@ public class TransaccionServicio {
             throw new MiException("La calificación no puede ser nula o menor a cero o mayor a 5");
         }
 
-        if (presupuesto == null || presupuesto < 0) {
-            throw new MiException("El Presupuesto no puede ser menor a cero o nulo");
-        }
+        // if (presupuesto == null || presupuesto < 0) {
+        // throw new MiException("El Presupuesto no puede ser menor a cero o nulo");
+        // }
 
-        if (idProveedor == null || idProveedor.trim().isEmpty()) {
-            throw new MiException("El proveedor no puede ser nulo o estar vació");
-        }
+        // if (idProveedor == null || idProveedor.trim().isEmpty()) {
+        // throw new MiException("El proveedor no puede ser nulo o estar vació");
+        // }
 
-        if (idUsuario == null || idUsuario.trim().isEmpty()) {
-            throw new MiException("El residente no puede ser nulo o estar vació");
-        }
+        // if (idUsuario == null || idUsuario.trim().isEmpty()) {
+        // throw new MiException("El residente no puede ser nulo o estar vació");
+        // }
     }
 
 }

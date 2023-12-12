@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -35,10 +36,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ProveedorRepositorio proveedorRepositorio;
     @Autowired
     private ImagenServicio imagenServicio;
-    @Autowired
-    private TransaccionServicio transaccionServicio;
 
-    // Create
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
             MultipartFile archivo) throws MiException {
@@ -62,14 +60,12 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
-    // Read
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         usuarios = usuarioRepositorio.listarUsuarios();
         return usuarios;
     }
 
-    // Update
     @Transactional
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
             Barrio barrio, MultipartFile archivo) throws MiException {
@@ -85,7 +81,8 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.USER);
+            // Cuando se modifica el usuario no se debe cambiar el rol
+            // usuario.setRol(Rol.USER);
             usuario.setBarrio(barrio);
 
             String idImagen = null;
@@ -100,7 +97,6 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    // Delete
     @Transactional
     public void cambiarEstado(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
@@ -192,15 +188,24 @@ public class UsuarioServicio implements UserDetailsService {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario != null) {
+
+            if (!usuario.getAlta()) {
+                throw new BadCredentialsException("Credenciales inválidas");
+            }
+
+            if (usuario.getRol() == Rol.PROVEEDOR) {
+                Proveedor proveedor = usuario.getProveedor();
+                if (!proveedor.getAlta()) {
+                    throw new BadCredentialsException("Credenciales inválidas");
+                }
+            }
+
             List<GrantedAuthority> permisos = new ArrayList<>();
             GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-
             permisos.add(p);
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
             HttpSession session = attr.getRequest().getSession(true);
-
             session.setAttribute("usuariosession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);

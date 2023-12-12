@@ -147,7 +147,8 @@ public class ProveedorServicio {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.PROVEEDOR);
+            // Cuando se modifica el usuario no se debe cambiar el rol
+            // usuario.setRol(Rol.PROVEEDOR);
             usuario.setBarrio(barrio);
 
             String idImagen = null;

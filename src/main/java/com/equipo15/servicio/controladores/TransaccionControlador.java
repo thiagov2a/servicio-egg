@@ -11,8 +11,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -189,10 +187,9 @@ public class TransaccionControlador {
     }
 
     @GetMapping("/censurar/{id}")
-    public String modificar(@PathVariable String id, ModelMap modelo, HttpSession session) {
-                
+    public String modificar(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
         try {
-            transaccionServicio.censurar(id);
+            transaccionServicio.censurarComentario(idTransaccion);
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -210,8 +207,6 @@ public class TransaccionControlador {
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
         }
-
-        
     }
 
     private List<Transaccion> obtenerTransaccionesPorRol(HttpSession session) {
