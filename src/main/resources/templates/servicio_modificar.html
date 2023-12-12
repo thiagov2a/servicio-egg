@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Editar Servicios</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        <link rel="stylesheet" th:href="@{/css/registro.css}" />
+        <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+        <style>
+            .error {
+                color: red;
+            }
+            body{
+                height: 40vw;
+            }
+
+            .exito {
+                color: green;
+            }
+        </style>
+    </head>
+
+    <body class="fondoimg">
+        <nav th:replace="~{fragments/navbar :: nav}"></nav>
+        
+        <main class="cont-principal" style="min-height: 75vh;">
+
+            <h1>EDITAR SERVICIO</h1>
+
+            <form th:action="@{/servicio/modificarServicio/__${servicio.id}__}" method="POST">
+                <input hidden th:value="${servicio.id}" name="id" />
+                
+                <div class="campo">
+                    <input type="text" name="nombre" placeholder="Nombre del Servicio" th:value="${servicio.nombre}" required />
+                </div>
+
+                <div class="campo">
+                    <input type="text" name="descripcion" placeholder="Descripción" th:value="${servicio.descripcion}" required />
+                </div>
+                
+                <input hidden type="boolean" name="alta" th:value="${servicio.alta}" required />
+            
+                <div class="campo">
+                    <button type="submit" class="boton">Guardar cambios</button>
+                </div>
+               
+            </form>
+        </main>
+
+        <footer th:replace="~{/fragments/footer :: footer}"></footer>
+
+        <script th:src="@{/js/scripts.js}"></script>
+    </body>
+
+</html>
+

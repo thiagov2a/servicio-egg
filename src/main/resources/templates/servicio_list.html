@@ -65,7 +65,8 @@
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
             <th scope="col">Estado</th>
-            <th scope="col">Acciones</th>
+            <th scope="col">Alta/Baja</th>
+            <th scope="col">Modificar</th>
           </tr>
         </thead>
         <tbody th:each="servicio : ${servicios}">
@@ -85,6 +86,16 @@
 
 
             </td>
+            
+            <td scope="row">
+              <div sec:authorize="hasRole('ADMIN')">
+                <button><a th:href="@{/servicio/modificarServicio/__${servicio.id}__}">Modificar</a></button>
+              </div>
+
+
+            </td>
+            
+            
           </tr>
         </tbody>
       </table>

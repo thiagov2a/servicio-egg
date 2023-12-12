@@ -16,6 +16,7 @@ import com.equipo15.servicio.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/servicio")
@@ -73,6 +74,36 @@ public class ServicioControlador {
         }
 
     }
+    
+    @GetMapping("/modificarServicio/{id}")
+    public String modificar(@PathVariable String id, ModelMap modelo) throws MiException {
+        modelo.put("servicio", servicioServicio.buscarServicioPorId(id));
+        
+        List<Servicio> servicios = servicioServicio.listarServicios();
+        modelo.addAttribute("servicios", servicios);
+        
+        return "servicio_modificar.html";
+    }
+    
+    @PostMapping("/modificarServicio/{id}")
+    public String modificar(@PathVariable String id, @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String descripcion, ModelMap modelo){
+        try {
+            servicioServicio.modificar(id, nombre, descripcion);
+            modelo.put("exito","Servicio actualizado correctamente!!");
+            return "redirect:/admin/dashboard";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            modelo.put("nombre", nombre);
+            modelo.put("descripcion", descripcion);
+            return "servicio_list.html";
+        }
+    }
+    
+
+
+    
+    
 
     private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");

@@ -54,8 +54,10 @@ public class ServicioServicio {
     }
 
     @Transactional
+
     public void modificar(String id, String nombre, String descripcion) throws MiException {
-        validar(nombre, descripcion);
+
+       validar(nombre, descripcion);
 
         Optional<Servicio> respuesta = servicioRepositorio.findById(id);
         if (respuesta.isPresent()) {
