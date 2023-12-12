@@ -179,5 +179,15 @@ public class PortalControlador {
             return null;
         }
     }
+    
+    
+        @GetMapping("/barrios")
+    public String barrios() {
+        
+        
+        return "barrios.html";
+    }
+    
+    
 
 }
