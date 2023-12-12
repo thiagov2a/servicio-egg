@@ -106,7 +106,7 @@ table {
                 </div>
               </div>
               <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
-                <a th:href="@{/transaccion/modificar/__${transaccion.id}__}" method="POST"><button>Modificar</button></a>
+                <a th:href="@{/transaccion/censurar/__${transaccion.id}__}"><button>Censurar Comentario</button></a>
               </div>
             </td>
           </tr>

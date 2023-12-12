@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -186,59 +188,30 @@ public class TransaccionControlador {
         }
     }
 
-    @GetMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, ModelMap modelo) {
-        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
-        List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-        List<Usuario> residentes = usuarioServicio.listarUsuarios();
-        modelo.addAttribute("transaccion", transaccion);
-        modelo.addAttribute("proveedores", proveedores);
-        modelo.addAttribute("residentes", residentes);
-        return "transaccion_modificar.html";
-    }
-
-    @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, String comentario, String idProveedor, String idUsuario,
-            Double calificacion, Double presupuesto, ModelMap modelo) {
+    @GetMapping("/censurar/{id}")
+    public String modificar(@PathVariable String id, ModelMap modelo, HttpSession session) {
+                
         try {
-            transaccionServicio.modificar(id, comentario, calificacion, presupuesto, idProveedor, idUsuario);
+            transaccionServicio.censurar(id);
 
-            modelo.addAttribute("exito", "Se ha modificado la transacción correctamente");
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
-        } catch (MiException ex) {
-            modelo.addAttribute("error", ex.getMessage());
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
 
-            Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
-            modelo.addAttribute("transaccion", transaccion);
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
-            return "transaccion_modificar.html";
-        }
-    }
-    
-    @PostMapping("/modificarcomentario/{id}")
-    public String modificarComentario(@PathVariable String id, String comentario, ModelMap modelo) {
-        
-        Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(id);
-        
-        try {
-            transaccionServicio.modificar(id, comentario, transaccion.getCalificacion(), transaccion.getPresupuesto(), transaccion.getProveedor().getId(), transaccion.getUsuario().getId());
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-            modelo.put("exito", "Se ha modificado el comentario correctamente");
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-
-            
-            List<Proveedor> proveedores = proveedorServicio.listarProveedores();
-            List<Usuario> residentes = usuarioServicio.listarUsuarios();
-            modelo.addAttribute("transaccion", transaccion);
-            modelo.addAttribute("proveedores", proveedores);
-            modelo.addAttribute("residentes", residentes);
-            return "transaccion_modificar.html";
         }
+
+        
     }
 
     private List<Transaccion> obtenerTransaccionesPorRol(HttpSession session) {

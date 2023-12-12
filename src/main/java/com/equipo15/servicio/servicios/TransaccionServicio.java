@@ -71,35 +71,14 @@ public class TransaccionServicio {
         return transaccionRepositorio.contarTransaccionesPorProveedor(id);
     }
 
-    public void modificar(String id, String comentario, Double calificacion, Double presupuesto, String idProveedor,
-            String idUsuario) throws MiException {
-
-        validar(comentario, calificacion, presupuesto, idProveedor, idUsuario);
-
-        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(id);
-        Optional<Proveedor> respuestaProveedor = proveedorRepositorio.findById(idProveedor);
-        Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(idUsuario);
-
-        Proveedor proveedor = new Proveedor();
-        Usuario usuario = new Usuario();
-
-        if (respuestaProveedor.isPresent()) {
-            proveedor = respuestaProveedor.get();
-        }
-
-        if (respuestaUsuario.isPresent()) {
-            usuario = respuestaUsuario.get();
-        }
+        @Transactional
+    public void censurar(String idTransaccion) throws MiException {
+        Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
 
         if (respuestaTransaccion.isPresent()) {
             Transaccion transaccion = respuestaTransaccion.get();
 
-            transaccion.setCalificacion(calificacion);
-            transaccion.setComentario(comentario);
-            transaccion.setPresupuesto(presupuesto);
-            // transaccion.setEstado(Estado.ACEPTADO);
-            transaccion.setProveedor(proveedor);
-            transaccion.setUsuario(usuario);
+            transaccion.setComentario("[El Administrador ha Censurado el Comentario]");
 
             transaccionRepositorio.save(transaccion);
         }
