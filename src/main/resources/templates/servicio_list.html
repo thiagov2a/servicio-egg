@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lista de Servicios</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
   <style>
     button {
@@ -60,7 +61,7 @@
       <div></div>
       <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
       <div></div>
-      <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
+      <button class="boton" style="margin-bottom: 0;"> <a th:href="@{/servicio/registrar}" style="color: white" >Registrar Servicio</a> </button>
     </div>
 
     <div>
@@ -108,7 +109,7 @@
         </tbody>
       </table>
     </div>
-    
+
   </div>
   <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
