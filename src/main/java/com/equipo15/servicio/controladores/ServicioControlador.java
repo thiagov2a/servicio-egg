@@ -91,7 +91,7 @@ public class ServicioControlador {
         try {
             servicioServicio.modificar(id, nombre, descripcion);
             modelo.put("exito","Servicio actualizado correctamente!!");
-            return "redirect:/admin/dashboard";
+            return "redirect:/servicio/lista";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
