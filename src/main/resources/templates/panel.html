@@ -36,11 +36,32 @@
       color: black;
     }
 
-    .admin_sidebar_left button {
+    .admin_contenedor {
 
-      margin: 10px;
+      display: flex;
+      flex-direction: row;
+      align-content: space-between;
     }
-    
+
+    .admin_card {
+      font-weight: 800;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-content: space-between;
+      height: 200px;
+      width: 200px;
+      margin: 10px;
+      border: 2px solid grey;
+      background-color: darkgray;
+      border-radius: 20px;
+    }
+
+    .admin_card img {
+      margin-top: 10px;
+      height: 150px;
+      width: 150px;
+    }
   </style>
 
 </head>
@@ -50,86 +71,30 @@
 <body>
 
   <main class="cont-principal" style="min-height: 75vh;">
-    <aside class="admin_sidebar_left" style="margin: 20px;">
-      <!--
-    <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
-    <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
-    -->
-      <button> <a th:href="@{/admin/usuarios}">Lista de Usuarios</a> </button>
-      <button> <a th:href="@{/proveedor/lista}">Lista de Proveedores</a> </button>
-      <button> <a th:href="@{/transaccion/lista}">Lista de Transacciones</a> </button>
-      <button> <a th:href="@{/servicio/lista}">Lista de Servicios</a> </button>
-    </aside>
+    <div class="admin_contenedor" style="margin: 20px;">
 
-    <!--
-    <section class="admin_central">
-      <!-- Tabla de Proveedores
-      <table class="table" id="tablaProveedores" hidden>
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+      <a th:href="@{/admin/usuarios}" class="admin_card">
+        <img src="../img/usuario.png" alt="usuario">
+        <div>Lista de Usuarios</div>
+      </a>
 
-      <!-- Tabla de Usuarios
-      <table class="table" id="tablaUsuarios" hidden>
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>usuario1</td>
-            <td>usuario2</td>
-            <td>@usuario3</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+      <a th:href="@{/proveedor/lista}" class="admin_card">
+        <img src="../img/herramientas.png" alt="proveedores">
+        <div>Lista de Proveedores</div>
+      </a>
 
-      <aside class="admin_sidebar_right">
+      <a th:href="@{/transaccion/lista}" class="admin_card">
+        <img src="../img/cuaderno.png" alt="transacciones">
+        <div>Lista de Transacciones</div>
+      </a>
 
-      </aside>
-    </section>
-    -->
+      <a th:href="@{/servicio/lista}" class="admin_card">
+        <img src="../img/servicios.png" alt="servicios">
+        <div>Lista de Servicios</div>
+      </a>
+
+    </div>
+
   </main>
 
   <script>
