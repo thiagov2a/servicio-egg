@@ -17,7 +17,7 @@ body{
     justify-content: center;
     align-items: center;
     padding: 30px;
-   
+
 }
  .card_presupuesto{
 background-color: rgb(254, 171, 119);
@@ -34,7 +34,7 @@ padding: 50px;
         padding: 5px;
         border-radius: 5px;
       }
-    
+
 
  }
 .campo_input input{
@@ -42,7 +42,7 @@ padding: 50px;
     font-size: 12pt;
     border-radius: 5px;
     border: 1px solid black;
-    width: 350px;
+    width: 500px;
 }
 .boton {
     display: inline-block;
@@ -58,7 +58,7 @@ padding: 50px;
 
     letter-spacing: 0.5px; /*Para separar un poco las letras*/
 
-  
+
 
 }
 .boton:hover {
@@ -80,9 +80,9 @@ padding: 50px;
 
     letter-spacing: 0.5px; /*Para separar un poco las letras*/
 
-  
+
   }
-  
+
   .boton2:hover {
     background: transparent; /*Fondo transparente*/
     border: 2px solid #fff;
@@ -95,7 +95,7 @@ padding: 50px;
 .comentarios{
     display: flex;
     list-style: none;
- 
+
 }
 .presupuesto{
 font-size: 12px;
