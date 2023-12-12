@@ -24,6 +24,9 @@
       <!-- Botón para desplegar el menú -->
 
       <span th:text="${'Hola ' + session.usuariosession.nombre }"></span>
+      <span
+        th:if="${notificaciones != null && notificaciones != 0}"
+        th:text="${'Tienes ' + notificaciones + ' notificaciones pendientes'}"></span>
       <button class="nav_btn">
         <img
           th:if="${session.usuariosession.imagen != null}"

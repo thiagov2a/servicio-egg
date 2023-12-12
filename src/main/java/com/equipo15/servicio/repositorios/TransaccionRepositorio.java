@@ -16,6 +16,12 @@ public interface TransaccionRepositorio extends JpaRepository<Transaccion, Strin
     @Query("SELECT t FROM Transaccion t WHERE t.usuario.id = :id")
     public List<Transaccion> listarTransaccionesPorUsuario(@Param("id") String id);
 
+    @Query("SELECT COUNT(t) FROM Transaccion t WHERE t.usuario.id = :id and t.estado = 'ACEPTADO'")
+    public Integer contarTransaccionesPorUsuario(@Param("id") String id);
+
+    @Query("SELECT COUNT(t) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'PENDIENTE'")
+    public Integer contarTransaccionesPorProveedor(@Param("id") String id);
+
     @Query("SELECT SUM(t.calificacion) FROM Transaccion t WHERE t.proveedor.usuario.id = :id and t.estado = 'FINALIZADO'")
     public Integer sumaDeCalificacionesPorProveedor(@Param("id") String id);
 

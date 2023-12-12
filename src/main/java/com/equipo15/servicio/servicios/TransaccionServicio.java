@@ -63,6 +63,14 @@ public class TransaccionServicio {
         }
     }
 
+    public Integer contarTransaccionesPorUsuario(String id) {
+        return transaccionRepositorio.contarTransaccionesPorUsuario(id);
+    }
+
+    public Integer contarTransaccionesPorProveedor(String id) {
+        return transaccionRepositorio.contarTransaccionesPorProveedor(id);
+    }
+
     public void modificar(String id, String comentario, Double calificacion, Double presupuesto, String idProveedor,
             String idUsuario) throws MiException {
 
@@ -89,7 +97,7 @@ public class TransaccionServicio {
             transaccion.setCalificacion(calificacion);
             transaccion.setComentario(comentario);
             transaccion.setPresupuesto(presupuesto);
-            //transaccion.setEstado(Estado.ACEPTADO);
+            // transaccion.setEstado(Estado.ACEPTADO);
             transaccion.setProveedor(proveedor);
             transaccion.setUsuario(usuario);
 

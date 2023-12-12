@@ -1,6 +1,5 @@
 package com.equipo15.servicio.controladores;
 
-import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -35,6 +35,8 @@ public class UsuarioServicio implements UserDetailsService {
     private ProveedorRepositorio proveedorRepositorio;
     @Autowired
     private ImagenServicio imagenServicio;
+    @Autowired
+    private TransaccionServicio transaccionServicio;
 
     // Create
     @Transactional
@@ -153,7 +155,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     public void validar(String dni, String nombre, String email, String password, String password2, Barrio barrio)
             throws MiException {
-
         if (dni == null || dni.trim().isEmpty()) {
             throw new MiException("El Dni no puede ser nulo o estar vacío");
         }
@@ -177,10 +178,8 @@ public class UsuarioServicio implements UserDetailsService {
         if (barrio == null) {
             throw new MiException("El Barrio no puede ser nulo");
         }
-
     }
 
-    // Query personalizada
     public void validarExistencia(String email) throws MiException {
         Usuario respuestaUsuario = usuarioRepositorio.buscarPorEmail(email.trim());
         if (respuestaUsuario != null) {

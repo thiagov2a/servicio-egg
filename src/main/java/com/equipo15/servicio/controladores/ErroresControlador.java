@@ -12,7 +12,6 @@ public class ErroresControlador implements ErrorController {
 
     @RequestMapping(value = "/error", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
-
         ModelAndView errorPage = new ModelAndView("error");
         String errorMsg = "";
 

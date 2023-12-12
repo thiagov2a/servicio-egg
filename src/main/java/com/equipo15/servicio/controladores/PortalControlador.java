@@ -34,7 +34,6 @@ public class PortalControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private ServicioServicio servicioServicio;
-
     @Autowired
     private TransaccionServicio transaccionServicio;
 
@@ -46,9 +45,10 @@ public class PortalControlador {
             return "redirect:/admin/dashboard";
         }
 
-        List<Transaccion> transacciones = new ArrayList<>();
-        transacciones = transaccionServicio.listarTransacciones();
+        List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
+        Integer notificaciones = obtenerNotificaciones(session);
         modelo.addAttribute("transacciones", transacciones);
+        modelo.addAttribute("notificaciones", notificaciones);
         return "index.html";
     }
 
@@ -143,7 +143,7 @@ public class PortalControlador {
             return "index.html";
         } catch (MiException ex) {
             modelo.addAttribute("error", ex.getMessage());
-            
+
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             List<Servicio> servicios = servicioServicio.listarServicios();
             modelo.addAttribute("usuario", usuario);
@@ -159,6 +159,22 @@ public class PortalControlador {
         if (usuario != null) {
             String id = usuario.getId();
             return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
+        }
+    }
+
+    private Integer obtenerNotificaciones(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
+            if (usuarioActualizado.getProveedor() != null) {
+                return transaccionServicio.contarTransaccionesPorProveedor(usuarioActualizado.getId());
+            } else {
+                return transaccionServicio.contarTransaccionesPorUsuario(usuarioActualizado.getId());
+            }
         } else {
             return null;
         }
