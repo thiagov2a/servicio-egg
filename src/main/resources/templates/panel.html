@@ -20,6 +20,7 @@
       font-size: 12pt;
       border-radius: 5px;
       border: none;
+
     }
 
     button:hover {
@@ -34,6 +35,12 @@
     a:visited {
       color: black;
     }
+
+    .admin_sidebar_left button {
+
+      margin: 10px;
+    }
+    
   </style>
 
 </head>
@@ -42,8 +49,8 @@
 
 <body>
 
-  <main class="cont-principal"   style="min-height: 75vh;">
-    <aside class="admin_sidebar_left" style="margin-left: 20px;">
+  <main class="cont-principal" style="min-height: 75vh;">
+    <aside class="admin_sidebar_left" style="margin: 20px;">
       <!--
     <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
     <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
@@ -51,11 +58,12 @@
       <button> <a th:href="@{/admin/usuarios}">Lista de Usuarios</a> </button>
       <button> <a th:href="@{/proveedor/lista}">Lista de Proveedores</a> </button>
       <button> <a th:href="@{/transaccion/lista}">Lista de Transacciones</a> </button>
-      <button> <a th:href="@{/servicio/lista}">Listar Servicio</a> </button>
+      <button> <a th:href="@{/servicio/lista}">Lista de Servicios</a> </button>
     </aside>
 
+    <!--
     <section class="admin_central">
-      <!-- Tabla de Proveedores -->
+      <!-- Tabla de Proveedores
       <table class="table" id="tablaProveedores" hidden>
         <thead>
           <tr>
@@ -86,7 +94,7 @@
         </tbody>
       </table>
 
-      <!-- Tabla de Usuarios -->
+      <!-- Tabla de Usuarios
       <table class="table" id="tablaUsuarios" hidden>
         <thead>
           <tr>
@@ -121,6 +129,7 @@
 
       </aside>
     </section>
+    -->
   </main>
 
   <script>

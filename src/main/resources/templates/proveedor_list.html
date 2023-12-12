@@ -54,7 +54,15 @@
   <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
   <div  style="min-height: 75vh; ">
-    <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
+
+    <div class="encabezado">
+      <a th:href="@{/}"><button>Volver</button></a>
+      <div></div>
+      <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
+      <div></div>
+      <div style="width: 60px;"></div>
+    </div>
+
     <div>
       <table>
         <thead>
@@ -109,6 +117,7 @@
         </tbody>
       </table>
     </div>
+   
   </div>
   <footer th:replace="~{/fragments/footer :: footer}"></footer>
 

@@ -12,28 +12,30 @@
     </form>
   </div  >  -->
 
-  <div>
-    <!-- Opciones de Login y Registro -->
-    <div th:unless="${session.usuariosession != null}" class="nav_guest">
+
+    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+    <div th:unless="${session.usuariosession != null}" class="nav_guest" >
       <a th:href="@{/login}">Login</a>
       <a th:href="@{/registrar}">Registrarse</a>
     </div>
 
-    <!-- Lista desplegable cuando el usuario está logeado -->
-    <div th:if="${session.usuariosession != null}" class="nav_dropdown">
+    <!-- Lista desplegable cuando el usuario está logeado --><!-- ANTES: class="nav_dropdown"-->
+    <div th:if="${session.usuariosession != null}" class="nav-derecha" >
       <!-- Botón para desplegar el menú -->
 
-      <span th:text="${'Hola ' + session.usuariosession.nombre }"></span>
-      <span
-        th:if="${notificaciones != null && notificaciones != 0}"
-        th:text="${'Tienes ' + notificaciones + ' notificaciones pendientes'}"></span>
+      <div th:text="${'Hola ' + session.usuariosession.nombre }" style="margin: 10px; font-weight: 600;"></div>
+
+      <a th:href="@{/transaccion/lista}">
+        <div th:if="${notificaciones != null && notificaciones != 0}" th:text="${notificaciones}"
+        style="border: 1px solid green; color: white; padding: 5px; text-align: center;
+        width: 30px; height: 30px; background-color: green; border-radius: 100%;
+        font-weight: 700;">
+        </div>
+      </a>
+
       <button class="nav_btn">
-        <img
-          th:if="${session.usuariosession.imagen != null}"
-          th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"
-          alt="mdo"
-          width="42"
-          height="42"
+        <img th:if="${session.usuariosession.imagen != null}"
+          th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42"
           class="nav_img_perfil" />
       </button>
 
@@ -44,7 +46,7 @@
         <a th:href="@{/logout}">Cerrar sesión</a>
       </div>
     </div>
-  </div>
+
 </nav>
 
 <!--

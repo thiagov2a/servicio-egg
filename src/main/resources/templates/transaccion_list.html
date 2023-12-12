@@ -13,20 +13,37 @@
 
   <style>
 
+/*
     .tabla {
       width: 100%;
       border-spacing: 20px;
     }
 
     th {
-      padding: 20px;
+      padding: 1px;
       border-bottom: 2px solid black;
     }
 
     td {
       text-align: center;
       height: 50px;
-      padding: 20;
+
+    }
+*/
+table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 5px;
+    }
+
+    th {
+      padding: 1px;
+      border-bottom: 2px solid black;
+    }
+
+    td {
+      text-align: center;
+      height: 50px;
     }
 
     .size {
@@ -39,8 +56,15 @@
 
 <body class="body">
   <main>
-    <div style="margin-top: 20px;">
-      <h1>LISTA DE TRANSACCIONES</h1>
+    <div>
+      <div class="encabezado">
+        <a th:href="@{/}"><button>Volver</button></a>
+        <div></div>
+        <h1>LISTA DE TRANSACCIONES</h1>
+        <div></div>
+        <div style="width: 60px;"></div>
+      </div>
+
 
       <table class="tabla">
         <thead>
@@ -89,13 +113,7 @@
         </tbody>
       </table>
 
-      <section>
-        <div>
-          <div>
-            <a th:href="@{/}"><button>Volver</button></a>
-          </div>
-        </div>
-      </section>
+
     </div>
   </main>
 </body>

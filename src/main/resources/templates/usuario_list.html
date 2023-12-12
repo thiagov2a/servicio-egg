@@ -51,6 +51,8 @@
       text-align: center;
       height: 50px;
     }
+
+
   </style>
 </head>
 <nav th:replace="~{fragments/navbar :: nav}"></nav>
@@ -58,7 +60,13 @@
 <body>
   <main>
 
-    <h1>LISTA DE USUARIOS REGISTRADOS</h1>
+    <div class="encabezado">
+      <a th:href="@{/}"><button>Volver</button></a>
+      <div></div>
+      <h1>LISTA DE USUARIOS REGISTRADOS</h1>
+      <div></div>
+      <div style="width: 60px;"></div>
+    </div>
 
     <div>
       <table>
@@ -92,7 +100,8 @@
             <td scope="row" th:text="${usuario.rol}"></td>
             <td scope="row">
               <img th:if="${usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
-              <img th:unless="${usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" /></td>
+              <img th:unless="${usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" />
+            </td>
             <td scope="row">
               <div sec:authorize="hasRole('ADMIN')">
                 <button><a th:href="@{/admin/hacerAdmin/__${usuario.id}__}">Hacer ADMIN</a></button>
@@ -102,6 +111,7 @@
           </tr>
         </tbody>
       </table>
+      
     </div>
   </main>
 </body>

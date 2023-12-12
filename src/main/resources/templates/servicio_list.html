@@ -54,9 +54,17 @@
   <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
   <div  style="min-height: 75vh;">
-    <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
+
+    <div class="encabezado">
+      <a th:href="@{/}"><button>Volver</button></a>
+      <div></div>
+      <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
+      <div></div>
+      <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
+    </div>
+
     <div>
-        <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
+
       <table>
         <thead>
           <tr>
@@ -86,7 +94,7 @@
 
 
             </td>
-            
+
             <td scope="row">
               <div sec:authorize="hasRole('ADMIN')">
                 <button><a th:href="@{/servicio/modificarServicio/__${servicio.id}__}">Modificar</a></button>
@@ -94,12 +102,13 @@
 
 
             </td>
-            
-            
+
+
           </tr>
         </tbody>
       </table>
     </div>
+    
   </div>
   <footer th:replace="~{/fragments/footer :: footer}"></footer>
 

@@ -215,6 +215,23 @@ nav {
   }
 }
 
+.nav-derecha{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: right;
+  align-items: center;
+
+}
+
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  margin: 10px;
+
+}
 /*@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap");
 
 {

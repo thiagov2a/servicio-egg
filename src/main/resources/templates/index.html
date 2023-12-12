@@ -1,174 +1,194 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Corlink</title>
-        <link rel="stylesheet" th:href="@{/css/styles.css}" />
-        <link rel="stylesheet" th:href="@{/css/index.css}" />
-        <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-        <script th:src="@{/js/scripts.js}"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Corlink</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+    <script th:src="@{/js/scripts.js}"></script>
 
-        <!-- Estilos para carrousel de comentarios -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <!-- Estilos para carrousel de comentarios -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
-        <style>
-            .item {
-                font-size: 10pt;
-                width: 200px;
-                height: 150px;
-                border: 1px solid black;
-                border-radius: 10px;
-                padding-left: 10px;
-                padding-right: 10px;
-                padding-bottom: 5px;
+    <style>
+        .item {
+            font-size: 10pt;
+            width: 200px;
+            height: 150px;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 5px;
 
-            }
+        }
 
-            .star {
-                color: gold;
-                font-size: 32px;
-                display: inline-block;
-            }
+        .star {
+            color: gold;
+            font-size: 32px;
+            display: inline-block;
+        }
 
-            .pendiente {
-                color: green;
-                font-size: 14pt;
-                font-weight: 600;
-                text-align: center;
-                border: 2px solid green;
-                border-radius: 10px;
-                padding: 5px;
+        .pendiente {
 
-            }
 
-            a {
-                text-decoration: none;
-                color: black;
-            }
+            background-color: green;
+            font-size: 14pt;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 5px;
+            width: 400px;
+            margin: 10px;
 
-            a:visited {
-                color: black;
-            }
-        </style>
-    </head>
+        }
 
-    <body>
-        <main class="cont-principal">
-            <div class="wrp">
-                <nav th:replace="~{/fragments/navbar :: nav}"></nav>
+        .estados {
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            align-items: center;
+            background-color: rgb(153, 153, 153);
+        }
 
-                <!--
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:visited {
+            color: black;
+        }
+    </style>
+</head>
+<nav th:replace="~{/fragments/navbar :: nav}"></nav>
+
+<body>
+    <main class="cont-principal">
+        <div class="wrp">
+
+
+
+            <div th:if="${session.usuariosession != null}" class="estados">
                 <div th:each="transaccion : ${transacciones}">
-                  <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
-                    <div th:if="${transaccion.estado.descripcion == 'Pendiente'}" class="pendiente"><a
-                        th:href="@{/transaccion/lista}"> Tiene trabajo pendiente de aceptacion </a></div>
-                  </div>
-          
-                  <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
-                    <div th:if="${transaccion.estado.descripcion == 'Aceptado'}" class="pendiente"><a
-                        th:href="@{/transaccion/lista}">Tiene trabajo en ejecucion</a></div>
-                  </div>
+                    <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
+                        <div th:if="${transaccion.estado.descripcion == 'Pendiente'}" class="pendiente"><a
+                                th:href="@{/transaccion/lista}" style="color: white;"> Tiene trabajo pendiente de
+                                aceptacion </a></div>
+                    </div>
+
+                    <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
+                        <div th:if="${transaccion.estado.descripcion == 'Aceptado'}" class="pendiente"><a
+                                th:href="@{/transaccion/lista}" style="color: white;">Tiene trabajo en ejecucion</a>
+                        </div>
+                    </div>
                 </div>
-                
+
                 <div th:each="transaccion : ${transacciones}">
                     <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
                         <div th:if="${transaccion.estado.descripcion == 'Pendiente'}" class="pendiente"><a
-                                th:href="@{/transaccion/lista}">Tiene trabajo pendiente de aceptacion</a></div>
+                                th:href="@{/transaccion/lista}" style="color: white;">Trabajo aguardando que el proveedor acepte</a></div>
                     </div>
 
                     <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
                         <div th:if="${transaccion.estado.descripcion == 'Aceptado'}" class="pendiente"><a
-                                th:href="@{/transaccion/lista}">Tiene trabajo en ejecucion</a></div>
+                                th:href="@{/transaccion/lista}" style="color: white;">Tiene trabajo en ejecucion</a>
+                        </div>
                     </div>
 
                     <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
-                        <div th:if="${transaccion.estado.descripcion == 'Finalizado'}" >
+                        <div th:if="${transaccion.estado.descripcion == 'Finalizado'}">
                             <div th:if="${transaccion.calificacion == null}" class="pendiente">
-                                <a th:href="@{/transaccion/lista}">Tiene trabajo pendiente de calificacion</a>
+                                <a th:href="@{/transaccion/lista}" style="color: white;">Tiene trabajo pendiente de
+                                    calificacion</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                -->
-                <div class="portada">
-                    <div class="contenido">
-                        <div class="info">
-                            <h1>El servicio que necesitás para tu hogar</h1>
-                            <a th:href="@{/registrar}">Contactar</a>
-                        </div>
-                    </div>
-                </div>
-                <!--SECCION JORGE-->
-                <!--Carousel de comentarios-->
-                <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
-                    <div th:each="transaccion : ${transacciones}" th:if="${transaccion.calificacion != null}">
-
-                        <div class="item">
-                            <div class="card mx-2">
-                                <div style="text-align: center">
-                                    <div class="star" th:if="${transaccion.calificacion == 1}">★</div>
-                                    <div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
-                                    <div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
-                                    <div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
-                                    <div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title" style="text-align: center; font-size: 12pt"
-                                        th:text="${transaccion.proveedor.usuario.nombre}"></h5>
-                                    <p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--Fin Carousel de comentarios-->
-                </div>
-
             </div>
-        </main>
 
-        <!-- Scripts para manejo de carrousel de comentarios -->
-        <!-- jQuery y Owl Carousel JS -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-        <script>
-            $(document).ready(function () {
-                $('.owl-carousel').owlCarousel({
-                    items: 5, // Muestra 5 tarjetas a la vez
-                    loop: true, // Hace que el carrusel sea infinito
-                    margin: 10,
-                    autoplay: true,
-                    autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
-                    autoplayHoverPause: true
-                });
+            <div class="portada">
+                <div class="contenido">
+                    <div class="info">
+                        <h1>El servicio que necesitás para tu hogar</h1>
+                        <a th:if="${session.usuariosession == null}" th:href="@{/registrar}">Contactar</a>
+                    </div>
+                </div>
+            </div>
+            <!--SECCION JORGE-->
+            <!--Carousel de comentarios-->
+            <div class="owl-carousel owl-theme" style="margin-bottom: 20px">
+                <div th:each="transaccion : ${transacciones}" th:if="${transaccion.calificacion != null}">
+
+                    <div class="item">
+                        <div class="card mx-2">
+                            <div style="text-align: center">
+                                <div class="star" th:if="${transaccion.calificacion == 1}">★</div>
+                                <div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
+                                <div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
+                                <div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
+                                <div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="text-align: center; font-size: 12pt"
+                                    th:text="${transaccion.proveedor.usuario.nombre}"></h5>
+                                <p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--Fin Carousel de comentarios-->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Scripts para manejo de carrousel de comentarios -->
+    <!-- jQuery y Owl Carousel JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                items: 5, // Muestra 5 tarjetas a la vez
+                loop: true, // Hace que el carrusel sea infinito
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 2000, // tiempo en milisegundos del cambio de tarjetas
+                autoplayHoverPause: true
             });
+        });
 
-            /* Script para manejo de dibujo de la estrella de calificacion
-             
-             var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
-             
-             dibujarEstrellas('contenedorEstrellas', valorVariable);
-             
-             function dibujarEstrellas(idContenedor, valor) {
-             var contenedorEstrellas = document.getElementById(idContenedor);
-             
-             for (var i = 0; i < valor; i++) {
-             var estrella = document.createElement('div');
-             estrella.innerHTML = '★';
-             estrella.className = 'star';
-             contenedorEstrellas.appendChild(estrella);
-             }
-             }*/
-        </script>
-    </body>
-    <footer th:replace="~{/fragments/footer :: footer}"></footer>
+        /* Script para manejo de dibujo de la estrella de calificacion
+
+         var valorVariable = 5; // Valor de ejemplo. esta variable es la cantidad de estrellas que va a dibujar
+
+         dibujarEstrellas('contenedorEstrellas', valorVariable);
+
+         function dibujarEstrellas(idContenedor, valor) {
+         var contenedorEstrellas = document.getElementById(idContenedor);
+
+         for (var i = 0; i < valor; i++) {
+         var estrella = document.createElement('div');
+         estrella.innerHTML = '★';
+         estrella.className = 'star';
+         contenedorEstrellas.appendChild(estrella);
+         }
+         }*/
+    </script>
+</body>
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
 
 </html>
