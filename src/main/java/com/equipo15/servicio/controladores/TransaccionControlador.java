@@ -171,7 +171,7 @@ public class TransaccionControlador {
             ModelMap modelo, HttpSession session) {
         try {
             // ! Agregar validación de comentario y calificación en comentarTransaccion()
-            transaccionServicio.comentarTransaccion(idTransaccion, comentario, calificacion);
+            transaccionServicio.calificarTransaccion(idTransaccion, comentario, calificacion);
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
             // ! Manejar las alertas en todos los métodos
@@ -187,7 +187,7 @@ public class TransaccionControlador {
     }
 
     @GetMapping("/censurar/{id}")
-    public String modificar(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
+    public String censurarComentario(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
         try {
             transaccionServicio.censurarComentario(idTransaccion);
 

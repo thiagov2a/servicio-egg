@@ -87,9 +87,9 @@ public class TransaccionServicio {
     }
 
     @Transactional
-    public void comentarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
+    public void calificarTransaccion(String idTransaccion, String comentario, Double calificacion) throws MiException {
 
-        validarComentario(comentario, calificacion);
+        validarCalificacion(comentario, calificacion);
 
         Optional<Transaccion> respuestaTransaccion = transaccionRepositorio.findById(idTransaccion);
 
@@ -151,7 +151,7 @@ public class TransaccionServicio {
         return transaccionRepositorio.contarTransaccionesPorProveedor(id);
     }
 
-    public void validarComentario(String comentario, Double calificacion) throws MiException {
+    public void validarCalificacion(String comentario, Double calificacion) throws MiException {
         if (comentario == null || comentario.trim().isEmpty()) {
             throw new MiException("El comentario no puede ser nulo o estar vacío");
         }
