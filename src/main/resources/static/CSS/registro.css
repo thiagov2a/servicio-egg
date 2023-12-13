@@ -53,6 +53,7 @@
 .fondoimg {
   background: linear-gradient(to bottom, rgb(255, 191, 0), #ffffff);
   background-size: cover;
+  background-repeat: no-repeat;
   padding: 0;
   margin: 0;
   /*height: 100%;*/
