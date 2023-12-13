@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de transacciones</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista de transacciones</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script th:src="@{/js/scripts.js}"></script>
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 
-  <script th:src="@{/js/scripts.js}"></script>
-  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-
-  <style>
-
-/*
+    <style>
+      /*
     .tabla {
       width: 100%;
       border-spacing: 20px;
@@ -30,93 +28,109 @@
 
     }
 */
-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 5px;
-    }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 5px;
+      }
 
-    th {
-      padding: 1px;
-      border-bottom: 2px solid black;
-    }
+      th {
+        padding: 1px;
+        border-bottom: 2px solid black;
+      }
 
-    td {
-      text-align: center;
-      height: 50px;
-    }
+      td {
+        text-align: center;
+        height: 50px;
+      }
 
-    .size {
-      width: 300px;
-    }
-  </style>
-</head>
+      .size {
+        width: 300px;
+      }
+    </style>
+  </head>
 
-<nav th:replace="~{fragments/navbar :: nav}"></nav>
+  <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-<body class="body">
-  <main>
-    <div>
-      <div class="encabezado">
-        <a th:href="@{/}"><button>Volver</button></a>
-        <div></div>
-        <h1>LISTA DE TRANSACCIONES</h1>
-        <div></div>
-        <div style="width: 60px;"></div>
+  <body class="body">
+    <main>
+      <div>
+        <div class="encabezado">
+          <a th:href="@{/}"><button>Volver</button></a>
+          <div></div>
+          <h1>LISTA DE TRANSACCIONES</h1>
+          <div></div>
+          <div style="width: 60px"></div>
+        </div>
+
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
+              <th scope="col">Proveedor</th>
+              <th scope="col">Usuario</th>
+              <th scope="col" th:if="${session.usuariosession.rol.descripcion != 'Admin'}">Presupuesto</th>
+              <th scope="col">Estado</th>
+              <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">Comentario</th>
+              <!--<th scope="col">Acciones</th>-->
+            </tr>
+          </thead>
+          <tbody th:each="transaccion : ${transacciones}">
+            <tr>
+              <td
+                scope="row"
+                th:text="${transaccion.id}"
+                th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
+              <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
+              <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
+              <td
+                scope="row"
+                th:text="${transaccion.presupuesto}"
+                th:if="${session.usuariosession.rol.descripcion != 'Admin'}"></td>
+              <td scope="row" th:text="${transaccion.estado}"></td>
+              <td
+                scope="row"
+                th:text="${transaccion.comentario}"
+                th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
+              <td scope="row">
+                <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
+                  <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
+                    <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST">
+                      <button>Aceptar</button>
+                    </a>
+                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">
+                      <button>Cancelar</button>
+                    </a>
+                  </div>
+                </div>
+                <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
+                  <div th:if="${session.usuariosession.rol.descripcion != 'Admin'}">
+                    <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST">
+                      <button>Finalizar</button>
+                    </a>
+                    <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST">
+                      <button>Cancelar</button>
+                    </a>
+                  </div>
+                </div>
+                <div th:if="${transaccion.comentario == null && transaccion.estado.descripcion == 'Finalizado'}">
+                  <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
+                    <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST">
+                      <button>Calificar</button>
+                    </a>
+                  </div>
+                </div>
+                <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
+                  <a th:href="@{/transaccion/censurar/__${transaccion.id}__}" method="POST">
+                    <button>Censurar Comentario</button>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">ID</th>
-            <th scope="col">Proveedor</th>
-            <th scope="col">Usuario</th>
-            <th scope="col" th:if="${session.usuariosession.rol.descripcion != 'Admin'}">Presupuesto</th>
-            <th scope="col">Estado</th>
-            <th scope="col" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">Comentario</th>
-            <!--<th scope="col">Acciones</th>-->
-          </tr>
-        </thead>
-        <tbody th:each="transaccion : ${transacciones}">
-          <tr>
-            <td scope="row" th:text="${transaccion.id}" th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
-            </td>
-            <td scope="row" th:text="${transaccion.proveedor.usuario.nombre}"></td>
-            <td scope="row" th:text="${transaccion.usuario.nombre}"></td>
-            <td scope="row" th:text="${transaccion.presupuesto}" th:if="${session.usuariosession.rol.descripcion != 'Admin'}"></td>
-            <td scope="row" th:text="${transaccion.estado}"></td>
-            <td scope="row" th:text="${transaccion.comentario}" th:if="${session.usuariosession.rol.descripcion == 'Admin'}"></td>
-            <td scope="row">
-              <div th:if="${transaccion.estado.descripcion == 'Pendiente'}">
-                <div th:if="${session.usuariosession.rol.descripcion == 'Proveedor'}">
-                  <a th:href="@{/transaccion/aceptar/__${transaccion.id}__}" method="POST"><button>Aceptar</button></a>
-                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST"><button>Cancelar</button></a>
-                </div>
-              </div>
-              <div th:if="${transaccion.estado.descripcion == 'Aceptado'}">
-                <div th:if="${session.usuariosession.rol.descripcion != 'Admin'}">
-                  <a th:href="@{/transaccion/finalizar/__${transaccion.id}__}" method="POST"><button>Finalizar</button></a>
-                  <a th:href="@{/transaccion/cancelar/__${transaccion.id}__}" method="POST"><button>Cancelar</button></a>
-                </div>
-              </div>
-              <div th:if="${transaccion.comentario == null && transaccion.estado.descripcion == 'Finalizado'}">
-                <div th:if="${session.usuariosession.rol.descripcion == 'Usuario'}">
-                  <a th:href="@{/transaccion/calificar/__${transaccion.id}__}" method="POST"><button>Calificar</button></a>
-                </div>
-              </div>
-              <div th:if="${session.usuariosession.rol.descripcion == 'Admin'}">
-                <a th:href="@{/transaccion/censurar/__${transaccion.id}__}"><button>Censurar Comentario</button></a>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-
-    </div>
-  </main>
-</body>
-<footer th:replace="~{/fragments/footer :: footer} "></footer>
-
+    </main>
+  </body>
+  <footer th:replace="~{/fragments/footer :: footer} "></footer>
 </html>

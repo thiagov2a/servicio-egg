@@ -186,7 +186,7 @@ public class TransaccionControlador {
         }
     }
 
-    @GetMapping("/censurar/{id}")
+    @GetMapping("/censurar/{idTransaccion}")
     public String censurarComentario(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
         try {
             transaccionServicio.censurarComentario(idTransaccion);
