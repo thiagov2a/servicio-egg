@@ -37,7 +37,6 @@
         <div class="cards">
             <div class="card_presupuesto">
                 <br>
-                <h1 class="campo">MODIFICAR TRANSACCIÓN</h1>
 
                 <h2 class="campo" th:text="'ID: '+${transaccion.id}"></h2>
                 <h2 class="campo" th:text="'Proveedor: '+${transaccion.proveedor.usuario.nombre}"></h2>
@@ -47,6 +46,7 @@
                 <form th:action="@{/transaccion/modificarcomentario/__${transaccion.id}__}" method="POST">
 
 
+                    <h1 class="campo">MODIFICAR TRANSACCIÓN</h1>
 
                     <div class="campo_input">
                         <input type="text" id="comentario" name="comentario" th:value="${transaccion.comentario}" />

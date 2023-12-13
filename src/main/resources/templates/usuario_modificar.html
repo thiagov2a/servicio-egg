@@ -64,14 +64,17 @@
 
 <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-<body class="fondoimg">
+<body >
   <main class="cont-principal" style="min-height: 75vh;">
+    <div class="fondoimg">
+    <div th:replace="~{fragments/alert :: div}" ></div>
 
-    <div th:replace="~{fragments/alert :: div}"></div>
+    
 
-    <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
 
-    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">   
+      <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
+
       <input hidden th:value="${usuario.id}" name="id" />
 
       <div id="campo-residente">
@@ -143,6 +146,7 @@
         <button type="submit" class="boton">Guardar cambios</button>
       </div>
     </form>
+  </div>
   </main>
 
 
