@@ -67,6 +67,8 @@
 <body class="fondoimg">
   <main class="cont-principal" style="min-height: 75vh;">
 
+    <div th:replace="~{fragments/alert :: div}"></div>
+
     <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
 
     <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
@@ -74,23 +76,23 @@
 
       <div id="campo-residente">
         <div class="campo">
-          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" required />
+          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" />
         </div>
 
         <div class="campo">
-          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}" required />
+          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}"  />
         </div>
 
         <div class="campo">
-          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}" required />
+          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}"  />
         </div>
 
         <div class="campo">
-          <input type="password" name="password" placeholder="Contraseña" required />
+          <input type="password" name="password" placeholder="Contraseña" />
         </div>
 
         <div class="campo">
-          <input type="password" name="password2" placeholder="Repetir contraseña" required />
+          <input type="password" name="password2" placeholder="Repetir contraseña"/>
         </div>
 
         <div class="campo">

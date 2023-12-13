@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lista de Proveedores</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
   <style>
     button {
@@ -60,7 +61,15 @@
       <div></div>
       <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
       <div></div>
-      <div style="width: 60px;"></div>
+      <div>
+        <form th:action="@{/proveedor/filtrar}" method="POST">
+        <select name="idServicio" style="width: 150px;">
+          <option value="">Servicio</option>
+          <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+        </select>
+        <button type="submit">Buscar</button>
+        </form>
+      </div>
     </div>
 
     <div>
@@ -117,7 +126,7 @@
         </tbody>
       </table>
     </div>
-   
+
   </div>
   <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
