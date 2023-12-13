@@ -167,7 +167,7 @@ nav {
 .nav_dropdown-content {
   
     width: 150px;
-    height: 100px;
+    height: auto;
     display: none;
     position: absolute;
     top: 80px;
