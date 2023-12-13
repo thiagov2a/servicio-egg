@@ -165,7 +165,7 @@ nav {
 }
 
 .nav_dropdown-content {
-  
+
     width: 150px;
     height: auto;
     display: none;
@@ -178,7 +178,7 @@ nav {
     border-bottom-right-radius: 20px;
     animation-duration: 3s;
     z-index: 1;
-   
+
   /*
 
 
@@ -270,7 +270,7 @@ nav {
     opacity: 1;
     transform: translateY(0px);
   }
-}*/
+}
 
 
 

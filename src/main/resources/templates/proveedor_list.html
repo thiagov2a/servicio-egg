@@ -63,7 +63,7 @@
       <div></div>
       <div>
         <form th:action="@{/proveedor/filtrar}" method="POST">
-        <select name="idServicio" style="width: 150px;">
+        <select name="idServicio" style="width: 150px; font-weight: 600; background-color: rgb(230,230,230);">
           <option value="">Servicio</option>
           <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
         </select>
