@@ -94,6 +94,20 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;
     }
+    
+    public List<Proveedor> listarProveedoresPorServicio(String idServicio) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicio(idServicio);
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorAltaPorServicio(String idServicio) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio);
+        return proveedores;
+    }
+
+    
 
     public Proveedor buscarProveedorPorId(String id) {
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
