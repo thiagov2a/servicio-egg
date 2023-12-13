@@ -22,6 +22,7 @@ import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -46,8 +47,22 @@ public class PortalControlador {
 
         List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
         Integer notificaciones = obtenerNotificaciones(session);
+        
+        List<Transaccion> transaccionUsuario = new ArrayList();
+        
+        if (usuario != null && usuario.getRol() == Rol.USER) {
+            transaccionUsuario = transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
+        }
+        
+        if (usuario != null && usuario.getRol() == Rol.PROVEEDOR) {
+            transaccionUsuario = transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
+        }
+        
+        
+                        
         modelo.addAttribute("transacciones", transacciones);
         modelo.addAttribute("notificaciones", notificaciones);
+        modelo.addAttribute("transaccionUsuario", transaccionUsuario);
         return "index.html";
     }
 
