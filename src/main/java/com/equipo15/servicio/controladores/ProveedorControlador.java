@@ -37,6 +37,7 @@ public class ProveedorControlador {
 
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
+
         return "proveedor_list.html";
     }
 
@@ -44,14 +45,17 @@ public class ProveedorControlador {
     @PostMapping("/filtrar")
     public String filtrar(ModelMap modelo, HttpSession session, String idServicio) {
 
+        
         List<Proveedor> proveedores = obtenerProveedoresPorServicio(session, idServicio);
 
         List<Servicio> servicios = servicioServicio.listarServicios();
 
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
+
         return "proveedor_list.html";
     }
+    
 
     private List<Proveedor> obtenerProveedoresPorRol(HttpSession session) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -68,6 +72,24 @@ public class ProveedorControlador {
             return new ArrayList<>();
         }
     }
+    
+    
+        private List<Proveedor> obtenerProveedoresPorServicio(HttpSession session, String idServicio) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        if (usuario != null) {
+            String rolDescripcion = usuario.getRol().getDescripcion();
+
+            if (rolDescripcion.equals("Admin")) {
+                return proveedorServicio.listarProveedoresPorServicio(idServicio);
+            } else {
+                return proveedorServicio.listarProveedoresPorAltaPorServicio(true, idServicio);
+            }
+        } else {
+            return new ArrayList<>();
+        }
+    }
+    
 
     private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -80,21 +102,7 @@ public class ProveedorControlador {
         }
     }
     
-    private List<Proveedor> obtenerProveedoresPorServicio(HttpSession session, String idServicio) {
-        Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-        if (usuario != null) {
-            String rolDescripcion = usuario.getRol().getDescripcion();
-
-            if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedoresPorServicio(idServicio);
-            } else {
-                return proveedorServicio.listarProveedoresPorAltaPorServicio(idServicio);
-            }
-        } else {
-            return new ArrayList<>();
-        }
-    }
 
 
 }

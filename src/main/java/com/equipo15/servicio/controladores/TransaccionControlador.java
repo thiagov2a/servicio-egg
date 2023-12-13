@@ -1,10 +1,12 @@
 package com.equipo15.servicio.controladores;
 
 import com.equipo15.servicio.entidades.Proveedor;
+import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
+import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
@@ -30,11 +32,17 @@ public class TransaccionControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private ServicioServicio servicioServicio;
 
     @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
         List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+        
+        List<Servicio> servicios = servicioServicio.listarServicios();
+        
         modelo.addAttribute("transacciones", transacciones);
+        modelo.addAttribute("servicios", servicios);
         return "transaccion_list.html";
     }
 

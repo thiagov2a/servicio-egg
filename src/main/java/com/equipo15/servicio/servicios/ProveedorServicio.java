@@ -95,13 +95,17 @@ public class ProveedorServicio {
         return proveedores;
     }
     
+
     public List<Proveedor> listarProveedoresPorServicio(String idServicio) {
+
+    
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorServicio(idServicio);
         return proveedores;
     }
 
-    public List<Proveedor> listarProveedoresPorAltaPorServicio(String idServicio) {
+
+       public List<Proveedor> listarProveedoresPorAltaPorServicio(Boolean alta, String idServicio) {
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio);
         return proveedores;

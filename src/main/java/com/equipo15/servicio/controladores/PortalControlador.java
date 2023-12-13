@@ -52,10 +52,12 @@ public class PortalControlador {
         
         if (usuario != null && usuario.getRol() == Rol.USER) {
             transaccionUsuario = transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
+            
         }
         
         if (usuario != null && usuario.getRol() == Rol.PROVEEDOR) {
             transaccionUsuario = transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
+            
         }
         
         
