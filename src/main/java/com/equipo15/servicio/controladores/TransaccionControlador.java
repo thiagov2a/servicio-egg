@@ -65,6 +65,23 @@ public class TransaccionControlador {
     public String presupuesto(@PathVariable String idProveedor, Integer horas, ModelMap modelo, HttpSession session) {
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
         Usuario usuario = obtenerUsuarioDesdeSession(session);
+        
+        if (horas == null || horas == 0) {
+
+            System.out.println("prueba 4");
+            
+            List<Transaccion> transacciones = transaccionServicio
+                .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+            modelo.put("error", "Las horas presupuestadas no pueden estar vacias o ser cero");
+            modelo.addAttribute("proveedor", proveedor);
+            modelo.addAttribute("usuario", usuario);
+            modelo.addAttribute("presupuesto", null);
+            modelo.addAttribute("transacciones", transacciones);
+
+            return "transaccion_form.html";
+        }
+        
+        
         // ! Validar que se ingrese un integer/double en el argumento horas
         Double presupuesto = horas * proveedor.getPrecioPorHora();
 

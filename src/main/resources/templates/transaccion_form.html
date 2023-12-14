@@ -57,6 +57,8 @@
           </div>
         </form>
 
+        <div th:replace="~{fragments/alert :: div}"></div>
+        
         <div class="presupuesto" th:if="${presupuesto != null}">
           <h3 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h3>
           <h3 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h3>
