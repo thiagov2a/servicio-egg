@@ -34,41 +34,44 @@
 <body>
   <nav th:replace="fragments/navbar :: nav"></nav>
 
-  <div class="cards">
-    <div class="card_presupuesto">
-      <br>
-      <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
+  <div class="fondoimg">
+    <div class="cards">
+      <div class="card_presupuesto">
+        <br>
+        <h1 class="campo">SOLICITAR PRESUPUESTO</h1>
 
-      <h3 th:text="'Provedoor : '+ ${proveedor.usuario.nombre}"></h3>
+        <h4 th:text="'Provedoor : '+ ${proveedor.usuario.nombre}"></h4>
 
-      <h3 th:text="'Descripcion : '+${proveedor.descripcion}"></h3>
+        <h4 th:text="'Descripcion : '+${proveedor.descripcion}"></h4>
 
-      <h3 th:text="'Calificacion : '+${proveedor.calificacion}"></h3>
+        <h4 th:text="'Calificacion : '+${proveedor.calificacion}"></h4>
 
-      <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
-        <div class="campo_input">
-          <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
-        </div>
+        <form th:action="@{/transaccion/presupuesto/__${proveedor.id}__}" method="POST">
 
-        <div class="campo">
-          <button type="submit" class="boton">Solicitar Presupuesto</button>
-        </div>
-      </form>
+          <div class="campo_input">
+            <input type="number" id="horas" name="horas" placeholder="Horas de trabajo" th:value="${horas}" />
+          </div>
 
-      <div class="presupuesto" th:if="${presupuesto != null}">
-        <h2 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h2>
-        <h2 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h2>
-        <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
-          <input hidden id="presupuesto" th:value="${presupuesto}" type="number" th:number="${presupuesto}"
-            name="presupuesto" />
-          <br>
-          <button type="submit" class="boton">Aceptar Presupuesto</button>
-
-          <a type="button" class="boton2" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
+          <div class="campo">
+            <button type="submit" class="boton">Solicitar Presupuesto</button>
+          </div>
         </form>
+
+        <div class="presupuesto" th:if="${presupuesto != null}">
+          <h3 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h3>
+          <h3 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h3>
+          <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
+            <input hidden id="presupuesto" th:value="${presupuesto}" type="number" th:number="${presupuesto}"
+              name="presupuesto" />
+            <br>
+            <button type="submit" class="boton">Aceptar Presupuesto</button>
+
+            <a type="button" class="boton2" th:href="@{/proveedor/lista}" method="POST">Cancelar solicitud</a>
+          </form>
+        </div>
+
+
       </div>
-
-
     </div>
   </div>
 
