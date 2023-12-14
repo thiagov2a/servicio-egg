@@ -60,9 +60,11 @@ public class PortalControlador {
             
         }
         
+        List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         
                         
         modelo.addAttribute("transacciones", transacciones);
+        modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("notificaciones", notificaciones);
         modelo.addAttribute("transaccionUsuario", transaccionUsuario);
         return "index.html";

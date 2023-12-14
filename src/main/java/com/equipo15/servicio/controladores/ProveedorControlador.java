@@ -41,6 +41,19 @@ public class ProveedorControlador {
         return "proveedor_list.html";
     }
 
+    @GetMapping("/listaOrdenada")
+    public String listarPorMenorPrecio(ModelMap modelo, HttpSession session) {
+        List<Proveedor> proveedores = obtenerProveedoresPorRolOrdenadoPorMenorPrecio(session);
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("proveedores", proveedores);
+        modelo.addAttribute("servicios", servicios);
+
+        return "proveedor_list.html";
+    }
+    
+    
 
     @PostMapping("/filtrar")
     public String filtrar(ModelMap modelo, HttpSession session, String idServicio) {
@@ -64,9 +77,25 @@ public class ProveedorControlador {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedores();
+                return proveedorServicio.listarProveedoresPorServicio(rolDescripcion);
             } else {
                 return proveedorServicio.listarProveedoresPorAlta(true);
+            }
+        } else {
+            return new ArrayList<>();
+        }
+    }
+    
+        private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorMenorPrecio(HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        if (usuario != null) {
+            String rolDescripcion = usuario.getRol().getDescripcion();
+
+            if (rolDescripcion.equals("Admin")) {
+                return proveedorServicio.listarProveedoresPorMenorPrecio();
+            } else {
+                return proveedorServicio.listarProveedoresPorAltaOrdenadoPorMenorPrecio(true);
             }
         } else {
             return new ArrayList<>();

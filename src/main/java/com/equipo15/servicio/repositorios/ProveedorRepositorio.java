@@ -19,14 +19,26 @@ public interface ProveedorRepositorio extends JpaRepository<Proveedor, String> {
     @Query("SELECT p FROM Proveedor p WHERE p.contacto = :contacto")
     public Proveedor buscarPorContacto(@Param("contacto") String contacto);
 
-    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id")
+    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id ORDER BY p.calificacion DESC")
     public List<Proveedor> listarPorServicio(@Param("id") String id);
     
-    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id AND p.usuario.alta = TRUE")
+    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id AND p.usuario.alta = TRUE ORDER BY p.calificacion DESC")
     public List<Proveedor> listarPorServicioPorAlta(@Param("id") String id);
 
-    @Query("SELECT p FROM Proveedor p WHERE p.usuario.alta = TRUE")
+    @Query("SELECT p FROM Proveedor p WHERE p.usuario.alta = TRUE ORDER BY p.calificacion DESC")
     public List<Proveedor> listarPorAlta(@Param("alta") Boolean alta);
     
+    
+    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id ORDER BY p.precioPorHora")
+    public List<Proveedor> listarPorServicioOrdenadoPorMenorPrecio(@Param("id") String id);
+    
+    @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id AND p.usuario.alta = TRUE ORDER BY p.precioPorHora")
+    public List<Proveedor> listarPorServicioPorAltaOrdenadoPorMenorPrecio(@Param("id") String id);
+
+    @Query("SELECT p FROM Proveedor p WHERE p.usuario.alta = TRUE ORDER BY p.precioPorHora")
+    public List<Proveedor> listarPorAltaOrdenadoPorMenorPrecio(@Param("alta") Boolean alta);
+    
+    @Query("SELECT p FROM Proveedor p ORDER BY p.precioPorHora")
+    public List<Proveedor> listarOrdenadoPorMenorPrecio();
 
 }

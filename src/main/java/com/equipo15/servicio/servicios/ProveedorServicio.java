@@ -89,29 +89,58 @@ public class ProveedorServicio {
         return proveedores;
     }
 
+        public List<Proveedor> listarProveedoresPorMenorPrecio() {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarOrdenadoPorMenorPrecio();
+        return proveedores;
+    }
+    
+    
+    
     public List<Proveedor> listarProveedoresPorAlta(Boolean alta) {
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;
     }
-    
 
+        public List<Proveedor> listarProveedoresPorAltaOrdenadoPorMenorPrecio(Boolean alta) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorAltaOrdenadoPorMenorPrecio(alta);
+        return proveedores;
+    }
+    
+    
+    
+    
+    
     public List<Proveedor> listarProveedoresPorServicio(String idServicio) {
 
-    
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorServicio(idServicio);
         return proveedores;
     }
+    
+        
+    
+    public List<Proveedor> listarProveedoresPorServicioOrdenadoPorMenorPrecio(String idServicio) {
 
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioOrdenadoPorMenorPrecio(idServicio);
+        return proveedores;
+    }
+    
 
-       public List<Proveedor> listarProveedoresPorAltaPorServicio(Boolean alta, String idServicio) {
+    public List<Proveedor> listarProveedoresPorAltaPorServicio(Boolean alta, String idServicio) {
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio);
         return proveedores;
     }
 
-    
+    public List<Proveedor> listarProveedoresPorAltaPorServicioOrdenadoPorMenorPrecio(Boolean alta, String idServicio) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioPorAltaOrdenadoPorMenorPrecio(idServicio);
+        return proveedores;
+    }
 
     public Proveedor buscarProveedorPorId(String id) {
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
