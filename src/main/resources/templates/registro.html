@@ -11,7 +11,7 @@
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" th:href="@{/css/registro.css}" />
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-  
+
   <script>
     function mostrarMensaje(mensaje, tipo) {
       var mensajeImagen = document.getElementById("mensaje");
@@ -53,7 +53,18 @@
     }
   </script>
 </head>
-<nav th:replace="~{fragments/navbar :: nav}"></nav>
+
+<nav>
+  <div>
+    <!-- Título de la aplicación -->
+    <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
+  </div>
+    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+    <div class="nav_guest" >
+      <a th:href="@{/login}">Login</a>
+      <a th:href="@{/registrar}">Registrarse</a>
+    </div>
+</nav>
 
 <body>
   <main class="cont-principal">

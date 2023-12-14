@@ -13,8 +13,23 @@
   <!-- Usar th:src para resolver la URL del script JS -->
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 </head>
-<nav th:replace="~{fragments/navbar :: nav}"></nav>
+
+<nav>
+  <div>
+    <!-- Título de la aplicación -->
+    <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
+  </div>
+    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+    <div class="nav_guest" >
+      <a th:href="@{/login}">Login</a>
+      <a th:href="@{/registrar}">Registrarse</a>
+    </div>
+</nav>
+
+
 <body>
+
+  <div th:replace="~{fragments/alert :: div}"></div>
 
   <main class="cont-principal">
 
