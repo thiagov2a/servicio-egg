@@ -45,7 +45,7 @@ h1 {
 .foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   font-size: 10pt;
   width: 100%;
   background-color: white;
