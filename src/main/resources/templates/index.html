@@ -30,18 +30,24 @@
 
 
 		<div class="estados">
-			<div id="aguar" class="pendiente" style="display: none;">
-				<div id="aguarC" style="display: none;"></div>
-				<div>Tiene un trabajo pendiente de aceptacion</div>
-			</div>
+			<a th:href="@{/transaccion/lista}">
+				<div id="aguar" class="pendiente" style="display: none;">
+					<div id="aguarC" style="display: none;"></div>
+					<div>Tiene un trabajo pendiente de aceptacion</div>
+				</div>
+			</a>
+			<a th:href="@{/transaccion/lista}">
 			<div id="ejec" class="pendiente" style="display: none;">
 				<span id="ejecC" style="display: none;"></span>
 				<div>Tiene Trabajo en ejecucion</div>
 			</div>
+			</a>
+			<a th:href="@{/transaccion/lista}">
 			<div id="calif" class="pendiente" style="display: none;">
 				<span id="califC" style="display: none;"></span>
 				<div> Tiene pendiente una calificacion</div>
 			</div>
+			</a>
 		</div>
 
 
@@ -61,7 +67,7 @@
 						var uno = document.getElementById('aguar');
 						uno.style.display = '';
 
-						if (cantidadA !=1) {
+						if (cantidadA != 1) {
 
 							var unoC = document.getElementById('aguarC');
 							unoC.innerText = cantidadA;
@@ -73,7 +79,7 @@
 						var dos = document.getElementById('ejec');
 						dos.style.display = '';
 
-						if (cantidadE !=1) {
+						if (cantidadE != 1) {
 							var dosC = document.getElementById('ejecC');
 							dosC.innerText = cantidadE;
 							dosC.style.display = '';
@@ -84,7 +90,7 @@
 						var tres = document.getElementById('calif');
 						tres.style.display = '';
 
-						if (cantidadC !=1) {
+						if (cantidadC != 1) {
 							var tresC = document.getElementById('califC');
 							tresC.innerText = cantidadC;
 							tresC.style.display = '';
