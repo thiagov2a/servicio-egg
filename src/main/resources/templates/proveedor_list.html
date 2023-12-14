@@ -87,7 +87,7 @@
             <th scope="col">Contacto</th>
             <th scope="col">Precio por Hora</th>
             <th scope="col">Calificación</th>
-            <th scope="col">Alta/Baja</th>
+            <th scope="col" sec:authorize="hasRole('ADMIN')">Alta/Baja</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -109,7 +109,7 @@
             <td scope="row" th:text="${proveedor.contacto}"></td>
             <td scope="row" th:text="${proveedor.precioPorHora}"></td>
             <td scope="row" th:text="${proveedor.calificacion}"></td>
-            <td scope="row">
+            <td scope="row" sec:authorize="hasRole('ADMIN')">
               <img th:if="${proveedor.usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
               <img th:unless="${proveedor.usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" /></td>
             <td scope="row">
