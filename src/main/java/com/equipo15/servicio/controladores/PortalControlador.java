@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
+import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -31,41 +34,59 @@ public class PortalControlador {
     private ProveedorServicio proveedorServicio;
     @Autowired
     private ServicioServicio servicioServicio;
+    @Autowired
+    private TransaccionServicio transaccionServicio;
 
     @GetMapping("/")
-    public String index(HttpSession session) {
+    public String index(HttpSession session, ModelMap modelo) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuario != null && usuario.getRol().toString().equals("ADMIN")) {
+        if (usuario != null && usuario.getRol() == Rol.ADMIN) {
             return "redirect:/admin/dashboard";
         }
+
+        List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
+        Integer notificaciones = obtenerNotificaciones(session);
+        
+        List<Transaccion> transaccionUsuario = new ArrayList();
+        
+        if (usuario != null && usuario.getRol() == Rol.USER) {
+            transaccionUsuario = transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
+            
+        }
+        
+        if (usuario != null && usuario.getRol() == Rol.PROVEEDOR) {
+            transaccionUsuario = transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
+            
+        }
+        
+        
+                        
+        modelo.addAttribute("transacciones", transacciones);
+        modelo.addAttribute("notificaciones", notificaciones);
+        modelo.addAttribute("transaccionUsuario", transaccionUsuario);
         return "index.html";
     }
 
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo) {
-
-        List<Servicio> servicios = servicioServicio.listarServicios();
-
+        List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("barrios", Barrio.values());
-
         return "registro.html";
     }
 
     @PostMapping("/registro")
-    public String registrar(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
+    public String registro(@RequestParam(required = false) String dni, @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String email, @RequestParam(required = false) String password,
             @RequestParam String password2, @RequestParam(required = false) Barrio barrio,
             @RequestParam(required = false) MultipartFile archivo,
             @RequestParam(required = false) boolean esProveedor,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
-            @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double precioPorHora,
+            @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
-
             ModelMap modelo) {
         try {
             if (esProveedor) {
@@ -75,27 +96,22 @@ public class PortalControlador {
                 usuarioServicio.registrar(dni, nombre, email, password, password2, barrio, archivo);
             }
 
-            modelo.put("exito", "Te has registrado correctamente");
-
+            modelo.addAttribute("exito", "Te has registrado correctamente");
             return "index.html";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
-
-            modelo.put("dni", dni);
-            modelo.put("nombre", nombre);
-            modelo.put("email", email);
+            modelo.addAttribute("error", e.getMessage());
 
             List<Servicio> servicios = servicioServicio.listarServicios();
-
+            modelo.addAttribute("dni", dni);
+            modelo.addAttribute("nombre", nombre);
+            modelo.addAttribute("email", email);
             modelo.addAttribute("servicios", servicios);
             modelo.addAttribute("barrios", Barrio.values());
-
-            modelo.put("contacto", contacto);
-            modelo.put("precioPorHora", precioPorHora);
-            modelo.put("idServicio", idServicio);
-            modelo.put("descripcion", descripcion);
-            modelo.put("archivo", archivo);
-
+            modelo.addAttribute("contacto", contacto);
+            modelo.addAttribute("precioPorHora", precioPorHora);
+            modelo.addAttribute("idServicio", idServicio);
+            modelo.addAttribute("descripcion", descripcion);
+            modelo.addAttribute("archivo", archivo);
             return "registro.html";
         }
     }
@@ -103,27 +119,18 @@ public class PortalControlador {
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         if (error != null) {
-            modelo.put("error", "Usuario o contraseña incorrectos");
+            modelo.addAttribute("error", "Usuario o contraseña incorrectos");
         }
         return "login.html";
     }
 
     @GetMapping("/perfil")
-    public String perfil(HttpSession session, ModelMap modelo) {
-
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuario != null) {
-            String id = usuario.getId();
-            Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(id);
-            modelo.put("usuario", usuarioEncontrado);
-        }
-
+    public String perfil(ModelMap modelo, HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
         List<Servicio> servicios = servicioServicio.listarServicios();
-
+        modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("barrios", Barrio.values());
-
         return "usuario_modificar.html";
     }
 
@@ -134,43 +141,66 @@ public class PortalControlador {
             @RequestParam(required = false) Barrio barrio, @RequestParam(required = false) MultipartFile archivo,
             @RequestParam(required = false) String contacto,
             @RequestParam(required = false) String descripcion,
-            @RequestParam(required = false) Integer precioPorHora,
-            @RequestParam(required = false) Integer calificacion,
+            @RequestParam(required = false) Double precioPorHora,
+            @RequestParam(required = false) Double calificacion,
             @RequestParam(required = false) String idServicio,
-            HttpSession session, ModelMap modelo) throws MiException {
+            ModelMap modelo, HttpSession session) throws MiException {
         try {
-            // Obtener el usuario actualizado
-            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
 
-            // Verificar si el usuario es también un proveedor
-            if (usuarioActualizado.getRol() == Rol.PROVEEDOR) {
+            if (usuario.getRol() == Rol.PROVEEDOR) {
                 proveedorServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo, contacto,
                         descripcion, precioPorHora, calificacion, idServicio);
             } else {
                 usuarioServicio.modificar(id, dni, nombre, email, password, password2, barrio, archivo);
             }
 
-            modelo.put("exito", "Usuario actualizado correctamente!");
+            modelo.addAttribute("exito", "Usuario actualizado correctamente!");
             return "index.html";
         } catch (MiException ex) {
+            modelo.addAttribute("error", ex.getMessage());
 
-            modelo.put("error", ex.getMessage());
-
-            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-            if (usuario != null) {
-                String idUsuario = usuario.getId();
-                Usuario usuarioEncontrado = usuarioServicio.buscarUsuarioPorId(idUsuario);
-                modelo.put("usuario", usuarioEncontrado);
-            }
-
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
             List<Servicio> servicios = servicioServicio.listarServicios();
-
+            modelo.addAttribute("usuario", usuario);
             modelo.addAttribute("servicios", servicios);
             modelo.addAttribute("barrios", Barrio.values());
-
             return "usuario_modificar.html";
         }
+    }
+
+    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
+        }
+    }
+
+    // ! Agregar a notificación atributos como por ejemplo si tiene pendientes
+    private Integer obtenerNotificaciones(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
+            if (usuarioActualizado.getProveedor() != null) {
+                return transaccionServicio.contarTransaccionesPorProveedor(usuarioActualizado.getId());
+            } else {
+                return transaccionServicio.contarTransaccionesPorUsuario(usuarioActualizado.getId());
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @GetMapping("/barrios")
+    public String barrios() {
+
+        return "barrios.html";
     }
 
 }

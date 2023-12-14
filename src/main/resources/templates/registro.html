@@ -1,73 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de usuario</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/registro.css}" />
-    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
 
-    <style>
-      .error {
-        color: red;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de usuario</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+
+  <script>
+    function mostrarMensaje(mensaje, tipo) {
+      var mensajeImagen = document.getElementById("mensaje");
+      mensajeImagen.innerHTML =
+        '<div class="' + tipo + '">' + mensaje + "</div>";
+    }
+
+    function validarArchivo() {
+      var archivoInput = document.getElementById("archivo");
+      var archivo = archivoInput.files[0];
+
+      mostrarMensaje("", "");
+
+      if (!archivo) {
+        mostrarMensaje("Por favor, seleccione una imagen.", "error");
+        return false;
       }
 
-      .exito {
-        color: green;
+      var tipoPermitido = ["image/jpeg", "image/jpg"];
+      if (tipoPermitido.indexOf(archivo.type) === -1) {
+        mostrarMensaje(
+          "Por favor, selecciona una imagen en formato JPEG.",
+          "error"
+        );
+        return false;
       }
 
-    </style>
-    <script>
-
-      function mostrarMensaje(mensaje, tipo) {
-        var mensajeImagen = document.getElementById('mensaje');
-        mensajeImagen.innerHTML = '<div class="' + tipo + '">' + mensaje + '</div>';
+      var maxSizeMB = 1;
+      var maxSizeBytes = maxSizeMB * 1024 * 1024;
+      if (archivo.size > maxSizeBytes) {
+        mostrarMensaje("La imagen debe pesar menos de 1 MB.", "error");
+        return false;
       }
 
-      function validarArchivo() {
-        var archivoInput = document.getElementById('archivo');
-        var archivo = archivoInput.files[0];
+      // Paso todas las validaciones
+      mostrarMensaje("Imagen Valida!", "exito");
 
-        mostrarMensaje('', '');
+      return true;
+    }
+  </script>
+</head>
 
-        var tipoPermitido = ['image/jpeg', 'image/jpg'];
-        if (tipoPermitido.indexOf(archivo.type) === -1) {
-          mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
-          return false;
-        }
+<nav>
+  <div>
+    <!-- Título de la aplicación -->
+    <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
+  </div>
+    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+    <div class="nav_guest" >
+      <a th:href="@{/login}">Login</a>
+      <a th:href="@{/registrar}">Registrarse</a>
+    </div>
+</nav>
 
+<body>
+  <main class="cont-principal">
 
-        var maxSizeMB = 1;
-        var maxSizeBytes = maxSizeMB * 1024 * 1024;
-        if (archivo.size > maxSizeBytes) {
-          mostrarMensaje('La imagen debe pesar menos de 1 MB.', 'error');
-          return false;
-        }
-
-        // Paso todas las validaciones
-        mostrarMensaje('Imagen Valida!', 'exito');
-
-        return true;
-      }
-    </script>
-
-  </head>
-  <body class="fondoimg">
-    <main class="cont-principal">
-      <nav th:replace="~{fragments/navbar :: nav}"></nav>
-
-      <h1>REGISTRAR USUARIO</h1>
+    <div class="fondoimg">
 
       <div th:replace="~{fragments/alert :: div}"></div>
 
-      <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+      <form class="formulario" th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+        <h1>Registrar Usuario</h1>
+
         <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
         <input type="hidden" id="esProveedor" name="esProveedor" value="false" />
 
         <div class="campo">
-          <button type="button" onclick="mostrarResidente()" class="soy-residente">Soy Residente</button>
-          <button type="button" onclick="mostrarProveedor()" class="soy-proveedor">Soy Proveedor</button>
+          <button type="button" onclick="cambiarTipoUsuario(false)" class="soy-residente">Soy Residente</button>
+          <button type="button" onclick="cambiarTipoUsuario(true)" class="soy-proveedor">Soy Proveedor</button>
         </div>
 
         <div class="campo">
@@ -92,13 +106,19 @@
         <div class="campo">
           <input type="file" name="archivo" id="archivo" accept=".jpeg, .jpg" onchange="return validarArchivo()" />
         </div>
-        <div id="mensaje" style="text-align: center;"></div>
+        <div id="mensaje" style="text-align: center"></div>
 
-        <div class="campo">
-          <select name="barrio">
-            <option value="">Seleccionar Barrio</option>
-            <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
-          </select>
+        <div id="campo-residente">
+          <div class="campo">
+            <select name="barrio">
+              <option value="">Seleccionar Barrio</option>
+              <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}" />
+            </select>
+          </div>
+
+          <div class="campo">
+            <button type="submit" class="boton">Registrarme!</button>
+          </div>
         </div>
 
         <div id="campo-proveedor">
@@ -108,30 +128,36 @@
               <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
             </select>
           </div>
+
           <div class="campo">
             <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
           </div>
+
           <div class="campo">
             <input type="tel" name="contacto" placeholder="Contacto" th:value="${contacto}" />
           </div>
+
           <div class="campo">
             <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
+            <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
+            <input type="hidden" name="calificacion" th:value="0" />
           </div>
 
-          <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
-          <input type="hidden" name="calificacion" th:value="0" />
-        </div>
+          <div class="campo">
+            <button type="submit" class="boton">Registrarme!</button>
+          </div>
 
-        <div id="campo-residente"></div>
-
-        <div class="campo">
-          <button type="submit" class="boton">Registrarme!</button>
         </div>
       </form>
-    </main>
+    </div>
 
-    <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-    <script th:src="@{/js/scripts.js}"></script>
-  </body>
+  </main>
+
+  <script th:src="@{/js/scripts.js}"></script>
+
+</body>
+
+<footer th:replace="/fragments/footer :: footer "></footer>
+
 </html>

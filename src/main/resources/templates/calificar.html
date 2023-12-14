@@ -1,45 +1,71 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calificar servicio</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <!-- Usar th:href para resolver la URL del CSS -->
-    <script th:src="@{/js/Scripts.js}"></script>
-    <!-- Usar th:src para resolver la URL del script JS -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calificar trabajo</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/calificar.css}" />
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  <script th:src="@{/js/Scripts.js}"></script>
+</head>
 
-    
-  </head>
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-  <body>
-    <div class="calificacion">
-      Calificación:
-      <span class="estrellas">
-        <span class="estrella" onclick="calificar(5)">★</span>
-        <span class="estrella" onclick="calificar(4)">★</span>
-        <span class="estrella" onclick="calificar(3)">★</span>
-        <span class="estrella" onclick="calificar(2)">★</span>
-        <span class="estrella" onclick="calificar(1)">★</span>
-      </span>
+<body>
+  <main>
+    <div class="contenido">
+      <h1>CALIFIQUE EL TRABAJO</h1>
+      <form th:action="@{/transaccion/calificar/__${transaccion.id}__}" method="POST" enctype="multipart/form-data">
+        <div style="text-align: center;">
+          <div class="estrella-cont">
+            <input type="radio" class="radio" id="estrella5" name="calificacion" value="5" />
+            <label for="estrella5" class="estrella">★</label>
+
+            <input type="radio" class="radio" id="estrella4" name="calificacion" value="4" />
+            <label for="estrella4" class="estrella">★</label>
+
+            <input type="radio" class="radio" id="estrella3" name="calificacion" value="3" />
+            <label for="estrella3" class="estrella">★</label>
+
+            <input type="radio" class="radio" id="estrella2" name="calificacion" value="2" />
+            <label for="estrella2" class="estrella">★</label>
+
+            <input type="radio" class="radio" id="estrella1" name="calificacion" value="1" />
+            <label for="estrella1" class="estrella">★</label>
+          </div>
+        </div>
+
+        <div class="campo" style="margin-top: 20px;">
+          <textarea name="comentario" placeholder="Comentario" rows="10" cols="40" style="font-size: 14pt;"></textarea>
+        </div>
+
+        <div class="campo" style="margin-top: 20px; text-align: center;">
+          <button type="submit" class="boton">Enviar el Comentario y la calificación</button>
+        </div>
+
+      </form>
     </div>
-    <div class="campo">
-      <textarea name="comentario" placeholder="Ingrese su comentario" th:value="${comentario}" style="width: 300px; height: 150px; font-size: 14pt;"></textarea>
-    </div>
-    <script>
-      var calificacion = 0;
+  </main>
 
-      function calificar(valor) {
-        calificacion = valor;
-        actualizarCalificacion();
-      }
 
-      function actualizarCalificacion() {
-        var mensaje = 'Calificación: ' + calificacion + ' estrella(s)';
-        document.querySelector('.calificacion').innerText = mensaje;
-      }
-    </script>
-  </body>
+  <script>
+    var calificacion = 0;
+
+    function calificar(valor) {
+      calificacion = valor;
+      actualizarCalificacion();
+    }
+
+    function actualizarCalificacion() {
+      // var mensaje = 'Calificación: ' + calificacion + ' estrella(s)';
+      // document.querySelector('.calificacion').innerText = mensaje;
+      // Actualizar el valor del campo oculto
+      document.querySelector('input[name="calificacion"]').value = calificacion;
+    }
+  </script>
+</body>
+<footer th:replace="~{/fragments/footer :: footer} "></footer>
+
 </html>

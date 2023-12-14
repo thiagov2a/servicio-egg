@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" href="/css/login.css" />
-    <!-- Usar th:href para resolver la URL del CSS -->
-    <script th:src="@{/js/scripts.js}"></script>
-    <!-- Usar th:src para resolver la URL del script JS -->
-    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-  </head>
-  <nav th:replace="fragments/navbar :: nav"></nav>
-  <body>
-    <main class="cont-principal">
-      <div class="login-form">
-        <h2 style="text-align: center">Login</h2>
-        <form th:action="@{/logincheck}" method="post">
-          <div class="campo">
-            <label for="email">Email:</label>
-            <input type="email" name="email" th:value="${email}" required autofocus />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
+  <!-- Usar th:href para resolver la URL del CSS -->
+  <script th:src="@{/js/scripts.js}"></script>
+  <!-- Usar th:src para resolver la URL del script JS -->
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+</head>
+
+<nav>
+  <div>
+    <!-- Título de la aplicación -->
+    <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
+  </div>
+    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+    <div class="nav_guest" >
+      <a th:href="@{/login}">Login</a>
+      <a th:href="@{/registrar}">Registrarse</a>
+    </div>
+</nav>
+
+
+<body>
+
+  <div th:replace="~{fragments/alert :: div}"></div>
+
+  <main class="cont-principal">
+
+    <div class="wrp">
+      <div class="portada">
+        <div class="contenido">
+          <div class="login-form">
+            <h2>Login</h2>
+            <form th:action="@{/logincheck}" method="post">
+              <div class="campo">
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="user@user.com" th:value="${email}" required autofocus />
+              </div>
+
+              <div class="campo">
+                <label for="password">Password:</label>
+                <input type="password" name="password" required />
+              </div>
+
+
+              <div class="campo">
+                <button type="submit" class="boton">Iniciar Sesión</button>
+              </div>
           </div>
 
-          <div class="campo">
-            <label for="password">Password:</label>
-            <input type="password" name="password" required />
-          </div>
-          <!-- <br />
-          <div class="campo">
-            <label for="recuerdame">Recuerdame</label>
-            <input style="width: 15px" type="checkbox" name="recuerdame" />
-          </div>
-          <br /> -->
-          <div class="campo">
-            <button class="boton" type="submit">Login</button>
-          </div>
-        </form>
-      </div>
-    </main>
-  </body>
-  <footer th:replace="/fragments/footer :: footer "></footer>
+  </main>
+
+
+</body>
+<footer th:replace="/fragments/footer :: footer "></footer>
 </html>

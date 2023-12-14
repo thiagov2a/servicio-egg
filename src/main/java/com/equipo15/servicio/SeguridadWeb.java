@@ -1,38 +1,39 @@
 package com.equipo15.servicio;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 import com.equipo15.servicio.servicios.UsuarioServicio;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SeguridadWeb {
 
     @Autowired
     public UsuarioServicio usuarioServicio;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authz) throws Exception {
-        authz.userDetailsService(usuarioServicio)
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usuarioServicio)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    // ! Determinar en que matchers pueden entrar "PROVEEDOR" y "USER"
+    // * Ejemplo: Si soy proveedor no debería tener acceso a "calificar.html"
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/admin/*")
+                    authz.requestMatchers("/admin/*", "/servicio/*", "/transaccion/modificar/*")
                             .hasRole("ADMIN");
-                    authz.requestMatchers("/", "/login", "/registrar", "/registro", "/error")
+                    authz.requestMatchers("/", "/login", "/registrar", "/registro")
                             .permitAll();
                     authz.requestMatchers("/resources/**", "/static/**", "/css/**", "/img/**", "/js/**")
                             .permitAll();

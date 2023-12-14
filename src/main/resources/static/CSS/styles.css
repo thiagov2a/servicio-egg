@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap');
-
+/* ACA VA SOLO FOOTER Y NAVBAR
+PERO TIENE ESTILOS DE REGISTRO
+Y LOGUIN Y NO PUDE SEPARARLOS A TODOS*/
 * {
   font-family: 'Montserrat', sans-serif;
   /*font-family: 'Urbanist', sans-serif;*/
@@ -12,19 +14,15 @@ html {
   font-size: 62, 5%;
 }
 
-h1 {
-  text-align: center;
+main{
+  min-height: 75vh;
 }
 
-/*Diego:esta clase main no la hice yo,no estaba en el index pero si en el css*/
-.cont-principal {
-  min-height: 100%;
-  align-items: center;
-  margin-bottom: 50px;
-  position: relative;
-  box-sizing: border-box;
-  padding-bottom: 100px;
-
+h1 {
+  text-align: center;
+  font-size: 24pt;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .header {
@@ -43,32 +41,38 @@ h1 {
   position: relative;
 }
 
-footer {
+/*   FOOTER Y NAV */
+.foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 10pt;  
+  justify-content: space-evenly;
+  font-size: 10pt;
   width: 100%;
   background-color: white;
   padding: 10px;
-  position: fixed;
   bottom: 0;
 }
 
-.boton {
-  background-color: #ffcb00;
-  box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -webkit-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -moz-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+
+button {
+  background-color: rgb(200, 200, 200);
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+button:hover {
+  background-color: rgb(230, 230, 230);
 }
 
-.boton:hover {
-  background-color: #ffe479;
-}
+footer {
+  text-align: center;
+  background-color: white;
+  color: white;
+  }
 
-.boton:active {
-  box-shadow: none;
-}
 nav {
   display: flex;
   justify-content: space-between;
@@ -77,11 +81,11 @@ nav {
   position: relative;
   max-height: 5rem;
   text-decoration: none;
-  background-color:  rgb(255, 200, 0);
+  background-color: rgb(255, 191, 0);
   border-radius: 3px;
-  box-shadow: 1em 1em 2em rgb(165, 164, 164), -1em -1em 2em rgb(192, 184, 184), inset 0 0 0 transparent,
-    inset 0 0 0 transparent;
-  margin-bottom: 30px;
+
+  /*box-shadow: 1em 1em 2em rgba(165, 164, 164, 0.761), -1em -1em 2em rgba(192, 184, 184, 0.736), inset 0 0 0 transparent,
+    inset 0 0 0 transparent;*/
 }
 .nav_titulo {
   margin: none;
@@ -161,6 +165,23 @@ nav {
 }
 
 .nav_dropdown-content {
+
+    width: 150px;
+    height: auto;
+    display: none;
+    position: absolute;
+    top: 80px;
+    right:12px;
+    min-width: 160px;
+    background-color: rgb(255, 191, 0);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    animation-duration: 3s;
+    z-index: 1;
+
+  /*
+
+
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -169,7 +190,7 @@ nav {
   top: 100px;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 1;*/
 }
 
 .nav_dropdown-content a {
@@ -179,7 +200,9 @@ nav {
   display: block;
 }
 .nav_dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: #f1f1f187;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .nav_dropdown:hover .dropdown-content {
@@ -191,6 +214,8 @@ nav {
 
   font-size: 20px;
 }
+
+/*FIN NAVBAR Y FOOTER */
 
 .contenedor {
   display: flex;
@@ -207,31 +232,143 @@ nav {
   flex: 1;
 }
 
-.boton {
-  background-color: rgb(0, 140, 255);
-  font-weight: 600;
-  padding: 6px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: none;
+@media (max-width: 768px) {
+  .contenido .info h1 {
+    font-size: 35px;
+  }
 }
 
-select {
-  font-size: 12pt;
-  padding: 5px;
-  border-radius: 5px;
+.nav-derecha{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: right;
+  align-items: center;
+
 }
 
-input {
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 350px;
-}
-.campo {
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
   margin: 10px;
-  text-align: center;
+
 }
 
 
+#abrir {
+  opacity: 1;
+  animation: 200ms desplazar linear;
+}
+@keyframes desplazar {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+
+
+/*@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Urbanist&display=swap");
+
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Montserrat", sans-serif;
+}
+body {
+  width: 100%;
+}
+header {
+  width: inherit;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e6b639;
+  padding-top: 10px;
+
+  & img {
+    width: 200px;
+  }
+
+  & nav {
+    & div {
+      &:nth-child(1) {
+        display: flex;
+        & a {
+          margin-right: 20px;
+          font-size: 1.6rem;
+          text-decoration: none;
+          font-weight: 600;
+          &:hover {
+            color: #8f4711;
+          }
+        }
+      }
+      .nav-hola {
+        display: flex;
+        position: relative;
+        & p {
+          font-size: 1.6rem;
+          margin-right: 40px;
+          font-weight: 600;
+          color: white;
+        }
+        .nav-img1 {
+          position: absolute;
+          top: -6px;
+          right: -0.3vw;
+          width: 50px;
+          border-radius: 50%;
+
+        }
+      }
+    }
+  }
+}
+.nav_dropdown-content {
+  width: 150px;
+  height: 70px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #de9822;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  animation-duration: 3s;
+  opacity: 0;
+  z-index: 2;
+  & a {
+    color: white;
+  }
+}
+
+.abrir {
+  opacity: 1;
+  animation: 200ms desplazar linear;
+}
+@keyframes desplazar {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}*/

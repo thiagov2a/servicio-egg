@@ -4,22 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro de usuario</title>
+  <title>Editar usuario</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
   <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
-
   <style>
     .error {
       color: red;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    body {
+      height: 40vw;
     }
 
     .exito {
       color: green;
     }
-
   </style>
-  <script>
 
+  <script>
     function mostrarMensaje(mensaje, tipo) {
       var mensajeImagen = document.getElementById('mensaje');
       mensajeImagen.innerHTML = '<div class="' + tipo + '">' + mensaje + '</div>';
@@ -31,12 +36,16 @@
 
       mostrarMensaje('', '');
 
+      if (!archivo) {
+        mostrarMensaje('Por favor, seleccione una imagen.', 'error');
+        return false;
+      }
+
       var tipoPermitido = ['image/jpeg', 'image/jpg'];
       if (tipoPermitido.indexOf(archivo.type) === -1) {
         mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
         return false;
       }
-
 
       var maxSizeMB = 1;
       var maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -51,51 +60,61 @@
       return true;
     }
   </script>
-
 </head>
 
-<body class="fondoimg">
-  <main class="cont-principal">
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-    <nav th:replace="fragments/navbar :: nav"></nav>
+<body >
+  <main class="cont-principal" style="min-height: 75vh;">
+    <div class="fondoimg">
+    <div th:replace="~{fragments/alert :: div}" ></div>
 
-    <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
+    
 
-    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+
+    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">   
+      <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
+
       <input hidden th:value="${usuario.id}" name="id" />
 
       <div id="campo-residente">
         <div class="campo">
-          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" required />
+          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" />
         </div>
 
         <div class="campo">
-          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}" required/>
+          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}"  />
         </div>
 
         <div class="campo">
-          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}" required/>
+          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}"  />
         </div>
 
         <div class="campo">
-          <input type="password" name="password" placeholder="Contraseña" required/>
+          <input type="password" name="password" placeholder="Contraseña" />
         </div>
 
         <div class="campo">
-          <input type="password" name="password2" placeholder="Repetir contraseña" required/>
+          <input type="password" name="password2" placeholder="Repetir contraseña"/>
         </div>
 
         <div class="campo">
           <input type="file" name="archivo" id="archivo" accept=".jpeg, .jpg" onchange="return validarArchivo()" />
         </div>
-        <div id="mensaje" style="text-align: center;"></div>
+        <div id="mensaje" style="text-align: center"></div>
 
-        <div class="campo">
-          <select name="barrio">
-            <option value="">Seleccionar Barrio</option>
-            <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}"
-              th:selected="${barrio == usuario.barrio}"></option>
-          </select>
+        <div th:if="${usuario.rol.descripcion != 'Proveedor'}">
+          <div class="campo">
+            <select name="barrio">
+              <option value="">Seleccionar Barrio</option>
+              <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}"
+                th:selected="${barrio == usuario.barrio}"></option>
+            </select>
+          </div>
+        </div>
+
+        <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
+          <input hidden th:value="${usuario.barrio}" name="barrio" />
         </div>
       </div>
 
@@ -127,11 +146,13 @@
         <button type="submit" class="boton">Guardar cambios</button>
       </div>
     </form>
+  </div>
   </main>
 
-  <footer th:replace="~{/fragments/footer :: footer}"></footer>
+
 
   <script th:src="@{/js/scripts.js}"></script>
 </body>
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
 
 </html>

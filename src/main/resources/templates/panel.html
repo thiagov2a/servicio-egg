@@ -9,127 +9,54 @@
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
   <script th:src="@{/js/scripts.js}"></script>
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<style>
-  button {
-    background-color: rgb(200, 200, 200);
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    padding: 6px;
-    font-size: 12pt;
-    border-radius: 5px;
-    border: none;
-  }
+  
 
-  button:hover {
-    background-color: rgb(230, 230, 230);
-  }
+</head>
 
-  a {
-    text-decoration: none;
-    color: black;
-  }
-
-  a:visited {
-    color: black;
-  }
-
-</style>
-
-  </head>
-
-<nav th:replace="/fragments/navbar :: nav"></nav>
+<nav th:replace="~{/fragments/navbar :: nav}"></nav>
 
 <body>
-<main class="cont-principal">
-  <aside class="admin_sidebar_left" style="margin-left: 20px;">
-    <!--
-    <button onclick="mostrarTabla('usuarios')">Mostrar Usuarios</button>
-    <button onclick="mostrarTabla('proveedores')">Mostrar Proveedores</button>
-    -->
-    <button> <a th:href="@{/admin/usuarios}">Lista de Usuarios</a> </button>
-    <button> <a th:href="@{/proveedor/lista}">Lista de Proveedores</a> </button>
-    <button> <a th:href="@{/servicio/registrar}">Registrar Servicio</a> </button>
-  </aside>
 
-  <section class="admin_central">
-    <!-- Tabla de Proveedores -->
-    <table class="table" id="tablaProveedores" hidden>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+  <main class="cont-principal" style="min-height: 75vh;">
+    <div class="admin_contenedor" style="margin: 20px;">
 
-    <!-- Tabla de Usuarios -->
-    <table class="table" id="tablaUsuarios" hidden>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>usuario1</td>
-          <td>usuario2</td>
-          <td>@usuario3</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+      <a th:href="@{/admin/usuarios}" class="admin_card">
+        <img th:src="@{/img/usuario.png}" alt="usuario">
+        <div>Lista de Usuarios</div>
+      </a>
 
-    <aside class="admin_sidebar_right">
+      <a th:href="@{/proveedor/lista}" class="admin_card">
+        <img th:src="@{/img/herramientas.png}" alt="proveedores">
+        <div>Lista de Proveedores</div>
+      </a>
 
-    </aside>
+      <a th:href="@{/transaccion/lista}" class="admin_card">
+        <img th:src="@{/img/cuaderno.png}" alt="transacciones">
+        <div>Lista de Transacciones</div>
+      </a>
+
+      <a th:href="@{/servicio/lista}" class="admin_card">
+        <img th:src="@{/img/servicios.png}" alt="servicios">
+        <div>Lista de Servicios</div>
+      </a>
+
+    </div>
+
   </main>
-    <script>
-      function mostrarTabla(tipo) {
-        document.getElementById('tablaUsuarios').setAttribute("hidden", "true");
-        document.getElementById('tablaProveedores').setAttribute("hidden", "true");
 
-        // Muestra la tabla correspondiente al tipo
-        document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute("hidden");
-      }
-    </script>
+  <script>
+    function mostrarTabla(tipo) {
+      document.getElementById('tablaUsuarios').setAttribute("hidden", "true");
+      document.getElementById('tablaProveedores').setAttribute("hidden", "true");
+
+      // Muestra la tabla correspondiente al tipo
+      document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute("hidden");
+    }
+  </script>
+
 </body>
-<footer th:replace="/fragments/footer :: footer"></footer>
+
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
+
 
 </html>

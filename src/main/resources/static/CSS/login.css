@@ -1,28 +1,115 @@
-body{
-width: min-content max-content; /* 100% del alto de la ventana */
-
-}
 .cont-principal {
-display: flex;
-justify-content: center;
-align-items: center;
-padding-top: 10px;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  /* margin-bottom: 20px;
+    position: relative;*/
+  box-sizing: border-box;
+  /*padding-bottom: 20px;*/
+
 }
+
 .login-form {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ccc;
-    width: 450px;
-    background-color: white;
-    border-radius: 10px;
-    
-    padding: 30px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  width: 450px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 100px;
+  height: 300px;
 
-& form {
-padding: 20px;
-gap: 20px;
+  & form {
+    padding: 20px;
+    gap: 20px;
+
+
+  }
+}
+
+
+
+.boton {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 10px 25px;
+  color: #fff;
+  background: #328cbd;
+  border-radius: 50px;
+  margin-left: auto;
+  border: 2px solid transparent;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px;
+  /*Para separar un poco las letras*/
+  margin-left: 25%;
+}
+
+
+.boton:hover {
+  background: #599bbf;
+  /*Fondo transparente*/
+  border: 2px solid #fff;
+}
+
+select {
+  font-size: 12pt;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+input {
+  padding: 5px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 350px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 
 }
+
+
+.wrp {
+  width: 100%;
+  /*height: 500px;*/
+  position: relative;
+}
+
+.portada {
+  width: 100%;
+  height: 100%;
+  background: url("src\main\resources\static\img\portada.png");
+  background-attachment: fixed;
+}
+
+.contenido {
+  height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../img/portadawavy.png);
+  background-repeat: repeat-y;
+  background-size: cover;
+  margin-bottom: 50px;
+}
+
+@media(max-width:768px) {
+  .contenido .info h1 {
+    font-size: 35px;
+  }
+}
+
+
+.error {
+  padding-top: 10px;
+  font-size: 14pt;
+  color: red;
+  background-color: rgb(153, 153, 153);
+  text-align: center;
+  font-weight: 700;
 }

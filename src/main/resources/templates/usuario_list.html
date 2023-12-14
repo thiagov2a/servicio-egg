@@ -10,102 +10,111 @@
   <!-- Usar th:href para resolver la URL del CSS -->
   <script th:src="@{/js/Scripts.js}"></script>
   <!-- Usar th:src para resolver la URL del script JS -->
-  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon">
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 
-
-<style>
-
-button {
-    background-color: rgb(200, 200, 200);
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    padding: 6px;
-    font-size: 12pt;
-    border-radius: 5px;
-    border: none;
-  }
-  button:hover {
-    background-color: rgb(230, 230, 230);
-  }
-
-  a {
-    text-decoration: none;
-    color: black;
+  <style>
+    button {
+      background-color: rgb(200, 200, 200);
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
     }
 
-  a:visited {
-    color: black;
+    button:hover {
+      background-color: rgb(230, 230, 230);
     }
 
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 5px;
-  }
+    a {
+      text-decoration: none;
+      color: black;
+    }
 
-  th {
-    padding: 1px;
-    border-bottom: 2px solid black;
-  }
+    a:visited {
+      color: black;
+    }
 
-  td {
-    text-align: center;
-    height: 50px;
-  }
-</style>
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 5px;
+    }
 
+    th {
+      padding: 1px;
+      border-bottom: 2px solid black;
+    }
+
+    td {
+      text-align: center;
+      height: 50px;
+    }
+
+
+  </style>
 </head>
+<nav th:replace="~{fragments/navbar :: nav}"></nav>
 
 <body>
+  <main>
 
-  <nav th:replace="fragments/navbar :: nav"></nav>
-
-
-
-    <h1>LISTA DE USUARIOS REGISTRADOS</h1>
+    <div class="encabezado">
+      <a th:href="@{/}"><button>Volver</button></a>
+      <div></div>
+      <h1>LISTA DE USUARIOS REGISTRADOS</h1>
+      <div></div>
+      <div style="width: 60px;"></div>
+    </div>
 
     <div>
       <table>
         <thead>
           <tr>
-            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0"></th>
-            <th scope="col">Id del Usuario</th>
-            <th scope="col">Nombre Usuario</th>
+            <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
+            <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
+            <th scope="col">Nombre</th>
             <th scope="col">DNI</th>
             <th scope="col">E-Mail</th>
             <th scope="col">Barrio</th>
             <th scope="col">Rol</th>
+            <th scope="col">Alta/Baja</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody th:each="usuario : ${usuarios}">
           <tr>
-            <td>
-              <a th:if="${usuario.imagen != null}" th:href="@{/imagen/perfil/__${usuario.id}__}">
-                <img th:src="@{/imagen/perfil/__${usuario.id}__}" width="50px" style="text-align: center"
-                  alt="Imagen de perfil" />
-              </a>
-              <a th:if="${usuario.imagen == null}" href="#">
-                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
-              </a>
+            <td scope="row">
+              <div th:if="${usuario.imagen != null}">
+                <a th:href="@{/imagen/perfil/__${usuario.id}__}">
+                  <img th:src="@{/imagen/perfil/__${usuario.id}__}" width="50px" style="text-align: center" alt="mdo" />
+                </a>
+              </div>
             </td>
-            <td th:scope="row" th:text="${usuario.id}"></td>
-            <td th:text="${usuario.nombre}"></td>
-            <td th:text="${usuario.dni}"></td>
-            <td th:text="${usuario.email}"></td>
-            <td th:text="${usuario.barrio}"></td>
-            <td th:text="${usuario.rol}"></td>
-            <td><button class="soy-residente">Modificar</button></td>
-            <td><button class="soy-residente">Eliminar</button></td>
-
-            
-
+            <td scope="row" th:text="${usuario.id}" sec:authorize="hasRole('ADMIN')"></td>
+            <td scope="row" th:text="${usuario.nombre}"></td>
+            <td scope="row" th:text="${usuario.dni}"></td>
+            <td scope="row" th:text="${usuario.email}"></td>
+            <td scope="row" th:text="${usuario.barrio}"></td>
+            <td scope="row" th:text="${usuario.rol}"></td>
+            <td scope="row">
+              <img th:if="${usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
+              <img th:unless="${usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" />
+            </td>
+            <td scope="row">
+              <div sec:authorize="hasRole('ADMIN')">
+                <button><a th:href="@{/admin/hacerAdmin/__${usuario.id}__}">Hacer ADMIN</a></button>
+                <button><a th:href="@{/admin/cambiarEstado/__${usuario.id}__}">Alta/Baja</a></button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
-
+      
     </div>
-
-
+  </main>
 </body>
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
 
 </html>

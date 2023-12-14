@@ -21,13 +21,13 @@ public class ServicioServicio {
 
     @Transactional
     public void registrar(String nombre, String descripcion) throws MiException {
-
         validar(nombre, descripcion);
 
         Servicio servicio = new Servicio();
 
         servicio.setNombre(nombre);
         servicio.setDescripcion(descripcion);
+        servicio.setAlta(true);
 
         servicioRepositorio.save(servicio);
     }
@@ -35,6 +35,12 @@ public class ServicioServicio {
     public List<Servicio> listarServicios() {
         List<Servicio> servicios = new ArrayList<>();
         servicios = servicioRepositorio.findAll();
+        return servicios;
+    }
+
+    public List<Servicio> listarServicioPorAlta(Boolean alta) {
+        List<Servicio> servicios = new ArrayList<>();
+        servicios = servicioRepositorio.listarPorAlta(alta);
         return servicios;
     }
 
@@ -48,14 +54,13 @@ public class ServicioServicio {
     }
 
     @Transactional
+
     public void modificar(String id, String nombre, String descripcion) throws MiException {
 
-        validar(nombre, descripcion);
+       validar(nombre, descripcion);
 
         Optional<Servicio> respuesta = servicioRepositorio.findById(id);
-
         if (respuesta.isPresent()) {
-
             Servicio servicio = respuesta.get();
 
             servicio.setNombre(nombre);
@@ -63,11 +68,23 @@ public class ServicioServicio {
 
             servicioRepositorio.save(servicio);
         }
+    }
 
+    @Transactional
+    public void cambiarEstadoServicio(String id) {
+        Optional<Servicio> respuesta = servicioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Servicio servicio = respuesta.get();
+            if (servicio.getAlta()) {
+                servicio.setAlta(false);
+            } else {
+                servicio.setAlta(true);
+            }
+            servicioRepositorio.save(servicio);
+        }
     }
 
     public void validar(String nombre, String descripcion) throws MiException {
-
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new MiException("El nombre no puede ser nulo o estar vacío");
         }
@@ -75,7 +92,6 @@ public class ServicioServicio {
         if (descripcion == null || descripcion.trim().isEmpty()) {
             throw new MiException("La descripción no puede ser nula o estar vacía");
         }
-
     }
 
 }

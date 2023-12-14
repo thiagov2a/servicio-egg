@@ -11,93 +11,163 @@ html {
   font-size: 62, 5%;
 }
 
-img {
-    max-height: 100%;
-    /* La imagen no superará la altura del contenedor */
-    width: auto;
-    /* La imagen mantiene su relación de aspecto original */
-    display: block;
-    /* Elimina el espacio extra por debajo de la imagen */
-    margin: 0 auto;
-    /* Centra la imagen horizontalmente en el contenedor */
-  }
-  
-h1 {
-  text-align: center;
+main.cont-principal {
+  height: 100vh;
+
+}
+.wrp {
+  width: 100%;
+  height: 100%;
+  /* position: relative;*/
 }
 
-.header {
-  background-image: url(img/fondo);
-  background-size: cover;
-  height: 550px;
-  display: flex;
-  justify-content: end;
-}
-
-.logo {
-  width: 40%;
-  margin: auto;
-}
-.form-registro {
+.portada {
   position: relative;
+  height: 50%;
 }
 
-.boton {
-  background-color: #ffcb00;
-  box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -webkit-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
-  -moz-box-shadow: 0px 2px 16px 4px rgba(0, 0, 0, 0.36);
+.contenido {
+  /*  width: 100%; height: 100%;*/
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../img/portadawavy.png);
+  background-repeat: repeat-y;
+  background-size: cover;
+  margin-bottom: 50px;
+}
+.contenido .info {
+  width: 100%;
+  max-width: 750px;
+  text-align: center;
+  justify-content: center;
+}
+.contenido .info h1 {
+  color: #fff;
+  font-size: 50px;
+  text-shadow: 0px 1px 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+.contenido .info a {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 19px;
+  padding: 10px 25px;
+  color: #fff;
+  background: #4897c3;
+  border-radius: 50px;
+  margin-bottom: 40px;
+  border: 2px solid transparent;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px; /*Para separar un poco las letras*/
+}
+.contenido .info a:hover {
+  background: transparent; /*Fondo transparente*/
+  border: 2px solid #fff;
 }
 
-.boton:hover {
-  background-color: #ffe479;
+.owl-carousel {
+  padding: 20px;
+  border-collapse: collapse;
 }
 
-.boton:active {
-  box-shadow: none;
+@media (max-width: 768px) {
+  .contenido .info h1 {
+    font-size: 35px;
+  }
 }
 
-.contenedor {
+.item {
+  font-size: 10pt;
+  width: 200px;
+  height: 150px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+
+}
+
+.star {
+  color: gold;
+  font-size: 32px;
+  display: inline-block;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+.exito {
+  color: green;
+  background-color: rgb(153, 153, 153);
+  text-align: center;
+  font-weight: 700;
+  padding-top: 20px;
+  font-size: 20pt;
+
+}
+
+.pendiente {
+
+  color: white;
+  background-color: rgb(0, 200, 0);
+  font-size: 12pt;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+
+}
+
+.pendiente:hover{
+
+	background-color: rgb(0, 220, 0);
+	transition: background-color 0.5s;
+
+}
+
+.estados {
   display: flex;
   flex-direction: row;
-  height: auto;
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-.principal {
-  flex: 5;
-  max-height: 1500px;
-}
-.costado {
-  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(153, 153, 153);
 }
 
-.boton {
-  background-color: rgb(0, 140, 255);
+#aguar,
+#ejec,
+#calif {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 10px;
+
+}
+
+#aguarC,
+#ejecC,
+#califC {
+
   font-weight: 600;
-  padding: 6px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: none;
-}
-
-select {
-  font-size: 12pt;
+  width: 30px;
+  height: 30px;
   padding: 5px;
-  border-radius: 5px;
-}
+  border-radius: 100%;
+  background-color: green;
+  margin-right: 10px;
 
-input {
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: 1px solid black;
-  width: 350px;
 }
-.campo {
-  margin: 10px;
-  text-align: center;
-}
-
-
-  

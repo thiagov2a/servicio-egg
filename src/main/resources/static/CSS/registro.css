@@ -1,5 +1,7 @@
+
 #campo-proveedor {
   display: none;
+  margin-bottom: 50px;
 }
 
 #campo-residente {
@@ -7,12 +9,18 @@
 }
 
 .soy-proveedor {
-  background-color: white;
+  color: rgb(160, 160, 160);
+  background-color:  rgb(220, 220, 220);
   font-weight: 500;
-  padding: 6px;
+  padding: 5px;
   font-size: 12pt;
-  border-radius: 5px;
-  border: none;
+  border-radius: 50px;
+  border: 1px solid transparent;
+  width: 150px;
+
+  display: inline-block;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px;
 }
 
 .soy-proveedor:hover {
@@ -20,20 +28,43 @@
 }
 
 .soy-residente {
-  background-color: rgb(200, 200, 200);
-  font-weight: 500;
-  padding: 6px;
+  color: black;
+
+  background-color: white;
+  font-weight: 600;
+  padding: 5px;
   font-size: 12pt;
-  border-radius: 5px;
-  border: none;
+  border-radius: 50px;
+  border: 1px solid black;
+  width: 150px;
+
+  display: inline-block;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px;
+
 }
+
+.cont-principal{
+  /*height: 100%;*/
+  width: 100%;
+
+}
+
 .fondoimg {
-  background-image: url(/img/fondo_05opac.png);
+  background: linear-gradient(to bottom, rgb(255, 191, 0), #ffffff);
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 0;
   margin: 0;
-  height: 100vh;
+  /*height: 100%;*/
 
   /* Ajusta el tamaño de la imagen para cubrir completamente el fondo */
+}
+
+.formulario{
+  height: 80%;
+
+
 }
 .campo {
   margin: 10px;
@@ -43,4 +74,105 @@
 
 .soy-residente:hover {
   background-color: rgb(220, 220, 220);
+}
+
+/*
+.curveado{
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+}
+.curveado img{
+  width: 100%;
+}
+*/
+
+
+
+.boton {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 10px 20px;
+  color: #fff;
+  background: #328cbd;
+  border-radius: 50px;
+  margin-bottom: 40px;
+  border: 1px solid transparent;
+  transition: all 300ms ease;
+  letter-spacing: 0.5px; /*Para separar un poco las letras*/
+}
+
+.boton:hover {
+  background:  #599bbf; /*Fondo transparente*/
+  border: 1px solid #fff;
+}
+
+.boton:active {
+  box-shadow: none;
+}
+
+
+input, select {
+  padding: 5px;
+  font-size: 10pt;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: #fff;
+  width: 350px;
+
+}
+
+input::placeholder{
+  inline-size: auto;
+}
+
+.error {
+  font-size: 14pt;
+  color: red;
+  text-align: center;
+  font-weight: 700;
+}
+
+.exito {
+  color: green;
+}
+
+button {
+  background-color: rgb(200, 200, 200);
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  padding: 6px;
+  font-size: 12pt;
+  border-radius: 5px;
+  border: none;
+}
+
+button:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+th {
+  padding: 1px;
+  border-bottom: 2px solid black;
+}
+
+td {
+  text-align: center;
+  height: 50px;
 }

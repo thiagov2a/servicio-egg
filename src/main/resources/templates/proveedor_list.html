@@ -1,116 +1,143 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista de Proveedores</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-    <style>
-      button {
-        background-color: rgb(200, 200, 200);
-        font-weight: 500;
-        font-family: 'Montserrat', sans-serif;
-        padding: 6px;
-        font-size: 12pt;
-        border-radius: 5px;
-        border: none;
-      }
 
-      button:hover {
-        background-color: rgb(230, 230, 230);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Proveedores</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" th:href="@{/css/registro.css}" />
+  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  <style>
+    button {
+      background-color: rgb(200, 200, 200);
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      padding: 6px;
+      font-size: 12pt;
+      border-radius: 5px;
+      border: none;
+    }
 
-      a {
-        text-decoration: none;
-        color: black;
-      }
+    button:hover {
+      background-color: rgb(230, 230, 230);
+    }
 
-      a:visited {
-        color: black;
-      }
+    a {
+      text-decoration: none;
+      color: black;
+    }
 
-      table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 5px;
-      }
+    a:visited {
+      color: black;
+    }
 
-      th {
-        padding: 1px;
-        border-bottom: 2px solid black;
-      }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 5px;
+    }
 
-      td {
-        text-align: center;
-        height: 50px;
-      }
-    </style>
-  </head>
-  <body>
-    <nav th:replace="fragments/navbar :: nav"></nav>
+    th {
+      padding: 1px;
+      border-bottom: 2px solid black;
+    }
 
-    <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
+    td {
+      text-align: center;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: nav}"></nav>
+
+  <div  style="min-height: 75vh; ">
+
+    <div class="encabezado">
+      <a th:href="@{/}"><button>Volver</button></a>
+      <div></div>
+      <h1>LISTA DE PROVEEDORES REGISTRADOS</h1>
+      <div></div>
+      <div>
+        <form th:action="@{/proveedor/filtrar}" method="POST">
+        <select name="idServicio" style="width: 150px; font-weight: 600; background-color: rgb(230,230,230);">
+          <option value="">Servicio</option>
+          <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+        </select>
+        <button type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
 
     <div>
-      <table>
+       <table>
         <thead>
           <tr>
             <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
-            <th scope="col">Id del Proveedor</th>
-            <th scope="col">Nombre Proveedor</th>
-            <th scope="col">Email Proveedor</th>
-            <th scope="col">Tipo de Servicio</th>
+            <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Servicio</th>
             <th scope="col">
               <div class="size">Descripción</div>
             </th>
             <th scope="col">Contacto</th>
             <th scope="col">Precio por Hora</th>
             <th scope="col">Calificación</th>
+            <th scope="col" sec:authorize="hasRole('ADMIN')">Alta/Baja</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody th:each="proveedor : ${proveedores}">
           <tr>
-            <td>
-              <a th:if="${proveedor.usuario.imagen != null}" th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
-                <img
-                  th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}"
-                  width="50px"
-                  style="text-align: center"
-                  alt="Imagen de perfil" />
-              </a>
-              <a th:if="${proveedor.usuario.imagen == null}" href="#">
-                <img src="/img/sin.png" width="50px" style="text-align: center" alt="Imagen de perfil" />
-              </a>
+            <td scope="row">
+              <div th:if="${proveedor.usuario.imagen != null}">
+                <a th:href="@{/imagen/perfil/__${proveedor.usuario.id}__}">
+                  <img th:src="@{/imagen/perfil/__${proveedor.usuario.id}__}" width="50px" style="text-align: center"
+                    alt="mdo" />
+                </a>
+              </div>
             </td>
-            <td th:scope="row" th:text="${proveedor.usuario.id}"></td>
-            <td th:text="${proveedor.usuario.nombre}"></td>
-            <td th:text="${proveedor.usuario.email}"></td>
-            <td th:text="${proveedor.servicio.nombre}"></td>
-            <td th:text="${proveedor.descripcion}" style="text-align: left"></td>
-            <td th:text="${proveedor.contacto}"></td>
-            <td th:text="${proveedor.precioPorHora}"></td>
-            <td th:text="${proveedor.calificacion}"></td>
+            <td scope="row" th:text="${proveedor.usuario.id}" sec:authorize="hasRole('ADMIN')"></td>
+            <td scope="row" th:text="${proveedor.usuario.nombre}"></td>
+            <td scope="row" th:text="${proveedor.usuario.email}"></td>
+            <td scope="row" th:text="${proveedor.servicio.nombre}"></td>
+            <td scope="row" th:text="${proveedor.descripcion}" style="text-align: left"></td>
+            <td scope="row" th:text="${proveedor.contacto}"></td>
+            <td scope="row" th:text="${proveedor.precioPorHora}"></td>
+            <td scope="row" th:text="${proveedor.calificacion}"></td>
+            <td scope="row" sec:authorize="hasRole('ADMIN')">
+              <img th:if="${proveedor.usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
+              <img th:unless="${proveedor.usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" /></td>
+            <td scope="row">
+              <div sec:authorize="hasRole('ADMIN')">
+                <button><a th:href="@{/admin/hacerAdmin/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
+                <button><a th:href="@{/admin/cambiarEstado/__${proveedor.usuario.id}__}">Alta/Baja</a></button>
+              </div>
 
-            <td sec:authorize="hasRole('ADMIN')">
-              <button><a th:href="@{/admin/modificarRol/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
-            </td>
-            <td sec:authorize="hasRole('ADMIN')">
-              <button class="soy-residente"><a th:href="@{/}">Alta/Baja</a></button>
-            </td>
-            <td sec:authorize="hasRole('USER')">
-              <a th:href="@{/transaccion/presupuesto/__${proveedor.id}__}">
-                <button class="soy-residente">Presupuestar</button>
-              </a>
+              <div sec:authorize="hasRole('USER')">
+                <button><a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">Presupuestar</a></button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <footer th:replace="~{/fragments/footer :: footer}"></footer>
+  </div>
+  <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-    <script th:src="@{/js/scripts.js}"></script>
-  </body>
+  <script th:src="@{/js/scripts.js}"></script>
+
+    <script>
+        function formatearNumero(numero) {
+            return parseFloat(numero).toFixed(1);
+        }
+    </script>
+
+</body>
+
 </html>

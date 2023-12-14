@@ -3,12 +3,14 @@ package com.equipo15.servicio.servicios;
 import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Proveedor;
 import com.equipo15.servicio.entidades.Servicio;
+import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
 import com.equipo15.servicio.enumeraciones.Barrio;
 import com.equipo15.servicio.enumeraciones.Rol;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ProveedorRepositorio;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
+import com.equipo15.servicio.repositorios.TransaccionRepositorio;
 import com.equipo15.servicio.repositorios.UsuarioRepositorio;
 
 import java.util.ArrayList;
@@ -16,8 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -30,14 +34,18 @@ public class ProveedorServicio {
     @Autowired
     private ServicioRepositorio servicioRepositorio;
     @Autowired
+    private TransaccionRepositorio transaccionRepositorio;
+    @Autowired
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ImagenServicio imagenServicio;
 
     @Transactional
     public void registrar(String dni, String nombre, String email, String password, String password2, Barrio barrio,
-            MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+            MultipartFile archivo, String contacto, String descripcion, Double precioPorHora, Double calificacion,
             String idServicio) throws MiException {
+
+        barrio = generarBarrioAleatorio(); // Generamos un barrio aleatorio para el proveedor
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         usuarioServicio.validarExistencia(email);
@@ -67,6 +75,7 @@ public class ProveedorServicio {
         proveedor.setDescripcion(descripcion);
         proveedor.setPrecioPorHora(precioPorHora);
         proveedor.setCalificacion(calificacion); // Inicializar la calificación a 0
+        proveedor.setAlta(true);
 
         Servicio servicio = servicioRepositorio.findById(idServicio).get();
         proveedor.setServicio(servicio);
@@ -80,6 +89,30 @@ public class ProveedorServicio {
         return proveedores;
     }
 
+    public List<Proveedor> listarProveedoresPorAlta(Boolean alta) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorAlta(alta);
+        return proveedores;
+    }
+    
+
+    public List<Proveedor> listarProveedoresPorServicio(String idServicio) {
+
+    
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicio(idServicio);
+        return proveedores;
+    }
+
+
+       public List<Proveedor> listarProveedoresPorAltaPorServicio(Boolean alta, String idServicio) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio);
+        return proveedores;
+    }
+
+    
+
     public Proveedor buscarProveedorPorId(String id) {
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -90,9 +123,29 @@ public class ProveedorServicio {
     }
 
     @Transactional
+    public void actualizarCalificacion(String idTransaccion) {
+        Optional<Transaccion> respuesta = transaccionRepositorio.findById(idTransaccion);
+
+        if (respuesta.isPresent()) {
+            Transaccion transaccion = respuesta.get();
+            Proveedor proveedor = transaccion.getProveedor();
+            String idProveedor = proveedor.getUsuario().getId();
+
+            Integer suma = transaccionRepositorio.sumaDeCalificacionesPorProveedor(idProveedor);
+            Integer cantidad = transaccionRepositorio.cantidadDeCalificacionesPorProveedor(idProveedor);
+
+            Double calificacion = suma / (cantidad * 1.0);
+            calificacion = Math.round(calificacion * 100d) / 100d;
+            proveedor.setCalificacion(calificacion);
+
+            proveedorRepositorio.save(proveedor);
+        }
+    }
+
+    @Transactional
     public void modificar(String id, String dni, String nombre, String email, String password, String password2,
-            Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Integer precioPorHora,
-            Integer calificacion, String idServicio) throws MiException {
+            Barrio barrio, MultipartFile archivo, String contacto, String descripcion, Double precioPorHora,
+            Double calificacion, String idServicio) throws MiException {
 
         usuarioServicio.validar(dni, nombre, email, password, password2, barrio);
         validar(contacto, descripcion, precioPorHora, calificacion, idServicio);
@@ -101,7 +154,6 @@ public class ProveedorServicio {
         Optional<Servicio> respuestaServicio = servicioRepositorio.findById(idServicio);
 
         Servicio servicio = new Servicio();
-
         if (respuestaServicio.isPresent()) {
             servicio = respuestaServicio.get();
         }
@@ -113,7 +165,8 @@ public class ProveedorServicio {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(Rol.PROVEEDOR);
+            // Cuando se modifica el usuario no se debe cambiar el rol
+            // usuario.setRol(Rol.PROVEEDOR);
             usuario.setBarrio(barrio);
 
             String idImagen = null;
@@ -139,7 +192,7 @@ public class ProveedorServicio {
         }
     }
 
-    public void validar(String contacto, String descripcion, Integer precioPorHora, Integer calificacion,
+    public void validar(String contacto, String descripcion, Double precioPorHora, Double calificacion,
             String idServicio) throws MiException {
 
         if (contacto == null || contacto.trim().isEmpty()) {
@@ -169,6 +222,11 @@ public class ProveedorServicio {
         if (respuestaProveedor != null) {
             throw new MiException("Ya existe un proveedor con ese contacto");
         }
+    }
+
+    private Barrio generarBarrioAleatorio() {
+        int indice = (int) (Math.random() * Barrio.values().length);
+        return Barrio.values()[indice];
     }
 
 }

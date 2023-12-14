@@ -25,8 +25,8 @@ public class Transaccion {
     private String id;
 
     private String comentario;
-    private Integer calificacion;
-    private Long presupuesto;
+    private Double calificacion;
+    private Double presupuesto;
 
     @Enumerated(EnumType.STRING)
     private Estado estado;

@@ -8,36 +8,38 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-function mostrarProveedor() {
+// registro.html
+function cambiarTipoUsuario(esProveedor) {
   var divProveedor = document.getElementById('campo-proveedor');
   var divResidente = document.getElementById('campo-residente');
 
-  divProveedor.style.display = 'block';
-  divResidente.style.display = 'none';
-
   var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'rgb(200, 200, 200)';
-
   var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'white';
+
+  var tipoActual = esProveedor ? divProveedor : divResidente;
+  var tipoOtro = esProveedor ? divResidente : divProveedor;
+  var botonActual = esProveedor ? botonProveedor : botonResidente;
+  var botonOtro = esProveedor ? botonResidente : botonProveedor;
+
+  tipoActual.style.display = 'block';
+  tipoOtro.style.display = 'none';
+
+  actualizarEstilosBoton(botonActual, true);
+  actualizarEstilosBoton(botonOtro, false);
 
   // Actualiza el valor del campo oculto
-  document.getElementById('esProveedor').value = 'true';
+  document.getElementById('esProveedor').value = esProveedor.toString();
 }
 
-function mostrarResidente() {
-  var divProveedor = document.getElementById('campo-proveedor');
-  var divResidente = document.getElementById('campo-residente');
+function actualizarEstilosBoton(boton, activo) {
+  var estiloActivo = activo ? 'white' : 'rgb(220, 220, 220)';
+  var estiloInactivo = activo ? 'black' : 'rgb(160, 160, 160)';
+  var borde = activo ? '1px solid black' : 'none';
+  var fontWeight = activo ? '600' : '400';
 
-  divResidente.style.display = 'block';
-  divProveedor.style.display = 'none';
-
-  var botonProveedor = document.querySelector('.soy-proveedor');
-  botonProveedor.style.backgroundColor = 'white';
-
-  var botonResidente = document.querySelector('.soy-residente');
-  botonResidente.style.backgroundColor = 'rgb(200, 200, 200)';
-
-  // Actualiza el valor del campo oculto
-  document.getElementById('esProveedor').value = 'false';
+  boton.style.backgroundColor = estiloActivo;
+  boton.style.border = borde;
+  boton.style.color = estiloInactivo;
+  boton.style.fontWeight = fontWeight;
 }
+//
