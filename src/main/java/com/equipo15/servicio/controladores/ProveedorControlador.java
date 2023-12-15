@@ -8,6 +8,7 @@ import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
+import static java.lang.Boolean.TRUE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/proveedor")
@@ -54,27 +57,46 @@ public class ProveedorControlador {
     }
 
     @PostMapping("/filtrar")
-    public String filtrar(ModelMap modelo, HttpSession session, String idServicio) {
+    public String filtrar(ModelMap modelo, HttpSession session, String idServicio, boolean filtrado) {
 
         List<Proveedor> proveedores = obtenerProveedoresPorServicio(session, idServicio);
 
         List<Servicio> servicios = servicioServicio.listarServicios();
 
+        modelo.addAttribute("filtrado", filtrado);
+        modelo.addAttribute("idServicio", idServicio);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
 
         return "proveedor_list.html";
     }
 
-    @PostMapping("/filtradaYOrdenada")
-    public String faltradaYOrdenada(ModelMap modelo, HttpSession session, String idServicio) {
+    @GetMapping("/filtrar2/{idServicio}")
+    public String filtrar2(ModelMap modelo, HttpSession session, @PathVariable String idServicio, boolean filtrado) {
 
+        List<Proveedor> proveedores = obtenerProveedoresPorServicio(session, idServicio);
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("idServicio", idServicio);
+        modelo.addAttribute("proveedores", proveedores);
+        modelo.addAttribute("servicios", servicios);
+        modelo.addAttribute("filtrado", TRUE);
+
+        return "proveedor_list.html";
+    }
+
+    @GetMapping("/filtradaYOrdenada/{idServicio}")
+    public String filtradaYOrdenada(ModelMap modelo, HttpSession session, @PathVariable String idServicio) {
+
+        System.out.println("Id del servicio:" + idServicio);
         List<Proveedor> proveedores = obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(session, idServicio);
 
         List<Servicio> servicios = servicioServicio.listarServicios();
 
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
+        modelo.addAttribute("filtrado", TRUE);
 
         return "proveedor_list.html";
     }
