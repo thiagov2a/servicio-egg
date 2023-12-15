@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/proveedor")
@@ -46,7 +47,6 @@ public class ProveedorControlador {
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
-
         return "proveedor_list.html";
     }
 
@@ -62,7 +62,8 @@ public class ProveedorControlador {
     }
 
     @GetMapping("/filtrar2/{idServicio}")
-    public String filtrar2(ModelMap modelo, HttpSession session, @PathVariable String idServicio, boolean filtrado) {
+    public String filtrar2(@PathVariable String idServicio, @RequestParam(required = false) boolean filtrado,
+            ModelMap modelo, HttpSession session) {
         List<Proveedor> proveedores = obtenerProveedoresPorServicio(idServicio, session);
         List<Servicio> servicios = servicioServicio.listarServicios();
         modelo.addAttribute("idServicio", idServicio);
@@ -73,13 +74,13 @@ public class ProveedorControlador {
     }
 
     @GetMapping("/filtradaYOrdenada/{idServicio}")
-    public String filtradaYOrdenada(ModelMap modelo, HttpSession session, @PathVariable String idServicio) {
-        System.out.println("Id del servicio:" + idServicio);
+    public String filtradaYOrdenada(@PathVariable String idServicio, ModelMap modelo, HttpSession session) {
         List<Proveedor> proveedores = obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(session, idServicio);
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("filtrado", true);
+        modelo.addAttribute("idServicio", idServicio);
         return "proveedor_list.html";
     }
 

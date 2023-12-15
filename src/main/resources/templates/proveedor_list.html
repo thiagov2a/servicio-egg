@@ -61,11 +61,16 @@
         <div>
           <form th:action="@{/proveedor/filtrar}" method="POST">
             <select name="idServicio" style="width: 150px; font-weight: 600; background-color: rgb(230, 230, 230)">
-              <option th:value="idServicio">Servicio</option>
-              <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
+              <option value="" hidden>Servicio</option>
+              <option
+                th:each="servicio : ${servicios}"
+                th:value="${servicio.id}"
+                th:text="${servicio.nombre}"
+                th:selected="${servicio.id == idServicio}"></option>
             </select>
 
             <input type="hidden" name="filtrado" value="true" />
+
             <button type="submit">Buscar</button>
             <a th:href="@{/proveedor/lista}"><button type="button">Quitar filtros</button></a>
           </form>
