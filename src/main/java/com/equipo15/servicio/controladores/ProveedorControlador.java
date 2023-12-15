@@ -29,7 +29,7 @@ public class ProveedorControlador {
     @Autowired
     private ServicioServicio servicioServicio;
 
- @GetMapping("/lista")
+    @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
         List<Proveedor> proveedores = obtenerProveedoresPorRol(session);
 
@@ -52,13 +52,10 @@ public class ProveedorControlador {
 
         return "proveedor_list.html";
     }
-    
-    
 
     @PostMapping("/filtrar")
     public String filtrar(ModelMap modelo, HttpSession session, String idServicio) {
 
-        
         List<Proveedor> proveedores = obtenerProveedoresPorServicio(session, idServicio);
 
         List<Servicio> servicios = servicioServicio.listarServicios();
@@ -68,7 +65,19 @@ public class ProveedorControlador {
 
         return "proveedor_list.html";
     }
-    
+
+    @PostMapping("/filtradaYOrdenada")
+    public String faltradaYOrdenada(ModelMap modelo, HttpSession session, String idServicio) {
+
+        List<Proveedor> proveedores = obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(session, idServicio);
+
+        List<Servicio> servicios = servicioServicio.listarServicios();
+
+        modelo.addAttribute("proveedores", proveedores);
+        modelo.addAttribute("servicios", servicios);
+
+        return "proveedor_list.html";
+    }
 
     private List<Proveedor> obtenerProveedoresPorRol(HttpSession session) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
@@ -77,16 +86,16 @@ public class ProveedorControlador {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedoresPorServicio(rolDescripcion);
+                return proveedorServicio.listarProveedores();
             } else {
-                return proveedorServicio.listarProveedoresPorAlta(true);
+                return proveedorServicio.listarProveedoresPorAlta(Boolean.TRUE);
             }
         } else {
             return new ArrayList<>();
         }
     }
-    
-        private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorMenorPrecio(HttpSession session) {
+
+    private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorMenorPrecio(HttpSession session) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
@@ -101,9 +110,8 @@ public class ProveedorControlador {
             return new ArrayList<>();
         }
     }
-    
-    
-        private List<Proveedor> obtenerProveedoresPorServicio(HttpSession session, String idServicio) {
+
+    private List<Proveedor> obtenerProveedoresPorServicio(HttpSession session, String idServicio) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
@@ -118,7 +126,22 @@ public class ProveedorControlador {
             return new ArrayList<>();
         }
     }
-    
+
+    private List<Proveedor> obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(HttpSession session, String idServicio) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+        if (usuario != null) {
+            String rolDescripcion = usuario.getRol().getDescripcion();
+
+            if (rolDescripcion.equals("Admin")) {
+                return proveedorServicio.listarProveedoresPorServicioOrdenadoPorMenorPrecio(idServicio);
+            } else {
+                return proveedorServicio.listarProveedoresPorAltaPorServicioOrdenadoPorMenorPrecio(true, idServicio);
+            }
+        } else {
+            return new ArrayList<>();
+        }
+    }
 
     private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -130,8 +153,5 @@ public class ProveedorControlador {
             return null;
         }
     }
-    
-
-
 
 }
