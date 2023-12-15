@@ -13,18 +13,19 @@
   </div  >  -->
 
 
-    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
-    <div th:unless="${session.usuariosession != null}" class="nav_guest" >
-      <a th:href="@{/login}">Login</a>
-      <a th:href="@{/registrar}">Registrarse</a>
-    </div>
+  <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+  <div th:unless="${session.usuariosession != null}" class="nav_guest">
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/registrar}">Registrarse</a>
+  </div>
 
-    <!-- Lista desplegable cuando el usuario está logeado --><!-- ANTES: class="nav_dropdown"-->
-    <div th:if="${session.usuariosession != null}" class="nav-derecha" >
-      <!-- Botón para desplegar el menú -->
+  <!-- Lista desplegable cuando el usuario está logeado --><!-- ANTES: class="nav_dropdown"-->
+  <div th:if="${session.usuariosession != null}" class="nav-derecha">
+    <!-- Botón para desplegar el menú -->
 
-      <div th:text="${'Hola ' + session.usuariosession.nombre }" style="margin: 10px; font-weight: 600;"></div>
+    <div th:text="${'Hola ' + session.usuariosession.nombre }" style="margin: 10px; font-weight: 600;"></div>
 
+    <!--
       <a th:href="@{/transaccion/lista}">
         <div th:if="${notificaciones != null && notificaciones != 0}" th:text="${notificaciones}"
         style="border: 1px solid green; color: white; padding: 5px; text-align: center;
@@ -32,20 +33,19 @@
         font-weight: 700;">
         </div>
       </a>
+    -->
+    <button class="nav_btn">
+      <img th:if="${session.usuariosession.imagen != null}" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"
+        alt="mdo" width="42" height="42" class="nav_img_perfil" />
+    </button>
 
-      <button class="nav_btn">
-        <img th:if="${session.usuariosession.imagen != null}"
-          th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="42" height="42"
-          class="nav_img_perfil" />
-      </button>
-
-      <div class="nav_dropdown-content" id="abrir">
-        <a sec:authorize="hasAnyRole('USER','PROVEEDOR')" th:href="@{/transaccion/lista}">Trabajos</a>
-        <a sec:authorize="hasRole('USER')" th:href="@{/proveedor/lista}">Proveedores</a>
-        <a th:href="@{/perfil}">Perfil</a>
-        <a th:href="@{/logout}">Cerrar sesión</a>
-      </div>
+    <div class="nav_dropdown-content" id="abrir">
+      <a sec:authorize="hasAnyRole('USER','PROVEEDOR')" th:href="@{/transaccion/lista}">Trabajos</a>
+      <a sec:authorize="hasRole('USER')" th:href="@{/proveedor/lista}">Proveedores</a>
+      <a th:href="@{/perfil}">Perfil</a>
+      <a th:href="@{/logout}">Cerrar sesión</a>
     </div>
+  </div>
 
 </nav>
 

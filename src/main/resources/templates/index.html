@@ -28,7 +28,6 @@
 <body>
 	<main class="cont-principal">
 
-
 		<div class="estados">
 			<a th:href="@{/transaccion/lista}">
 				<div id="aguar" class="pendiente" style="display: none;">
@@ -37,16 +36,16 @@
 				</div>
 			</a>
 			<a th:href="@{/transaccion/lista}">
-			<div id="ejec" class="pendiente" style="display: none;">
-				<span id="ejecC" style="display: none;"></span>
-				<div>Tiene Trabajo en ejecucion</div>
-			</div>
+				<div id="ejec" class="pendiente" style="display: none;">
+					<span id="ejecC" style="display: none;"></span>
+					<div>Tiene Trabajo en ejecucion</div>
+				</div>
 			</a>
 			<a th:href="@{/transaccion/lista}">
-			<div id="calif" class="pendiente" style="display: none;">
-				<span id="califC" style="display: none;"></span>
-				<div> Tiene pendiente una calificacion</div>
-			</div>
+				<div id="calif" class="pendiente" style="display: none;">
+					<span id="califC" style="display: none;"></span>
+					<div> Tiene pendiente una calificacion</div>
+				</div>
 			</a>
 		</div>
 
@@ -102,7 +101,6 @@
 
 		</div>
 
-
 		<div th:replace="~{fragments/alert :: div}"></div>
 
 		<div class="portada">
@@ -113,35 +111,47 @@
 				</div>
 			</div>
 		</div>
+
+		<div th:if="${session.usuariosession == null}">
+			<h2 style="margin-bottom: 0px;">Nuestros servicios:</h2>
+
+			<div>
+				<div class="owl-carousel owl-theme">
+					<div th:each="servicio : ${servicios}">
+						<div th:text="${servicio.nombre}" style="color: grey; font-size: 18pt;"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 		<!--SECCION JORGE-->
 		<!--Carousel de comentarios-->
-		<div class="owl-carousel owl-theme" style="margin-bottom: 20px">
+		<div class="owl-carousel owl-theme" style="margin-bottom: 40px; margin-top: 20px;">
 			<div th:each="transaccion : ${transacciones}" th:if="${transaccion.calificacion != null}">
 
 				<div class="item">
-					<div class="card mx-2">
-						<div style="text-align: center">
-							<div class="star" th:if="${transaccion.calificacion == 1}">★</div>
-							<div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
-							<div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
-							<div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
-							<div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
-						</div>
-						<div class="card-body">
-							<h5 class="card-title" style="text-align: center; font-size: 12pt"
-								th:text="${transaccion.proveedor.usuario.nombre}"></h5>
-							<p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
 
-							</p>
-						</div>
+					<div style="text-align: center">
+						<div class="star" th:if="${transaccion.calificacion == 1}">★</div>
+						<div class="star" th:if="${transaccion.calificacion == 2}">★★</div>
+						<div class="star" th:if="${transaccion.calificacion == 3}">★★★</div>
+						<div class="star" th:if="${transaccion.calificacion == 4}">★★★★</div>
+						<div class="star" th:if="${transaccion.calificacion == 5}">★★★★★</div>
+					</div>
+					<div class="card-body">
+						<h5 class="card-title" style="text-align: center; font-size: 12pt"
+							th:text="${transaccion.proveedor.usuario.nombre}"></h5>
+						<p class="card-text" style="padding-top: 10px" th:text="${transaccion.comentario}">
+
+						</p>
 					</div>
 				</div>
-
 			</div>
-			<!--Fin Carousel de comentarios-->
-		</div>
 
 		</div>
+		<!--Fin Carousel de comentarios-->
+		
 	</main>
 
 	<!-- Scripts para manejo de carrousel de comentarios -->

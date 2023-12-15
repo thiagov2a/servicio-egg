@@ -68,6 +68,7 @@
           <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
         </select>
         <button type="submit">Buscar</button>
+        <a th:href="@{/proveedor/lista}"><button type="button">Quitar filtros</button></a>
         </form>
       </div>
     </div>
@@ -126,6 +127,7 @@
         </tbody>
       </table>
     </div>
+
 
   </div>
   <footer th:replace="~{/fragments/footer :: footer}"></footer>
