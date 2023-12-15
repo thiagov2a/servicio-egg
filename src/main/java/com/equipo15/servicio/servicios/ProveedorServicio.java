@@ -85,7 +85,7 @@ public class ProveedorServicio {
 
     public List<Proveedor> listarProveedores() {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.findAll();
+        proveedores = proveedorRepositorio.listar();
         return proveedores;
     }
 

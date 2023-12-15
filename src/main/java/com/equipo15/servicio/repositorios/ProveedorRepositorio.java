@@ -22,6 +22,9 @@ public interface ProveedorRepositorio extends JpaRepository<Proveedor, String> {
     @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id ORDER BY p.calificacion DESC")
     public List<Proveedor> listarPorServicio(@Param("id") String id);
     
+    @Query("SELECT p FROM Proveedor p ORDER BY p.calificacion DESC")
+    public List<Proveedor> listar();
+    
     @Query("SELECT p FROM Proveedor p WHERE p.servicio.id = :id AND p.usuario.alta = TRUE ORDER BY p.calificacion DESC")
     public List<Proveedor> listarPorServicioPorAlta(@Param("id") String id);
 
