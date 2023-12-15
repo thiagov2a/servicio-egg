@@ -63,7 +63,7 @@ public class ProveedorServicio {
         usuario.setBarrio(barrio);
         usuario.setAlta(true);
 
-        Imagen imagen = imagenServicio.guardar(archivo);
+        Imagen imagen = imagenServicio.guardar(archivo, "/src/main/resources/static/img/provider_default.png");
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
@@ -85,7 +85,13 @@ public class ProveedorServicio {
 
     public List<Proveedor> listarProveedores() {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.findAll();
+        proveedores = proveedorRepositorio.listar();
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorMenorPrecio() {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarOrdenadoPorMenorPrecio();
         return proveedores;
     }
 
@@ -94,24 +100,36 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;
     }
-    
+
+    public List<Proveedor> listarProveedoresPorAltaOrdenadoPorMenorPrecio(Boolean alta) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorAltaOrdenadoPorMenorPrecio(alta);
+        return proveedores;
+    }
 
     public List<Proveedor> listarProveedoresPorServicio(String idServicio) {
-
-    
         List<Proveedor> proveedores = new ArrayList<>();
         proveedores = proveedorRepositorio.listarPorServicio(idServicio);
         return proveedores;
     }
 
-
-       public List<Proveedor> listarProveedoresPorAltaPorServicio(Boolean alta, String idServicio) {
+    public List<Proveedor> listarProveedoresPorServicioOrdenadoPorMenorPrecio(String idServicio) {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio);
+        proveedores = proveedorRepositorio.listarPorServicioOrdenadoPorMenorPrecio(idServicio);
         return proveedores;
     }
 
-    
+    public List<Proveedor> listarProveedoresPorAltaPorServicio(String idServicio, Boolean alta) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio, alta);
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorAltaPorServicioOrdenadoPorMenorPrecio(Boolean alta, String idServicio) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        proveedores = proveedorRepositorio.listarPorServicioPorAltaOrdenadoPorMenorPrecio(idServicio);
+        return proveedores;
+    }
 
     public Proveedor buscarProveedorPorId(String id) {
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
@@ -174,7 +192,8 @@ public class ProveedorServicio {
                 idImagen = usuario.getImagen().getId();
             }
 
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen,
+                    "/src/main/resources/static/img/provider_default.png");
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);

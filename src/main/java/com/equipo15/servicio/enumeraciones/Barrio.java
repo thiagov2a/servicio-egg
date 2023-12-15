@@ -2,7 +2,7 @@ package com.equipo15.servicio.enumeraciones;
 
 public enum Barrio {
 
-   A("A"), B("B"), C("C");
+   LAS_ACACIAS("Las Acacias"), PUNTA_LARREA("Punta Larrea"), RINCON_DE_CORIA("Rincón de Coria");
 
    private String descripcion;
 
@@ -13,5 +13,4 @@ public enum Barrio {
    public String getDescripcion() {
       return descripcion;
    }
-
 }

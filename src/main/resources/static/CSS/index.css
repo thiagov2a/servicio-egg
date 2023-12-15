@@ -12,7 +12,7 @@ html {
 }
 
 main.cont-principal {
-  height: 100vh;
+  height: 120vh;
 
 }
 .wrp {
@@ -50,6 +50,14 @@ main.cont-principal {
   margin-bottom: 25px;
   letter-spacing: 1px;
 }
+h2 {
+  color: grey;
+  font-size: 30px;
+  text-shadow: 0px 1px 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
 .contenido .info a {
   display: inline-block;
   text-decoration: none;
@@ -171,3 +179,4 @@ a:visited {
   margin-right: 10px;
 
 }
+

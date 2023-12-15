@@ -31,7 +31,7 @@ public class ErroresControlador implements ErrorController {
                 break;
             }
             case 404: {
-                errorMsg = "El recurso solicitado no fué encontrado";
+                errorMsg = "El recurso solicitado no fue encontrado";
                 break;
             }
             case 500: {

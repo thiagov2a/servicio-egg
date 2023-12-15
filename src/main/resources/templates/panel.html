@@ -1,62 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Corlink</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <script th:src="@{/js/scripts.js}"></script>
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  </head>
+  <body>
+    <nav th:replace="~{/fragments/navbar :: nav}"></nav>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Corlink</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
-  <script th:src="@{/js/scripts.js}"></script>
-  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-  
+    <main class="cont-principal" style="min-height: 75vh">
+      <div class="admin_contenedor" style="margin: 20px">
+        <a th:href="@{/admin/usuarios}" class="admin_card">
+          <img th:src="@{/img/usuario.png}" alt="usuario" />
+          <div>Lista de Usuarios</div>
+        </a>
 
-</head>
+        <a th:href="@{/proveedor/lista}" class="admin_card">
+          <img th:src="@{/img/herramientas.png}" alt="proveedores" />
+          <div>Lista de Proveedores</div>
+        </a>
 
-<nav th:replace="~{/fragments/navbar :: nav}"></nav>
+        <a th:href="@{/transaccion/lista}" class="admin_card">
+          <img th:src="@{/img/cuaderno.png}" alt="transacciones" />
+          <div>Lista de Transacciones</div>
+        </a>
 
-<body>
+        <a th:href="@{/servicio/lista}" class="admin_card">
+          <img th:src="@{/img/servicios.png}" alt="servicios" />
+          <div>Lista de Servicios</div>
+        </a>
+      </div>
+    </main>
 
-  <main class="cont-principal" style="min-height: 75vh;">
-    <div class="admin_contenedor" style="margin: 20px;">
+    <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-      <a th:href="@{/admin/usuarios}" class="admin_card">
-        <img th:src="@{/img/usuario.png}" alt="usuario">
-        <div>Lista de Usuarios</div>
-      </a>
+    <script>
+      function mostrarTabla(tipo) {
+        document.getElementById('tablaUsuarios').setAttribute('hidden', 'true');
+        document.getElementById('tablaProveedores').setAttribute('hidden', 'true');
 
-      <a th:href="@{/proveedor/lista}" class="admin_card">
-        <img th:src="@{/img/herramientas.png}" alt="proveedores">
-        <div>Lista de Proveedores</div>
-      </a>
-
-      <a th:href="@{/transaccion/lista}" class="admin_card">
-        <img th:src="@{/img/cuaderno.png}" alt="transacciones">
-        <div>Lista de Transacciones</div>
-      </a>
-
-      <a th:href="@{/servicio/lista}" class="admin_card">
-        <img th:src="@{/img/servicios.png}" alt="servicios">
-        <div>Lista de Servicios</div>
-      </a>
-
-    </div>
-
-  </main>
-
-  <script>
-    function mostrarTabla(tipo) {
-      document.getElementById('tablaUsuarios').setAttribute("hidden", "true");
-      document.getElementById('tablaProveedores').setAttribute("hidden", "true");
-
-      // Muestra la tabla correspondiente al tipo
-      document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute("hidden");
-    }
-  </script>
-
-</body>
-
-<footer th:replace="~{/fragments/footer :: footer}"></footer>
-
-
+        // Muestra la tabla correspondiente al tipo
+        document.getElementById('tabla' + tipo.charAt(0).toUpperCase() + tipo.slice(1)).removeAttribute('hidden');
+      }
+    </script>
+  </body>
 </html>

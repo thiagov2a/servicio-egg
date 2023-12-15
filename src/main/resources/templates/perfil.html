@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,110 +9,61 @@
     <script th:src="@{/js/Scripts.js}"></script>
     <!-- Usar th:src para resolver la URL del script JS -->
     <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
-
-
   </head>
-
   <body>
-    <section class="fondoimg">
-      <nav th:replace="fragments/navbar :: nav"></nav>
+    <nav th:replace="fragments/navbar :: nav"></nav>
 
+    <section class="fondoimg">
       <h1>MODIFICAR PERFIL</h1>
 
-      <form
-        th:action="@{/registro}"
-        method="POST"
-        enctype="multipart/form-data"
-      >
-
-      <!--  th:if="${session.usuariosession.rol == 'PROVEEDOR'}"  -->
+      <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+        <!--  th:if="${session.usuariosession.rol == 'PROVEEDOR'}"  -->
 
         <div class="campo">
-          <input
-            type="text"
-            name="dni"
-            placeholder="DNI"
-            th:value="${dni}"
-            required
-          />
+          <input type="text" name="dni" placeholder="DNI" th:value="${dni}" required />
         </div>
 
         <div class="campo">
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre del usuario"
-            th:value="${nombre}"
-            required
-          />
+          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${nombre}" required />
         </div>
 
         <div class="campo">
-          <input
-            type="email"
-            name="email"
-            placeholder="E-Mail"
-            th:value="${email}"
-            required
-          />
+          <input type="email" name="email" placeholder="E-Mail" th:value="${email}" required />
         </div>
 
         <div class="campo">
-          <input type="file" name="archivo"/>
+          <input type="file" name="archivo" />
         </div>
 
-         <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
+        <!-- Agrega un campo oculto para indicar si el usuario es un proveedor -->
 
-        <div  id="campo-proveedor">
+        <div id="campo-proveedor">
           <div class="campo">
             <select name="idServicio">
               <option value="">Seleccionar Servicio</option>
-              <option
-                th:each="servicio : ${servicios}"
-                th:value="${servicio.id}"
-                th:text="${servicio.nombre}"
-              />
+              <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}" />
             </select>
           </div>
           <div class="campo">
-            <input
-              type="text"
-              name="descripcion"
-              placeholder="Descripcion"
-              th:value="${descripcion}"
-            />
+            <input type="text" name="descripcion" placeholder="Descripcion" th:value="${descripcion}" />
           </div>
           <div class="campo">
-            <input
-              type="text"
-              name="contacto"
-              placeholder="Contacto"
-              th:value="${contacto}"
-            />
+            <input type="text" name="contacto" placeholder="Contacto" th:value="${contacto}" />
           </div>
           <div class="campo">
-            <input
-              type="number"
-              name="precioPorHora"
-              placeholder="Precio por hora"
-              th:value="${precioPorHora}"
-            />
+            <input type="number" name="precioPorHora" placeholder="Precio por hora" th:value="${precioPorHora}" />
           </div>
 
           <!-- Agrega un campo oculto para inicializar en 0 la calificacion -->
           <input type="hidden" name="calificacion" th:value="0" />
         </div>
 
-
-
         <div class="campo">
           <button type="submit" class="boton">Actualizar usuario</button>
         </div>
       </form>
-
-      <footer th:replace="/fragments/footer :: footer "></footer>
     </section>
 
-
+    <footer th:replace="/fragments/footer :: footer "></footer>
   </body>
 </html>

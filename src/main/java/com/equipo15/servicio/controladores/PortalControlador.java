@@ -1,6 +1,7 @@
 package com.equipo15.servicio.controladores;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.entidades.Transaccion;
 import com.equipo15.servicio.entidades.Usuario;
@@ -22,7 +24,6 @@ import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -45,26 +46,11 @@ public class PortalControlador {
             return "redirect:/admin/dashboard";
         }
 
+        agregarNotificaciones(modelo, session);
         List<Transaccion> transacciones = transaccionServicio.listarTransacciones();
-        Integer notificaciones = obtenerNotificaciones(session);
-        
-        List<Transaccion> transaccionUsuario = new ArrayList();
-        
-        if (usuario != null && usuario.getRol() == Rol.USER) {
-            transaccionUsuario = transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
-            
-        }
-        
-        if (usuario != null && usuario.getRol() == Rol.PROVEEDOR) {
-            transaccionUsuario = transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
-            
-        }
-        
-        
-                        
+        List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("transacciones", transacciones);
-        modelo.addAttribute("notificaciones", notificaciones);
-        modelo.addAttribute("transaccionUsuario", transaccionUsuario);
+        modelo.addAttribute("servicios", servicios);
         return "index.html";
     }
 
@@ -101,17 +87,19 @@ public class PortalControlador {
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
-            List<Servicio> servicios = servicioServicio.listarServicios();
             modelo.addAttribute("dni", dni);
             modelo.addAttribute("nombre", nombre);
             modelo.addAttribute("email", email);
-            modelo.addAttribute("servicios", servicios);
-            modelo.addAttribute("barrios", Barrio.values());
-            modelo.addAttribute("contacto", contacto);
-            modelo.addAttribute("precioPorHora", precioPorHora);
+            modelo.addAttribute("archivo", archivo);
+            modelo.addAttribute("idBarrio", barrio);
             modelo.addAttribute("idServicio", idServicio);
             modelo.addAttribute("descripcion", descripcion);
-            modelo.addAttribute("archivo", archivo);
+            modelo.addAttribute("contacto", contacto);
+            modelo.addAttribute("precioPorHora", precioPorHora);
+
+            List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("barrios", Barrio.values());
             return "registro.html";
         }
     }
@@ -157,8 +145,8 @@ public class PortalControlador {
 
             modelo.addAttribute("exito", "Usuario actualizado correctamente!");
             return "index.html";
-        } catch (MiException ex) {
-            modelo.addAttribute("error", ex.getMessage());
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
 
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             List<Servicio> servicios = servicioServicio.listarServicios();
@@ -180,27 +168,28 @@ public class PortalControlador {
         }
     }
 
-    // ! Agregar a notificación atributos como por ejemplo si tiene pendientes
-    private Integer obtenerNotificaciones(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+    private void agregarNotificaciones(ModelMap modelo, HttpSession session) {
+        Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
-            String id = usuario.getId();
-            Usuario usuarioActualizado = usuarioServicio.buscarUsuarioPorId(id);
-            if (usuarioActualizado.getProveedor() != null) {
-                return transaccionServicio.contarTransaccionesPorProveedor(usuarioActualizado.getId());
+            List<Transaccion> transacciones;
+            Integer notificaciones;
+
+            if (usuario.getProveedor() != null) {
+                transacciones = transaccionServicio.listarTransaccionesPorProveedor(usuario.getId());
+                notificaciones = transaccionServicio.contarTransaccionesPorProveedor(usuario.getId());
             } else {
-                return transaccionServicio.contarTransaccionesPorUsuario(usuarioActualizado.getId());
+                transacciones = transaccionServicio.listarTransaccionesPorUsuario(usuario.getId());
+                notificaciones = transaccionServicio.contarTransaccionesPorUsuario(usuario.getId());
             }
-        } else {
-            return null;
+
+            modelo.addAttribute("transaccionUsuario", transacciones);
+            modelo.addAttribute("notificaciones", notificaciones);
         }
     }
 
     @GetMapping("/barrios")
     public String barrios() {
-
         return "barrios.html";
     }
-
 }

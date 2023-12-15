@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.equipo15.servicio.entidades.Imagen;
 import com.equipo15.servicio.entidades.Servicio;
 import com.equipo15.servicio.excepciones.MiException;
 import com.equipo15.servicio.repositorios.ServicioRepositorio;
@@ -18,9 +20,11 @@ public class ServicioServicio {
 
     @Autowired
     private ServicioRepositorio servicioRepositorio;
+    @Autowired
+    private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(String nombre, String descripcion) throws MiException {
+    public void registrar(String nombre, String descripcion, MultipartFile archivo) throws MiException {
         validar(nombre, descripcion);
 
         Servicio servicio = new Servicio();
@@ -28,6 +32,9 @@ public class ServicioServicio {
         servicio.setNombre(nombre);
         servicio.setDescripcion(descripcion);
         servicio.setAlta(true);
+
+        Imagen imagen = imagenServicio.guardar(archivo, "/src/main/resources/static/img/service_default.png");
+        servicio.setImagen(imagen);
 
         servicioRepositorio.save(servicio);
     }
@@ -54,32 +61,36 @@ public class ServicioServicio {
     }
 
     @Transactional
-
-    public void modificar(String id, String nombre, String descripcion) throws MiException {
-
-       validar(nombre, descripcion);
+    public void modificar(String id, String nombre, String descripcion, MultipartFile archivo) throws MiException {
+        validar(nombre, descripcion);
 
         Optional<Servicio> respuesta = servicioRepositorio.findById(id);
+
         if (respuesta.isPresent()) {
             Servicio servicio = respuesta.get();
 
             servicio.setNombre(nombre);
             servicio.setDescripcion(descripcion);
 
+            String idImagen = null;
+            if (servicio.getImagen() != null) {
+                idImagen = servicio.getImagen().getId();
+            }
+
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen,
+                    "/src/main/resources/static/img/service_default.png");
+            servicio.setImagen(imagen);
+
             servicioRepositorio.save(servicio);
         }
     }
 
     @Transactional
-    public void cambiarEstadoServicio(String id) {
+    public void cambiarEstado(String id) throws MiException {
         Optional<Servicio> respuesta = servicioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Servicio servicio = respuesta.get();
-            if (servicio.getAlta()) {
-                servicio.setAlta(false);
-            } else {
-                servicio.setAlta(true);
-            }
+            servicio.setAlta(!servicio.getAlta());
             servicioRepositorio.save(servicio);
         }
     }

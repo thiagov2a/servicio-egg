@@ -1,158 +1,166 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Editar usuario</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <link rel="stylesheet" th:href="@{/css/registro.css}" />
-  <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
-  <style>
-    .error {
-      color: red;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    body {
-      height: 40vw;
-    }
-
-    .exito {
-      color: green;
-    }
-  </style>
-
-  <script>
-    function mostrarMensaje(mensaje, tipo) {
-      var mensajeImagen = document.getElementById('mensaje');
-      mensajeImagen.innerHTML = '<div class="' + tipo + '">' + mensaje + '</div>';
-    }
-
-    function validarArchivo() {
-      var archivoInput = document.getElementById('archivo');
-      var archivo = archivoInput.files[0];
-
-      mostrarMensaje('', '');
-
-      if (!archivo) {
-        mostrarMensaje('Por favor, seleccione una imagen.', 'error');
-        return false;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/registro.css}" />
+    <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
+    <style>
+      .error {
+        color: red;
+        text-align: center;
+        font-weight: 700;
       }
 
-      var tipoPermitido = ['image/jpeg', 'image/jpg'];
-      if (tipoPermitido.indexOf(archivo.type) === -1) {
-        mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
-        return false;
+      body {
+        height: 40vw;
       }
 
-      var maxSizeMB = 1;
-      var maxSizeBytes = maxSizeMB * 1024 * 1024;
-      if (archivo.size > maxSizeBytes) {
-        mostrarMensaje('La imagen debe pesar menos de 1 MB.', 'error');
-        return false;
+      .exito {
+        color: green;
+      }
+    </style>
+
+    <script>
+      function mostrarMensaje(mensaje, tipo) {
+        var mensajeImagen = document.getElementById('mensaje');
+        mensajeImagen.innerHTML = '<div class="' + tipo + '">' + mensaje + '</div>';
       }
 
-      // Paso todas las validaciones
-      mostrarMensaje('Imagen Valida!', 'exito');
+      function validarArchivo() {
+        var archivoInput = document.getElementById('archivo');
+        var archivo = archivoInput.files[0];
 
-      return true;
-    }
-  </script>
-</head>
+        mostrarMensaje('', '');
 
-<nav th:replace="~{fragments/navbar :: nav}"></nav>
+        if (!archivo) {
+          mostrarMensaje('Por favor, seleccione una imagen.', 'error');
+          return false;
+        }
 
-<body >
-  <main class="cont-principal" style="min-height: 75vh;">
-    <div class="fondoimg">
-    <div th:replace="~{fragments/alert :: div}" ></div>
+        var tipoPermitido = ['image/jpeg', 'image/jpg'];
+        if (tipoPermitido.indexOf(archivo.type) === -1) {
+          mostrarMensaje('Por favor, selecciona una imagen en formato JPEG.', 'error');
+          return false;
+        }
 
-    
+        var maxSizeMB = 1;
+        var maxSizeBytes = maxSizeMB * 1024 * 1024;
+        if (archivo.size > maxSizeBytes) {
+          mostrarMensaje('La imagen debe pesar menos de 1 MB.', 'error');
+          return false;
+        }
 
+        // Paso todas las validaciones
+        mostrarMensaje('Imagen Valida!', 'exito');
 
-    <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">   
-      <h1 th:if="${session.usuariosession != null}" th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
+        return true;
+      }
+    </script>
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-      <input hidden th:value="${usuario.id}" name="id" />
+    <main class="cont-principal" style="min-height: 75vh">
+      <div class="fondoimg">
+        <div th:replace="~{fragments/alert :: div}"></div>
 
-      <div id="campo-residente">
-        <div class="campo">
-          <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" />
-        </div>
+        <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+          <h1
+            th:if="${session.usuariosession != null}"
+            th:text="'Editar '+ ${session.usuariosession.rol.descripcion}"></h1>
 
-        <div class="campo">
-          <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}"  />
-        </div>
+          <input hidden th:value="${usuario.id}" name="id" />
 
-        <div class="campo">
-          <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}"  />
-        </div>
+          <div id="campo-residente">
+            <div class="campo">
+              <input type="text" name="dni" placeholder="DNI" th:value="${usuario.dni}" />
+            </div>
 
-        <div class="campo">
-          <input type="password" name="password" placeholder="Contraseña" />
-        </div>
+            <div class="campo">
+              <input type="text" name="nombre" placeholder="Nombre del usuario" th:value="${usuario.nombre}" />
+            </div>
 
-        <div class="campo">
-          <input type="password" name="password2" placeholder="Repetir contraseña"/>
-        </div>
+            <div class="campo">
+              <input type="email" name="email" placeholder="E-Mail" th:value="${usuario.email}" />
+            </div>
 
-        <div class="campo">
-          <input type="file" name="archivo" id="archivo" accept=".jpeg, .jpg" onchange="return validarArchivo()" />
-        </div>
-        <div id="mensaje" style="text-align: center"></div>
+            <div class="campo">
+              <input type="password" name="password" placeholder="Contraseña" />
+            </div>
 
-        <div th:if="${usuario.rol.descripcion != 'Proveedor'}">
-          <div class="campo">
-            <select name="barrio">
-              <option value="">Seleccionar Barrio</option>
-              <option th:each="barrio : ${barrios}" th:value="${barrio}" th:text="${barrio.descripcion}"
-                th:selected="${barrio == usuario.barrio}"></option>
-            </select>
+            <div class="campo">
+              <input type="password" name="password2" placeholder="Repetir contraseña" />
+            </div>
+
+            <div class="campo">
+              <input type="file" name="archivo" id="archivo" accept=".jpeg, .jpg" onchange="return validarArchivo()" />
+            </div>
+            <div id="mensaje" style="text-align: center"></div>
+
+            <div th:if="${usuario.rol.descripcion != 'Proveedor'}">
+              <div class="campo">
+                <select name="barrio">
+                  <option value="">Seleccionar Barrio</option>
+                  <option
+                    th:each="barrio : ${barrios}"
+                    th:value="${barrio}"
+                    th:text="${barrio.descripcion}"
+                    th:selected="${barrio == usuario.barrio}"></option>
+                </select>
+              </div>
+            </div>
+
+            <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
+              <input hidden th:value="${usuario.barrio}" name="barrio" />
+            </div>
           </div>
-        </div>
 
-        <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
-          <input hidden th:value="${usuario.barrio}" name="barrio" />
-        </div>
+          <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
+            <div class="campo">
+              <select name="idServicio">
+                <option value="">Seleccionar Servicio</option>
+                <option
+                  th:each="servicio : ${servicios}"
+                  th:value="${servicio.id}"
+                  th:text="${servicio.nombre}"
+                  th:selected="${servicio.id == usuario.proveedor.servicio.id}"></option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <input
+                type="text"
+                name="descripcion"
+                placeholder="Descripcion"
+                th:value="${usuario.proveedor.descripcion}" />
+            </div>
+
+            <div class="campo">
+              <input type="tel" name="contacto" placeholder="Contacto" th:value="${usuario.proveedor.contacto}" />
+            </div>
+            <div class="campo">
+              <input
+                type="number"
+                name="precioPorHora"
+                placeholder="Precio por hora"
+                th:value="${usuario.proveedor.precioPorHora}" />
+            </div>
+
+            <input type="hidden" name="calificacion" th:value="${usuario.proveedor.calificacion}" />
+          </div>
+
+          <div class="campo">
+            <button type="submit" class="boton">Guardar cambios</button>
+          </div>
+        </form>
       </div>
+    </main>
 
-      <div th:if="${usuario.rol.descripcion == 'Proveedor'}">
-        <div class="campo">
-          <select name="idServicio">
-            <option value="">Seleccionar Servicio</option>
-            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}"
-              th:selected="${servicio.id == usuario.proveedor.servicio.id}"></option>
-          </select>
-        </div>
+    <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-        <div class="campo">
-          <input type="text" name="descripcion" placeholder="Descripcion" th:value="${usuario.proveedor.descripcion}" />
-        </div>
-
-        <div class="campo">
-          <input type="tel" name="contacto" placeholder="Contacto" th:value="${usuario.proveedor.contacto}" />
-        </div>
-        <div class="campo">
-          <input type="number" name="precioPorHora" placeholder="Precio por hora"
-            th:value="${usuario.proveedor.precioPorHora}" />
-        </div>
-
-        <input type="hidden" name="calificacion" th:value="${usuario.proveedor.calificacion}" />
-      </div>
-
-      <div class="campo">
-        <button type="submit" class="boton">Guardar cambios</button>
-      </div>
-    </form>
-  </div>
-  </main>
-
-
-
-  <script th:src="@{/js/scripts.js}"></script>
-</body>
-<footer th:replace="~{/fragments/footer :: footer}"></footer>
-
+    <script th:src="@{/js/scripts.js}"></script>
+  </body>
 </html>
