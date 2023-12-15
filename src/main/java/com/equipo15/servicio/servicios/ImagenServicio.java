@@ -20,7 +20,7 @@ public class ImagenServicio {
     private ImagenRepositorio imagenRepositorio;
 
     @Transactional
-    public Imagen guardar(MultipartFile archivo) throws MiException {
+    public Imagen guardar(MultipartFile archivo, String directorio) throws MiException {
         try {
             Imagen imagen = new Imagen();
 
@@ -29,8 +29,7 @@ public class ImagenServicio {
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
             } else {
-                System.out.println("entro al else");
-                imagen = cargarImagenPredeterminada();
+                imagen = cargarImagenPredeterminada(directorio);
             }
 
             return imagenRepositorio.save(imagen);
@@ -40,7 +39,7 @@ public class ImagenServicio {
         }
     }
 
-    public Imagen actualizar(MultipartFile archivo, String idImagen) throws MiException {
+    public Imagen actualizar(MultipartFile archivo, String idImagen, String directorio) throws MiException {
         try {
             Imagen imagen = new Imagen();
 
@@ -56,8 +55,7 @@ public class ImagenServicio {
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
             } else {
-                System.out.println("entro al else");
-                imagen = cargarImagenPredeterminada();
+                imagen = cargarImagenPredeterminada(directorio);
             }
 
             return imagenRepositorio.save(imagen);
@@ -65,20 +63,19 @@ public class ImagenServicio {
             System.err.println(e.getMessage());
             return null;
         }
-
     }
 
-    private Imagen cargarImagenPredeterminada() throws Exception {
+    private Imagen cargarImagenPredeterminada(String directorio) throws Exception {
         Imagen imagen = new Imagen();
 
         String userDirectory = System.getProperty("user.dir");
-        String rutaImagenPredeterminada = userDirectory + "/src/main/resources/static/img/sinImg.png";
+        String rutaImagenPredeterminada = userDirectory + directorio;
 
         Path pathImagenPredeterminada = Paths.get(rutaImagenPredeterminada);
         byte[] contenidoImagenPredeterminada = Files.readAllBytes(pathImagenPredeterminada);
 
         imagen.setMime(Files.probeContentType(pathImagenPredeterminada));
-        imagen.setNombre("sinImg.png");
+        imagen.setNombre("img_default.png");
         imagen.setContenido(contenidoImagenPredeterminada);
 
         return imagen;

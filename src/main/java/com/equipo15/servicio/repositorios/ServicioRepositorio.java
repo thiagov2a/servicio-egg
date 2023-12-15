@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
 
-    @Query("SELECT s FROM Servicio s WHERE s.alta = TRUE")
+    @Query("SELECT s FROM Servicio s WHERE s.alta = :alta")
     public List<Servicio> listarPorAlta(@Param("alta") Boolean alta);
 
 }

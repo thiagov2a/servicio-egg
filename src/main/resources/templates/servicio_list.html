@@ -1,80 +1,91 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Servicios</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/registro.css}" />
+    <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista de Servicios</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <link rel="stylesheet" th:href="@{/css/registro.css}" />
-  <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
+  <body>
+    <nav th:replace="~{fragments/navbar :: nav}"></nav>
 
-</head>
+    <div style="min-height: 75vh">
+      <div class="encabezado">
+        <a th:href="@{/}"><button>Volver</button></a>
+        <div></div>
+        <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
+        <div></div>
+        <button class="boton" style="margin-bottom: 0">
+          <a th:href="@{/servicio/registrar}" style="color: white">Registrar Servicio</a>
+        </button>
+      </div>
 
-<body>
-  <nav th:replace="~{fragments/navbar :: nav}"></nav>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" style="border: none; width: 50px; height: 50px; padding: 0">Imagen</th>
+              <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Estado</th>
+              <!-- <th scope="col">Alta/Baja</th> -->
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody th:each="servicio : ${servicios}">
+            <tr>
+              <td scope="row">
+                <div th:if="${servicio.imagen != null}">
+                  <a th:href="@{/imagen/servicio/__${servicio.id}__}">
+                    <img
+                      th:src="@{/imagen/servicio/__${servicio.id}__}"
+                      width="50px"
+                      style="text-align: center"
+                      alt="mdo" />
+                  </a>
+                </div>
+              </td>
+              <td scope="row" th:text="${servicio.id}" sec:authorize="hasRole('ADMIN')"></td>
+              <td scope="row" th:text="${servicio.nombre}"></td>
+              <td scope="row" th:text="${servicio.descripcion}"></td>
+              <!--<td scope="row" th:text="${servicio.alta}"></td>-->
+              <!-- <td scope="row">
+                <img th:if="${servicio.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
+                <img th:unless="${servicio.alta}" th:src="@{/img/false.png}" width="20px" alt="false" />
+              </td> -->
+              <td scope="row">
+                <div sec:authorize="hasRole('ADMIN')">
+                  <button>
+                    <a th:href="@{/servicio/cambiarEstadoServicio/__${servicio.id}__}">
+                      <div th:if="${servicio.alta}">
+                        <img th:src="@{/img/true.png}" width="20px" alt="true" />
+                      </div>
 
-  <div  style="min-height: 75vh;">
+                      <div th:unless="${servicio.alta}">
+                        <img th:src="@{/img/false.png}" width="20px" alt="false" />
+                      </div>
+                    </a>
+                  </button>
+                </div>
+              </td>
 
-    <div class="encabezado">
-      <a th:href="@{/}"><button>Volver</button></a>
-      <div></div>
-      <h1>LISTA DE SERVICIOS REGISTRADOS</h1>
-      <div></div>
-      <button class="boton" style="margin-bottom: 0;"> <a th:href="@{/servicio/registrar}" style="color: white" >Registrar Servicio</a> </button>
+              <td scope="row">
+                <div sec:authorize="hasRole('ADMIN')">
+                  <button><a th:href="@{/servicio/modificarServicio/__${servicio.id}__}">Modificar</a></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    <footer th:replace="~{/fragments/footer :: footer}"></footer>
 
-    <div>
-
-      <table>
-        <thead>
-          <tr>
-
-            <th scope="col" sec:authorize="hasRole('ADMIN')">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Alta/Baja</th>
-            <th scope="col">Modificar</th>
-          </tr>
-        </thead>
-        <tbody th:each="servicio : ${servicios}">
-          <tr>
-
-            <td scope="row" th:text="${servicio.id}" sec:authorize="hasRole('ADMIN')"></td>
-            <td scope="row" th:text="${servicio.nombre}"></td>
-            <td scope="row" th:text="${servicio.descripcion}"></td>
-            <!--<td scope="row" th:text="${servicio.alta}"></td>-->
-            <td scope="row">
-              <img th:if="${servicio.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
-              <img th:unless="${servicio.alta}" th:src="@{/img/false.png}" width="20px" alt="false" /></td>
-            <td scope="row">
-              <div sec:authorize="hasRole('ADMIN')">
-                <button><a th:href="@{/admin/cambiarEstadoServicio/__${servicio.id}__}">Alta/Baja</a></button>
-              </div>
-
-
-            </td>
-
-            <td scope="row">
-              <div sec:authorize="hasRole('ADMIN')">
-                <button><a th:href="@{/servicio/modificarServicio/__${servicio.id}__}">Modificar</a></button>
-              </div>
-
-
-            </td>
-
-
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-  <footer th:replace="~{/fragments/footer :: footer}"></footer>
-
-  <script th:src="@{/js/scripts.js}"></script>
-</body>
-
+    <script th:src="@{/js/scripts.js}"></script>
+  </body>
 </html>

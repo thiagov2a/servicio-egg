@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -50,11 +50,17 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-        usuario.setRol(Rol.USER);
         usuario.setBarrio(barrio);
         usuario.setAlta(true);
 
-        Imagen imagen = imagenServicio.guardar(archivo);
+        // Si el repositorio de usuarios está vacío, se establece el rol como ADMIN
+        if (usuarioRepositorio.count() == 0) {
+            usuario.setRol(Rol.ADMIN);
+        } else {
+            usuario.setRol(Rol.USER);
+        }
+
+        Imagen imagen = imagenServicio.guardar(archivo, "/src/main/resources/static/img/user_default.png");
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
@@ -90,7 +96,8 @@ public class UsuarioServicio implements UserDetailsService {
                 idImagen = usuario.getImagen().getId();
             }
 
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen,
+                    "/src/main/resources/static/img/user_default.png");
             usuario.setImagen(imagen);
 
             usuarioRepositorio.save(usuario);
@@ -98,21 +105,23 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void cambiarEstado(String id) {
+    public void cambiarEstado(String id) throws MiException {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
-            if (usuario.getAlta()) {
-                usuario.setAlta(false);
-            } else {
-                usuario.setAlta(true);
+            if (usuario.getRol() == Rol.PROVEEDOR) {
+                Proveedor proveedor = usuario.getProveedor();
+                proveedor.setAlta(!proveedor.getAlta());
+                proveedorRepositorio.save(proveedor);
+                usuario.setProveedor(proveedor);
             }
+            usuario.setAlta(!usuario.getAlta());
             usuarioRepositorio.save(usuario);
         }
     }
 
     @Transactional
-    public void cambiarRol(String id) {
+    public void cambiarRol(String id) throws MiException {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
@@ -125,7 +134,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void hacerAdmin(String id) {
+    public void hacerAdmin(String id) throws MiException {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
@@ -188,15 +197,14 @@ public class UsuarioServicio implements UserDetailsService {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario != null) {
-
             if (!usuario.getAlta()) {
-                throw new BadCredentialsException("Credenciales inválidas");
+                throw new DisabledException("El usuario está dado de baja");
             }
 
             if (usuario.getRol() == Rol.PROVEEDOR) {
                 Proveedor proveedor = usuario.getProveedor();
                 if (!proveedor.getAlta()) {
-                    throw new BadCredentialsException("Credenciales inválidas");
+                    throw new DisabledException("El proveedor está dado de baja");
                 }
             }
 
@@ -210,7 +218,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
         } else {
-            return null;
+            throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
 

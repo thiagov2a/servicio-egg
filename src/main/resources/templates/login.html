@@ -41,12 +41,12 @@
             <form th:action="@{/logincheck}" method="post">
               <div class="campo">
                 <label for="email">Email:</label>
-                <input type="email" name="email" placeholder="user@user.com" th:value="${email}" required autofocus />
+                <input type="email" name="email" placeholder="user@user.com" th:value="${email}" autofocus />
               </div>
 
               <div class="campo">
-                <label for="password">Password:</label>
-                <input type="password" name="password" required />
+                <label for="password">Contraseña:</label>
+                <input type="password" name="password" placeholder="Debe tener 8 caracteres o más"/>
               </div>
 
 

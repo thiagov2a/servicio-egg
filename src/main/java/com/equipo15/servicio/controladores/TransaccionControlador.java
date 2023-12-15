@@ -9,10 +9,12 @@ import com.equipo15.servicio.servicios.ProveedorServicio;
 import com.equipo15.servicio.servicios.ServicioServicio;
 import com.equipo15.servicio.servicios.TransaccionServicio;
 import com.equipo15.servicio.servicios.UsuarioServicio;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,9 +40,7 @@ public class TransaccionControlador {
     @GetMapping("/lista")
     public String listar(ModelMap modelo, HttpSession session) {
         List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
-        
         List<Servicio> servicios = servicioServicio.listarServicios();
-        
         modelo.addAttribute("transacciones", transacciones);
         modelo.addAttribute("servicios", servicios);
         return "transaccion_list.html";
@@ -48,12 +48,10 @@ public class TransaccionControlador {
 
     @GetMapping("/presupuestar/{idProveedor}")
     public String presupuestar(@PathVariable String idProveedor, ModelMap modelo, HttpSession session) {
-
         Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
         List<Transaccion> transacciones = transaccionServicio
                 .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
         Usuario usuario = obtenerUsuarioDesdeSession(session);
-
         modelo.addAttribute("proveedor", proveedor);
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("presupuesto", null);
@@ -63,39 +61,39 @@ public class TransaccionControlador {
 
     @PostMapping("/presupuesto/{idProveedor}")
     public String presupuesto(@PathVariable String idProveedor, Integer horas, ModelMap modelo, HttpSession session) {
-        Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
-        Usuario usuario = obtenerUsuarioDesdeSession(session);
-        
-        if (horas == null || horas == 0) {
+        try {
+            validarHoras(horas);
 
-            System.out.println("prueba 4");
-            
+            Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
             List<Transaccion> transacciones = transaccionServicio
-                .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
-            modelo.put("error", "Las horas presupuestadas no pueden estar vacias o ser cero");
+                    .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+            Double presupuesto = horas * proveedor.getPrecioPorHora();
+            modelo.addAttribute("proveedor", proveedor);
+            modelo.addAttribute("usuario", usuario);
+            modelo.addAttribute("presupuesto", presupuesto);
+            modelo.addAttribute("transacciones", transacciones);
+            return "transaccion_form.html";
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
+
+            Proveedor proveedor = proveedorServicio.buscarProveedorPorId(idProveedor);
+            List<Transaccion> transacciones = transaccionServicio
+                    .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
             modelo.addAttribute("proveedor", proveedor);
             modelo.addAttribute("usuario", usuario);
             modelo.addAttribute("presupuesto", null);
             modelo.addAttribute("transacciones", transacciones);
-
             return "transaccion_form.html";
         }
-        
-        
-        // ! Validar que se ingrese un integer/double en el argumento horas
-        Double presupuesto = horas * proveedor.getPrecioPorHora();
-
-        modelo.addAttribute("proveedor", proveedor);
-        modelo.addAttribute("usuario", usuario);
-        modelo.addAttribute("presupuesto", presupuesto);
-        return "transaccion_form.html";
     }
 
     @PostMapping("/registro/{idProveedor}")
     public String registro(@PathVariable String idProveedor, @RequestParam Double presupuesto,
             ModelMap modelo, HttpSession session) {
         try {
-            // ! Pasar id del usuario desde "transaccion_form.html" con un input hidden
+            // Pasar id del usuario desde "transaccion_form.html" con un input hidden
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             String idUsuario = usuario.getId();
 
@@ -103,8 +101,8 @@ public class TransaccionControlador {
 
             modelo.addAttribute("exito", "Se ha iniciado una solicitud se servicio correctamente");
             return "index.html";
-        } catch (MiException ex) {
-            modelo.addAttribute("error", ex.getMessage());
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
             return "transaccion_form.html";
         }
     }
@@ -114,7 +112,7 @@ public class TransaccionControlador {
         try {
             transaccionServicio.aceptarTransaccion(idTransaccion);
 
-            // * Generar método privado para no repetir codigo
+            // Generar método privado para no repetir código
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
 
@@ -195,15 +193,20 @@ public class TransaccionControlador {
             @RequestParam(required = false) String comentario, @RequestParam(required = false) Double calificacion,
             ModelMap modelo, HttpSession session) {
         try {
-            // ! Agregar validación de comentario y calificación en comentarTransaccion()
             transaccionServicio.calificarTransaccion(idTransaccion, comentario, calificacion);
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
-            // ! Manejar las alertas en todos los métodos
+            // Manejar las alertas en todos los métodos
             modelo.addAttribute("exito", "Se ha calificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
+
+            Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+
+            modelo.addAttribute("transaccion", transaccion);
+            modelo.addAttribute("usuario", usuario);
 
             modelo.addAttribute("comentario", comentario);
             modelo.addAttribute("calificacion", calificacion);
@@ -234,6 +237,17 @@ public class TransaccionControlador {
         }
     }
 
+    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+
+        if (usuario != null) {
+            String id = usuario.getId();
+            return usuarioServicio.buscarUsuarioPorId(id);
+        } else {
+            return null;
+        }
+    }
+
     private List<Transaccion> obtenerTransaccionesPorRol(HttpSession session) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
@@ -252,15 +266,9 @@ public class TransaccionControlador {
         }
     }
 
-    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuario != null) {
-            String id = usuario.getId();
-            return usuarioServicio.buscarUsuarioPorId(id);
-        } else {
-            return null;
+    private void validarHoras(Integer horas) throws MiException {
+        if (horas == null || horas == 0) {
+            throw new MiException("Las horas presupuestadas no pueden estar vacías o ser cero");
         }
     }
-
 }

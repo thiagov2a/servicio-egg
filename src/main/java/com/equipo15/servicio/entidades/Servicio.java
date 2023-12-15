@@ -2,14 +2,12 @@ package com.equipo15.servicio.entidades;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Data; 
-
+import lombok.Data;
 
 @Entity
 @Data
@@ -24,5 +22,8 @@ public class Servicio {
     private String nombre;
     private String descripcion;
     private Boolean alta;
+
+    @OneToOne
+    private Imagen imagen;
 
 }

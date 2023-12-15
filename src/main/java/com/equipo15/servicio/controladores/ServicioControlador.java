@@ -1,7 +1,11 @@
 package com.equipo15.servicio.controladores;
 
 import com.equipo15.servicio.entidades.Servicio;
-import com.equipo15.servicio.entidades.Usuario;
+import com.equipo15.servicio.excepciones.MiException;
+import com.equipo15.servicio.servicios.ServicioServicio;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,13 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.equipo15.servicio.excepciones.MiException;
-import com.equipo15.servicio.servicios.ServicioServicio;
-import com.equipo15.servicio.servicios.UsuarioServicio;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
@@ -25,8 +23,12 @@ public class ServicioControlador {
     @Autowired
     private ServicioServicio servicioServicio;
 
-    @Autowired
-    private UsuarioServicio usuarioServicio;
+    @GetMapping("/lista")
+    public String listar(ModelMap modelo) {
+        List<Servicio> servicios = servicioServicio.listarServicios();
+        modelo.addAttribute("servicios", servicios);
+        return "servicio_list.html";
+    }
 
     @GetMapping("/registrar")
     public String registrar() {
@@ -35,11 +37,15 @@ public class ServicioControlador {
 
     @PostMapping("/registro")
     public String registro(@RequestParam(required = false) String nombre,
-            @RequestParam(required = false) String descripcion, ModelMap modelo) {
+            @RequestParam(required = false) String descripcion, @RequestParam(required = false) MultipartFile archivo,
+            ModelMap modelo) {
         try {
-            servicioServicio.registrar(nombre, descripcion);
-            modelo.addAttribute("exito", "El servicio fué cargado correctamente!");
-            return "panel.html";
+            servicioServicio.registrar(nombre, descripcion, archivo);
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("exito", "El servicio fue cargado correctamente");
+            return "redirect:/servicio/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
@@ -49,70 +55,55 @@ public class ServicioControlador {
         }
     }
 
-    // TODO: Mapping lista de servicios, atributo de alta/baja, CRUD completo
+    @GetMapping("/cambiarEstadoServicio/{id}")
+    public String cambiarEstadoServicio(@PathVariable String id, ModelMap modelo) {
+        try {
+            servicioServicio.cambiarEstadoServicio(id);
 
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo, HttpSession session) {
-        List<Servicio> servicios = obtenerServiciosPorRol(session);
-        modelo.addAttribute("servicios", servicios);
-        return "servicio_list.html";
-    }
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("exito", "El estado del servicio fue cambiado correctamente");
+            return "redirect:/servicio/lista";
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
 
-    private List<Servicio> obtenerServiciosPorRol(HttpSession session) {
-        Usuario usuario = obtenerUsuarioDesdeSession(session);
-
-        if (usuario != null) {
-            String rolDescripcion = usuario.getRol().getDescripcion();
-
-            if (rolDescripcion.equals("Admin")) {
-                return servicioServicio.listarServicios();
-            } else {
-                return servicioServicio.listarServicioPorAlta(Boolean.TRUE);
-            }
-        } else {
-            return new ArrayList<>();
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            return "redirect:/servicio/lista";
         }
-
     }
-    
+
     @GetMapping("/modificarServicio/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) throws MiException {
-        modelo.put("servicio", servicioServicio.buscarServicioPorId(id));
-        
+        Servicio servicio = servicioServicio.buscarServicioPorId(id);
         List<Servicio> servicios = servicioServicio.listarServicios();
+        modelo.addAttribute("servicio", servicio);
         modelo.addAttribute("servicios", servicios);
-        
         return "servicio_modificar.html";
     }
-    
+
     @PostMapping("/modificarServicio/{id}")
     public String modificar(@PathVariable String id, @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) String descripcion, ModelMap modelo){
+            @RequestParam(required = false) String descripcion, @RequestParam(required = false) MultipartFile archivo,
+            ModelMap modelo) {
         try {
-            servicioServicio.modificar(id, nombre, descripcion);
-            modelo.put("exito","Servicio actualizado correctamente!!");
+            servicioServicio.modificar(id, nombre, descripcion, archivo);
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("exito", "Servicio actualizado correctamente");
             return "redirect:/servicio/lista";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            modelo.put("descripcion", descripcion);
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
+
+            modelo.addAttribute("nombre", nombre);
+            modelo.addAttribute("descripcion", descripcion);
+
+            Servicio servicio = servicioServicio.buscarServicioPorId(id);
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicio", servicio);
+            modelo.addAttribute("servicios", servicios);
             return "servicio_list.html";
-        }
-    }
-    
-
-
-    
-    
-
-    private Usuario obtenerUsuarioDesdeSession(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        if (usuario != null) {
-            String id = usuario.getId();
-            return usuarioServicio.buscarUsuarioPorId(id);
-        } else {
-            return null;
         }
     }
 }
