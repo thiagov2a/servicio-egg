@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,21 +11,18 @@
   <!-- Usar th:src para resolver la URL del script JS -->
   <link rel="icon" th:href="@{/img/tools.svg}" type="image/x-icon" />
 </head>
-
-<nav>
-  <div>
-    <!-- Título de la aplicación -->
-    <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
-  </div>
-    <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
-    <div class="nav_guest" >
-      <a th:href="@{/login}">Login</a>
-      <a th:href="@{/registrar}">Registrarse</a>
-    </div>
-</nav>
-
-
 <body>
+  <nav>
+    <div>
+      <!-- Título de la aplicación -->
+      <a th:href="@{/logout}"><img src="/img/CORLINK-2-sf.png" alt="logo" height="100px" /></a>
+    </div>
+      <!-- Opciones de Login y Registro --><!-- ANTES: class="nav_guest"-->
+      <div class="nav_guest" >
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/registrar}">Registrarse</a>
+      </div>
+  </nav>
 
   <div th:replace="~{fragments/alert :: div}"></div>
 
@@ -57,7 +52,6 @@
 
   </main>
 
-
+  <footer th:replace="/fragments/footer :: footer "></footer>
 </body>
-<footer th:replace="/fragments/footer :: footer "></footer>
 </html>

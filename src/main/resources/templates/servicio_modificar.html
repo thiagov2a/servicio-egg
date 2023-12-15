@@ -28,7 +28,7 @@
     <main class="cont-principal" style="min-height: 75vh">
       <h1>EDITAR SERVICIO</h1>
 
-      <form th:action="@{/servicio/modificarServicio/__${servicio.id}__}" method="POST" enctype="multipart/form-data">
+      <form th:action="@{/servicio/modificar/__${servicio.id}__}" method="POST" enctype="multipart/form-data">
         <input hidden th:value="${servicio.id}" name="id" />
 
         <div class="campo">

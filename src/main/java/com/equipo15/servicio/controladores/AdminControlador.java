@@ -39,6 +39,7 @@ public class AdminControlador {
 
             List<Usuario> usuarios = usuarioServicio.listarUsuarios();
             modelo.addAttribute("usuarios", usuarios);
+
             modelo.addAttribute("exito", "Usuario actualizado correctamente");
             return "redirect:/admin/usuarios";
         } catch (MiException e) {
@@ -57,6 +58,7 @@ public class AdminControlador {
 
             List<Usuario> usuarios = usuarioServicio.listarUsuarios();
             modelo.addAttribute("usuarios", usuarios);
+
             modelo.addAttribute("exito", "Usuario actualizado correctamente");
             return "redirect:/admin/usuarios";
         } catch (MiException e) {

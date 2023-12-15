@@ -118,7 +118,7 @@
           <div id="campo-residente">
             <div class="campo">
               <select name="barrio">
-                <option disabled selected>Seleccionar Barrio</option>
+                <option value="" hidden>Seleccionar Barrio</option>
                 <option
                   th:each="barrio : ${barrios}"
                   th:value="${barrio}"
@@ -135,7 +135,7 @@
           <div id="campo-proveedor">
             <div class="campo">
               <select name="idServicio">
-                <option disabled selected>Seleccionar Servicio</option>
+                <option value="" hidden>Seleccionar Servicio</option>
                 <option
                   th:each="servicio : ${servicios}"
                   th:value="${servicio.id}"

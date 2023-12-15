@@ -55,25 +55,7 @@ public class ServicioControlador {
         }
     }
 
-    @GetMapping("/cambiarEstadoServicio/{id}")
-    public String cambiarEstadoServicio(@PathVariable String id, ModelMap modelo) {
-        try {
-            servicioServicio.cambiarEstadoServicio(id);
-
-            List<Servicio> servicios = servicioServicio.listarServicios();
-            modelo.addAttribute("servicios", servicios);
-            modelo.addAttribute("exito", "El estado del servicio fue cambiado correctamente");
-            return "redirect:/servicio/lista";
-        } catch (MiException e) {
-            modelo.addAttribute("error", e.getMessage());
-
-            List<Servicio> servicios = servicioServicio.listarServicios();
-            modelo.addAttribute("servicios", servicios);
-            return "redirect:/servicio/lista";
-        }
-    }
-
-    @GetMapping("/modificarServicio/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) throws MiException {
         Servicio servicio = servicioServicio.buscarServicioPorId(id);
         List<Servicio> servicios = servicioServicio.listarServicios();
@@ -82,7 +64,7 @@ public class ServicioControlador {
         return "servicio_modificar.html";
     }
 
-    @PostMapping("/modificarServicio/{id}")
+    @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String descripcion, @RequestParam(required = false) MultipartFile archivo,
             ModelMap modelo) {
@@ -104,6 +86,24 @@ public class ServicioControlador {
             modelo.addAttribute("servicio", servicio);
             modelo.addAttribute("servicios", servicios);
             return "servicio_list.html";
+        }
+    }
+
+    @GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstado(@PathVariable String id, ModelMap modelo) {
+        try {
+            servicioServicio.cambiarEstado(id);
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("exito", "El estado del servicio fue cambiado correctamente");
+            return "redirect:/servicio/lista";
+        } catch (MiException e) {
+            modelo.addAttribute("error", e.getMessage());
+
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            modelo.addAttribute("servicios", servicios);
+            return "redirect:/servicio/lista";
         }
     }
 }

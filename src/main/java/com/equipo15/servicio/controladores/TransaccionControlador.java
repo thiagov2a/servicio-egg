@@ -112,20 +112,18 @@ public class TransaccionControlador {
         try {
             transaccionServicio.aceptarTransaccion(idTransaccion);
 
-            // Generar método privado para no repetir código
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
-            // *
+
+            modelo.addAttribute("exito", "Se ha aceptado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
@@ -139,16 +137,16 @@ public class TransaccionControlador {
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
+
+            modelo.addAttribute("exito", "Se ha cancelado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
@@ -162,16 +160,16 @@ public class TransaccionControlador {
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
+
+            modelo.addAttribute("exito", "Se ha finalizado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";
@@ -182,7 +180,6 @@ public class TransaccionControlador {
     public String calificarTransaccion(@PathVariable String idTransaccion, ModelMap modelo, HttpSession session) {
         Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
         Usuario usuario = obtenerUsuarioDesdeSession(session);
-
         modelo.addAttribute("transaccion", transaccion);
         modelo.addAttribute("usuario", usuario);
         return "calificar.html";
@@ -196,20 +193,23 @@ public class TransaccionControlador {
             transaccionServicio.calificarTransaccion(idTransaccion, comentario, calificacion);
             proveedorServicio.actualizarCalificacion(idTransaccion);
 
-            // Manejar las alertas en todos los métodos
+            List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+            modelo.addAttribute("transacciones", transacciones);
+            modelo.addAttribute("usuario", usuario);
+
             modelo.addAttribute("exito", "Se ha calificado la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
-            Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
-            Usuario usuario = obtenerUsuarioDesdeSession(session);
-
-            modelo.addAttribute("transaccion", transaccion);
-            modelo.addAttribute("usuario", usuario);
-
             modelo.addAttribute("comentario", comentario);
             modelo.addAttribute("calificacion", calificacion);
+
+            Transaccion transaccion = transaccionServicio.buscarTransaccionPorId(idTransaccion);
+            Usuario usuario = obtenerUsuarioDesdeSession(session);
+            modelo.addAttribute("transaccion", transaccion);
+            modelo.addAttribute("usuario", usuario);
             return "calificar.html";
         }
     }
@@ -221,16 +221,16 @@ public class TransaccionControlador {
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
+
+            modelo.addAttribute("exito", "Se ha censurado el comentario de la transacción correctamente");
             return "redirect:/transaccion/lista";
         } catch (MiException e) {
             modelo.addAttribute("error", e.getMessage());
 
             List<Transaccion> transacciones = obtenerTransaccionesPorRol(session);
             Usuario usuario = obtenerUsuarioDesdeSession(session);
-
             modelo.addAttribute("transacciones", transacciones);
             modelo.addAttribute("usuario", usuario);
             return "redirect:/transaccion/lista";

@@ -109,7 +109,7 @@
                   <img th:src="@{/img/flechita-abajo.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
                 </a>
               </th>
-              <th scope="col" sec:authorize="hasRole('ADMIN')">Alta/Baja</th>
+              <th scope="col" sec:authorize="hasRole('ADMIN')">Estado</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -135,18 +135,21 @@
               <td scope="row" th:text="${proveedor.precioPorHora}"></td>
               <td scope="row" th:text="${proveedor.calificacion}"></td>
               <td scope="row" sec:authorize="hasRole('ADMIN')">
-                <img th:if="${proveedor.usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
-                <img th:unless="${proveedor.usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" />
+                <button>
+                  <a th:href="@{/proveedor/cambiarEstado/__${proveedor.usuario.id}__}">
+                    <img th:if="${proveedor.usuario.alta}" th:src="@{/img/true.png}" width="20px" alt="true" />
+                    <img th:if="${!proveedor.usuario.alta}" th:src="@{/img/false.png}" width="20px" alt="false" />
+                  </a>
+                </button>
               </td>
               <td scope="row">
-                <div sec:authorize="hasRole('ADMIN')">
-                  <button><a th:href="@{/admin/hacerAdmin/__${proveedor.usuario.id}__}">Hacer ADMIN</a></button>
-                  <button><a th:href="@{/admin/cambiarEstado/__${proveedor.usuario.id}__}">Alta/Baja</a></button>
-                </div>
+                <button sec:authorize="hasRole('ADMIN')">
+                  <a th:href="@{/proveedor/hacerAdmin/__${proveedor.usuario.id}__}">Hacer ADMIN</a>
+                </button>
 
-                <div sec:authorize="hasRole('USER')">
-                  <button><a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">Presupuestar</a></button>
-                </div>
+                <button sec:authorize="hasRole('USER')">
+                  <a th:href="@{/transaccion/presupuestar/__${proveedor.id}__}">Presupuestar</a>
+                </button>
               </td>
             </tr>
           </tbody>

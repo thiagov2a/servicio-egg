@@ -12,9 +12,9 @@
     <!-- Usar th:src para resolver la URL del script JS -->
     <link rel="icon" href="/img/tools.svg" type="image/x-icon" />
   </head>
-
-  <nav th:replace="~{fragments/navbar :: nav}"></nav>
   <body>
+    <nav th:replace="~{fragments/navbar :: nav}"></nav>
+
     <div style="min-height: 75vh">
       <h1 class="campo">REGISTRAR SERVICIO</h1>
 
@@ -42,6 +42,7 @@
         </div>
       </form>
     </div>
+
+    <footer th:replace="~{/fragments/footer :: footer }"></footer>
   </body>
-  <footer th:replace="~{/fragments/footer :: footer }"></footer>
 </html>

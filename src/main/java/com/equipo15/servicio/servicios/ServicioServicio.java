@@ -86,7 +86,7 @@ public class ServicioServicio {
     }
 
     @Transactional
-    public void cambiarEstadoServicio(String id) throws MiException {
+    public void cambiarEstado(String id) throws MiException {
         Optional<Servicio> respuesta = servicioRepositorio.findById(id);
         if (respuesta.isPresent()) {
             Servicio servicio = respuesta.get();
