@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,9 +70,12 @@ public class TransaccionControlador {
                     .listarTransaccionesPorProveedor(proveedor.getUsuario().getId());
             Usuario usuario = obtenerUsuarioDesdeSession(session);
             Double presupuesto = horas * proveedor.getPrecioPorHora();
+            DecimalFormat formatea = new DecimalFormat("###,###.##");
+            String presupuestoConPuntos = formatea.format(presupuesto);
             modelo.addAttribute("proveedor", proveedor);
             modelo.addAttribute("usuario", usuario);
             modelo.addAttribute("presupuesto", presupuesto);
+            modelo.addAttribute("presupuestoConPuntos", presupuestoConPuntos);
             modelo.addAttribute("transacciones", transacciones);
             return "transaccion_form.html";
         } catch (MiException e) {

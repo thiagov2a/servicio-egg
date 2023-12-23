@@ -56,7 +56,7 @@
 
           <div class="presupuesto" th:if="${presupuesto != null}">
             <h3 th:text="'El contacto del proveedor es: ' + ${proveedor.contacto}"></h3>
-            <h3 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuesto}"></h3>
+            <h3 th:text="'El total presupuestado para su trabajo es de $ '+ ${presupuestoConPuntos}"></h3>
             <form th:action="@{/transaccion/registro/__${proveedor.id}__}" method="POST" enctype="multipart/form-data">
               <input
                 hidden
