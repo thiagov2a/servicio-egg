@@ -32,18 +32,29 @@ public class ProveedorControlador {
     @Autowired
     private ServicioServicio servicioServicio;
 
-    @GetMapping("/lista")
+    @GetMapping("/lista") 
     public String listar(ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorRol(session);
+        List<Proveedor> proveedores = obtenerProveedoresPorRolOrdenadoPorCalificacion(session, "des");
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
         return "proveedor_list.html";
     }
 
-    @GetMapping("/listaOrdenada")
-    public String listarPorMenorPrecio(ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorRolOrdenadoPorMenorPrecio(session);
+    @GetMapping("/listaOrdenadaPorCalificacion/{orden}") //Lista completa Ordenada por calificación
+    public String listar2(ModelMap modelo, HttpSession session, @PathVariable String orden) {
+        List<Proveedor> proveedores = obtenerProveedoresPorRolOrdenadoPorCalificacion(session, orden);
+        List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
+        modelo.addAttribute("proveedores", proveedores);
+        modelo.addAttribute("servicios", servicios);
+        return "proveedor_list.html";
+    }
+
+    @GetMapping("/listaOrdenadaPorPrecio/{orden}") //Lista completa ordenada por precio
+    public String listarPorMenorPrecio(ModelMap modelo, HttpSession session, @PathVariable String orden) {
+
+        List<Proveedor> proveedores = obtenerProveedoresPorRolOrdenadoPorPrecio(session, orden);
+        
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
@@ -51,20 +62,22 @@ public class ProveedorControlador {
     }
 
     // TODO: Aplicar try-catch
-    @PostMapping("/filtrar")
+    @PostMapping("/filtrar") //Filtra la lista por el servicio elegido
     public String filtrar(String idServicio, ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorServicio(idServicio, session);
+        List<Proveedor> proveedores = obtenerProveedoresPorServicio(idServicio, session, "des");
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
         modelo.addAttribute("idServicio", idServicio);
+        modelo.addAttribute("filtrado", true);
         return "proveedor_list.html";
     }
 
-    @GetMapping("/filtrar2/{idServicio}")
+    @GetMapping("/filtrada/{orden}/{idServicio}") //Ordena por calificación la lista filtrada 
     public String filtrar2(@PathVariable String idServicio, @RequestParam(required = false) boolean filtrado,
-            ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorServicio(idServicio, session);
+            ModelMap modelo, @PathVariable String orden, HttpSession session) {
+        
+        List<Proveedor> proveedores = obtenerProveedoresPorServicio(idServicio, session, orden);
         List<Servicio> servicios = servicioServicio.listarServicios();
         modelo.addAttribute("idServicio", idServicio);
         modelo.addAttribute("proveedores", proveedores);
@@ -73,9 +86,12 @@ public class ProveedorControlador {
         return "proveedor_list.html";
     }
 
-    @GetMapping("/filtradaYOrdenada/{idServicio}")
-    public String filtradaYOrdenada(@PathVariable String idServicio, ModelMap modelo, HttpSession session) {
-        List<Proveedor> proveedores = obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(session, idServicio);
+
+    @GetMapping("/filtrada2/{orden}/{idServicio}") //Ordena por precio la lista filtrada 
+    public String filtradaYOrdenada(@PathVariable String idServicio, @PathVariable String orden, 
+            ModelMap modelo, HttpSession session) {
+        
+        List<Proveedor> proveedores = obtenerProveedoresPorServicioOrdenadoPorPrecio(session, idServicio, orden);
         List<Servicio> servicios = servicioServicio.listarServicioPorAlta(Boolean.TRUE);
         modelo.addAttribute("proveedores", proveedores);
         modelo.addAttribute("servicios", servicios);
@@ -138,65 +154,85 @@ public class ProveedorControlador {
         }
     }
 
-    private List<Proveedor> obtenerProveedoresPorRol(HttpSession session) {
+    private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorCalificacion(HttpSession session, String orden) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedores();
+                if (orden.equals("des")) {
+                    return proveedorServicio.listarProveedores();
+                } else {
+                    return proveedorServicio.listarProveedores2();
+                }
+
             } else {
-                return proveedorServicio.listarProveedoresPorAlta(Boolean.TRUE);
+                if (orden.equals("des")) {
+                    return proveedorServicio.listarProveedoresPorAlta(Boolean.TRUE);
+                } else {
+                    return proveedorServicio.listarProveedoresPorAlta2(Boolean.TRUE);
+                }
+
             }
         } else {
             return new ArrayList<>();
         }
     }
 
-    private List<Proveedor> obtenerProveedoresPorServicio(String idServicio, HttpSession session) {
+    private List<Proveedor> obtenerProveedoresPorServicio(String idServicio, HttpSession session, String orden) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedoresPorServicio(idServicio);
+                if (orden.equals("asc")) {
+                    return proveedorServicio.listarProveedoresPorServicio(idServicio);
+                } else {
+                    return proveedorServicio.listarProveedoresPorServicio2(idServicio);
+                }
+
             } else {
-                return proveedorServicio.listarProveedoresPorAltaPorServicio(idServicio, Boolean.TRUE);
+                if (orden.equals("asc")) {
+                    return proveedorServicio.listarProveedoresPorAltaPorServicio(idServicio, Boolean.TRUE);
+                } else {
+
+                    return proveedorServicio.listarProveedoresPorAltaPorServicio2(idServicio, Boolean.TRUE);
+                }
             }
         } else {
             return new ArrayList<>();
         }
     }
 
-    private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorMenorPrecio(HttpSession session) {
+    private List<Proveedor> obtenerProveedoresPorRolOrdenadoPorPrecio(HttpSession session, String orden) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedoresPorMenorPrecio();
+                return proveedorServicio.listarProveedoresPorPrecio(orden);
             } else {
-                return proveedorServicio.listarProveedoresPorAltaOrdenadoPorMenorPrecio(true);
+                return proveedorServicio.listarProveedoresPorAltaOrdenadoPorPrecio(true, orden);
             }
         } else {
             return new ArrayList<>();
         }
     }
 
-    private List<Proveedor> obtenerProveedoresPorServicioOrdenadoPorMenorPrecio(HttpSession session,
-            String idServicio) {
+    private List<Proveedor> obtenerProveedoresPorServicioOrdenadoPorPrecio(HttpSession session,
+            String idServicio, String orden) {
         Usuario usuario = obtenerUsuarioDesdeSession(session);
 
         if (usuario != null) {
             String rolDescripcion = usuario.getRol().getDescripcion();
 
             if (rolDescripcion.equals("Admin")) {
-                return proveedorServicio.listarProveedoresPorServicioOrdenadoPorMenorPrecio(idServicio);
+                return proveedorServicio.listarProveedoresPorServicioOrdenadoPorPrecio(idServicio, orden);
             } else {
-                return proveedorServicio.listarProveedoresPorAltaPorServicioOrdenadoPorMenorPrecio(true, idServicio);
+                return proveedorServicio.listarProveedoresPorAltaPorServicioOrdenadoPorPrecio(true, idServicio, orden);
             }
         } else {
             return new ArrayList<>();

@@ -92,25 +92,37 @@
               <th scope="col">Contacto</th>
               <th scope="col" th:if="${filtrado!=true}">
                 Precio por Hora
-                <a th:href="@{/proveedor/listaOrdenada}">
+                <a th:href="@{/proveedor/listaOrdenadaPorPrecio/des}">
+                  <img th:src="@{/img/flechita-arriba.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
+                </a>
+                <a th:href="@{/proveedor/listaOrdenadaPorPrecio/asc}">
                   <img th:src="@{/img/flechita-abajo.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
                 </a>
               </th>
               <th scope="col" th:if="${filtrado==true}">
                 Precio por Hora
-                <a th:href="@{/proveedor/filtradaYOrdenada/__${idServicio}__}">
+                 <a th:href="@{/proveedor/filtrada2/des/__${idServicio}__}">
+                  <img th:src="@{/img/flechita-arriba.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
+                </a>
+                <a th:href="@{/proveedor/filtrada2/asc/__${idServicio}__}">
                   <img th:src="@{/img/flechita-abajo.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
                 </a>
               </th>
               <th scope="col" th:if="${filtrado!=true}">
                 Calificación
-                <a th:href="@{/proveedor/lista}">
+                <a th:href="@{/proveedor/listaOrdenadaPorCalificacion/des}">
+                  <img th:src="@{/img/flechita-arriba.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
+                </a>
+                <a th:href="@{/proveedor/listaOrdenadaPorCalificacion/asc}">
                   <img th:src="@{/img/flechita-abajo.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
                 </a>
               </th>
               <th scope="col" th:if="${filtrado==true}">
                 Calificación
-                <a th:href="@{/proveedor/filtrar2/__${idServicio}__}">
+                <a th:href="@{/proveedor/filtrada/des/__${idServicio}__}">
+                  <img th:src="@{/img/flechita-arriba.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
+                </a>
+                <a th:href="@{/proveedor/filtrada/asc/__${idServicio}__}">
                   <img th:src="@{/img/flechita-abajo.svg}" alt="flechita" style="height: 15px; margin-left: 4px" />
                 </a>
               </th>

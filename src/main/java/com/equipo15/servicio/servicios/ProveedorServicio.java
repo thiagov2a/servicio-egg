@@ -88,10 +88,22 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listar();
         return proveedores;
     }
-
-    public List<Proveedor> listarProveedoresPorMenorPrecio() {
+    
+        public List<Proveedor> listarProveedores2() {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.listarOrdenadoPorMenorPrecio();
+        proveedores = proveedorRepositorio.listar2();
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorPrecio(String orden) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        
+        if(orden.equals("asc")){
+        proveedores = proveedorRepositorio.listarOrdenadoPorMenorPrecio();    
+        } else {
+            proveedores = proveedorRepositorio.listarOrdenadoPorMayorPrecio();    
+        }
+        
         return proveedores;
     }
 
@@ -100,10 +112,21 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listarPorAlta(alta);
         return proveedores;
     }
-
-    public List<Proveedor> listarProveedoresPorAltaOrdenadoPorMenorPrecio(Boolean alta) {
+    
+        public List<Proveedor> listarProveedoresPorAlta2(Boolean alta) {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.listarPorAltaOrdenadoPorMenorPrecio(alta);
+        proveedores = proveedorRepositorio.listarPorAlta2(alta);
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorAltaOrdenadoPorPrecio(Boolean alta, String orden) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        if(orden.equals("asc")){
+            proveedores = proveedorRepositorio.listarPorAltaOrdenadoPorMenorPrecio(alta);
+        } else {
+            proveedores = proveedorRepositorio.listarPorAltaOrdenadoPorMayorPrecio(alta);
+        }
+        
         return proveedores;
     }
 
@@ -112,10 +135,23 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listarPorServicio(idServicio);
         return proveedores;
     }
-
-    public List<Proveedor> listarProveedoresPorServicioOrdenadoPorMenorPrecio(String idServicio) {
+    
+        public List<Proveedor> listarProveedoresPorServicio2(String idServicio) {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.listarPorServicioOrdenadoPorMenorPrecio(idServicio);
+        proveedores = proveedorRepositorio.listarPorServicio2(idServicio);
+        return proveedores;
+    }
+
+
+    public List<Proveedor> listarProveedoresPorServicioOrdenadoPorPrecio(String idServicio, String orden) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        
+        if(orden.equals("des")){
+            proveedores = proveedorRepositorio.listarPorServicioOrdenadoPorMenorPrecio(idServicio);
+        } else {
+            proveedores = proveedorRepositorio.listarPorServicioOrdenadoPorMayorPrecio(idServicio);
+        }
+        
         return proveedores;
     }
 
@@ -124,10 +160,21 @@ public class ProveedorServicio {
         proveedores = proveedorRepositorio.listarPorServicioPorAlta(idServicio, alta);
         return proveedores;
     }
-
-    public List<Proveedor> listarProveedoresPorAltaPorServicioOrdenadoPorMenorPrecio(Boolean alta, String idServicio) {
+    
+        public List<Proveedor> listarProveedoresPorAltaPorServicio2(String idServicio, Boolean alta) {
         List<Proveedor> proveedores = new ArrayList<>();
-        proveedores = proveedorRepositorio.listarPorServicioPorAltaOrdenadoPorMenorPrecio(idServicio);
+        proveedores = proveedorRepositorio.listarPorServicioPorAlta2(idServicio, alta);
+        return proveedores;
+    }
+
+    public List<Proveedor> listarProveedoresPorAltaPorServicioOrdenadoPorPrecio(Boolean alta, String idServicio, String orden) {
+        List<Proveedor> proveedores = new ArrayList<>();
+        if(orden.equals("des")){
+            proveedores = proveedorRepositorio.listarPorServicioPorAltaOrdenadoPorMenorPrecio(idServicio);
+        } else {
+            proveedores = proveedorRepositorio.listarPorServicioPorAltaOrdenadoPorMayorPrecio(idServicio);
+        }
+        
         return proveedores;
     }
 
